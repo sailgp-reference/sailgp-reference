@@ -3,138 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>SAIL GP REFERENCE</title>
+<title>SAILGP REFERENCE</title>
 
 <style>
 body{
-    font-family: Arial, Helvetica, sans-serif;
-    max-width:1200px;
-    margin:auto;
-    padding:30px;
-    line-height:1.5;
+  font-family: Arial, Helvetica, sans-serif;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+  color:#222;
+  background:#fff;
+  font-size:14px;
 }
 h1{
-    color:#a40014;
-    border-bottom:3px solid #a40014;
-    padding-bottom:10px;
+  font-size:32px;
+  margin:0;
+  color:#222;
 }
-h2{
-    color:#a40014;
-    margin-top:35px;
+.subtitle{
+  color:#555;
+  margin:4px 0 18px;
 }
-.card{
-    border:1px solid #ddd;
-    padding:20px;
-    margin-bottom:20px;
-    border-radius:8px;
+.nav{
+  background:#f1f1f1;
+  border:1px solid #ccc;
+  padding:8px;
+  margin:16px 0 22px;
+}
+.nav a{
+  color:#0645ad;
+  margin-right:18px;
+  font-weight:bold;
+  text-decoration:none;
+}
+.section-title{
+  background:#b7c9e2;
+  border:1px solid #8aa3c0;
+  color:#222;
+  padding:7px 10px;
+  font-size:20px;
+  font-weight:bold;
+  margin-top:20px;
+}
+.table-wrap{
+  overflow-x:auto;
+  border:1px solid #aaa;
+  border-top:none;
 }
 table{
-    border-collapse:collapse;
-    width:100%;
-    font-size:14px;
-    margin-top:15px;
+  border-collapse:collapse;
+  width:100%;
+  min-width:1050px;
+  font-size:13px;
 }
 th{
-    background:#a40014;
-    color:white;
-    position:sticky;
-    top:0;
+  background:#e9eef5;
+  border:1px solid #aaa;
+  padding:6px 7px;
+  text-align:center;
+  font-weight:bold;
+  white-space:nowrap;
 }
-th,td{
-    border:1px solid #ddd;
-    padding:8px;
-    text-align:center;
+td{
+  border:1px solid #ccc;
+  padding:5px 7px;
+  text-align:right;
+  white-space:nowrap;
 }
-td:first-child,
-th:first-child{
-    text-align:left;
+td:nth-child(2){
+  text-align:left;
+  font-weight:bold;
+  color:#0645ad;
+}
+td:nth-child(3){
+  text-align:center;
 }
 tr:nth-child(even){
-    background:#f7f7f7;
+  background:#f7f7f7;
 }
 .note{
-    color:#666;
-    font-size:13px;
+  font-size:12px;
+  color:#666;
+  margin-top:8px;
+}
+.footer{
+  border-top:1px solid #ccc;
+  margin-top:30px;
+  padding-top:10px;
+  color:#777;
+  font-size:12px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>SAIL GP REFERENCE</h1>
+<h1>SAILGP REFERENCE</h1>
+<div class="subtitle">Unofficial statistics database for SailGP</div>
 
-<p>Unofficial statistics reference for SailGP.</p>
+<div class="nav">
+  <a href="#fleet">Fleet Race</a>
+  <a href="#">Finals</a>
+  <a href="#">Events</a>
+  <a href="#">Teams</a>
+  <a href="reference.csv" target="_blank">CSV</a>
+</div>
 
-<div class="card">
-<h2>Fleet Race Summary</h2>
-<div id="reference-table">Loading...</div>
-<p class="note">Source: reference.csv</p>
+<div id="fleet" class="section-title">Fleet Race Summary</div>
+<div class="table-wrap">
+  <div id="reference-table">Loading...</div>
+</div>
+
+<div class="note">
+  Source: reference.csv / Figures in parentheses indicate the number of times the streak was achieved.
+</div>
+
+<div class="footer">
+  SAILGP REFERENCE is an unofficial statistics reference site.
 </div>
 
 <script>
 function parseCSV(text){
-    const rows = [];
-    let row = [];
-    let value = "";
-    let inQuotes = false;
+  const rows = [];
+  let row = [];
+  let value = "";
+  let inQuotes = false;
 
-    for(let i = 0; i < text.length; i++){
-        const char = text[i];
-        const next = text[i + 1];
+  for(let i = 0; i < text.length; i++){
+    const char = text[i];
+    const next = text[i + 1];
 
-        if(char === '"' && inQuotes && next === '"'){
-            value += '"';
-            i++;
-        }else if(char === '"'){
-            inQuotes = !inQuotes;
-        }else if(char === "," && !inQuotes){
-            row.push(value);
-            value = "";
-        }else if((char === "\n" || char === "\r") && !inQuotes){
-            if(value !== "" || row.length > 0){
-                row.push(value);
-                rows.push(row);
-                row = [];
-                value = "";
-            }
-            if(char === "\r" && next === "\n") i++;
-        }else{
-            value += char;
-        }
-    }
-
-    if(value !== "" || row.length > 0){
+    if(char === '"' && inQuotes && next === '"'){
+      value += '"';
+      i++;
+    }else if(char === '"'){
+      inQuotes = !inQuotes;
+    }else if(char === "," && !inQuotes){
+      row.push(value);
+      value = "";
+    }else if((char === "\n" || char === "\r") && !inQuotes){
+      if(value !== "" || row.length > 0){
         row.push(value);
         rows.push(row);
+        row = [];
+        value = "";
+      }
+      if(char === "\r" && next === "\n") i++;
+    }else{
+      value += char;
     }
+  }
 
-    return rows;
+  if(value !== "" || row.length > 0){
+    row.push(value);
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+function cleanRows(rows){
+  return rows
+    .filter(r => r.some(c => c.trim() !== ""))
+    .filter(r => !r.join("").includes("Figures in parentheses"));
 }
 
 fetch("reference.csv")
-    .then(response => response.text())
-    .then(text => {
-        const rows = parseCSV(text).filter(r => r.some(c => c.trim() !== ""));
+  .then(response => response.text())
+  .then(text => {
+    const rows = cleanRows(parseCSV(text));
 
-        let html = "<table>";
+    let html = "<table>";
 
-        rows.forEach((row, index) => {
-            html += "<tr>";
-            row.forEach(cell => {
-                const tag = index === 0 || index === 1 ? "th" : "td";
-                html += `<${tag}>${cell}</${tag}>`;
-            });
-            html += "</tr>";
-        });
+    rows.forEach((row, index) => {
+      html += "<tr>";
 
-        html += "</table>";
-        document.getElementById("reference-table").innerHTML = html;
-    })
-    .catch(error => {
-        document.getElementById("reference-table").innerHTML =
-            "CSVを読み込めませんでした。";
+      row.forEach(cell => {
+        const tag = index <= 1 ? "th" : "td";
+        html += `<${tag}>${cell}</${tag}>`;
+      });
+
+      html += "</tr>";
     });
+
+    html += "</table>";
+    document.getElementById("reference-table").innerHTML = html;
+  })
+  .catch(() => {
+    document.getElementById("reference-table").innerHTML =
+      "CSVを読み込めませんでした。";
+  });
 </script>
 
 </body>
