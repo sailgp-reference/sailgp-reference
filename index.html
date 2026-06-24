@@ -14,37 +14,48 @@ body{
     padding:30px;
     line-height:1.5;
 }
-
 h1{
     color:#a40014;
     border-bottom:3px solid #a40014;
     padding-bottom:10px;
 }
-
 h2{
     color:#a40014;
-    margin-top:40px;
+    margin-top:35px;
 }
-
-a{
-    color:#0044cc;
-    text-decoration:none;
-}
-
-a:hover{
-    text-decoration:underline;
-}
-
 .card{
     border:1px solid #ddd;
     padding:20px;
     margin-bottom:20px;
     border-radius:8px;
 }
-
+table{
+    border-collapse:collapse;
+    width:100%;
+    font-size:14px;
+    margin-top:15px;
+}
+th{
+    background:#a40014;
+    color:white;
+    position:sticky;
+    top:0;
+}
+th,td{
+    border:1px solid #ddd;
+    padding:8px;
+    text-align:center;
+}
+td:first-child,
+th:first-child{
+    text-align:left;
+}
+tr:nth-child(even){
+    background:#f7f7f7;
+}
 .note{
     color:#666;
-    font-size:14px;
+    font-size:13px;
 }
 </style>
 </head>
@@ -53,39 +64,78 @@ a:hover{
 
 <h1>SAIL GP REFERENCE</h1>
 
-<p>
-Unofficial statistics reference for SailGP.
-</p>
+<p>Unofficial statistics reference for SailGP.</p>
 
 <div class="card">
 <h2>Fleet Race Summary</h2>
-<p>Coming Soon</p>
+<div id="reference-table">Loading...</div>
+<p class="note">Source: reference.csv</p>
 </div>
 
-<div class="card">
-<h2>Fleet Race Finishes by Position</h2>
-<p>Coming Soon</p>
-</div>
+<script>
+function parseCSV(text){
+    const rows = [];
+    let row = [];
+    let value = "";
+    let inQuotes = false;
 
-<div class="card">
-<h2>Fleet Race Last Win</h2>
-<p>Coming Soon</p>
-</div>
+    for(let i = 0; i < text.length; i++){
+        const char = text[i];
+        const next = text[i + 1];
 
-<div class="card">
-<h2>Reference Sheet</h2>
+        if(char === '"' && inQuotes && next === '"'){
+            value += '"';
+            i++;
+        }else if(char === '"'){
+            inQuotes = !inQuotes;
+        }else if(char === "," && !inQuotes){
+            row.push(value);
+            value = "";
+        }else if((char === "\n" || char === "\r") && !inQuotes){
+            if(value !== "" || row.length > 0){
+                row.push(value);
+                rows.push(row);
+                row = [];
+                value = "";
+            }
+            if(char === "\r" && next === "\n") i++;
+        }else{
+            value += char;
+        }
+    }
 
-<p>
-<a href="reference.csv" target="_blank">
-Open Reference Data (CSV)
-</a>
-</p>
+    if(value !== "" || row.length > 0){
+        row.push(value);
+        rows.push(row);
+    }
 
-<p class="note">
-Current Fleet Race statistics database.
-</p>
+    return rows;
+}
 
-</div>
+fetch("reference.csv")
+    .then(response => response.text())
+    .then(text => {
+        const rows = parseCSV(text).filter(r => r.some(c => c.trim() !== ""));
+
+        let html = "<table>";
+
+        rows.forEach((row, index) => {
+            html += "<tr>";
+            row.forEach(cell => {
+                const tag = index === 0 || index === 1 ? "th" : "td";
+                html += `<${tag}>${cell}</${tag}>`;
+            });
+            html += "</tr>";
+        });
+
+        html += "</table>";
+        document.getElementById("reference-table").innerHTML = html;
+    })
+    .catch(error => {
+        document.getElementById("reference-table").innerHTML =
+            "CSVを読み込めませんでした。";
+    });
+</script>
 
 </body>
 </html>
