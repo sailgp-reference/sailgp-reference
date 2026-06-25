@@ -1,114 +1,333 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SAILGP REFERENCE</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SailGP Reference</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: rgba(255, 255, 255, 0.07);
+      --panel-strong: rgba(255, 255, 255, 0.12);
+      --text: #f5f8ff;
+      --muted: #aeb8c9;
+      --line: rgba(255, 255, 255, 0.18);
+      --accent: #24d6ff;
+      --accent2: #ff2f6d;
+    }
 
-<style>
-body{
-  margin:0;
-  background:#f4f4f4;
-  font-family: Arial, Helvetica, sans-serif;
-  color:#222;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-header{
-  background:#8b0000;
-  color:white;
-  padding:18px 24px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(36, 214, 255, 0.18), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(255, 47, 109, 0.16), transparent 30%),
+        linear-gradient(135deg, #040912 0%, #07111f 48%, #0b1a2d 100%);
+    }
 
-header h1{
-  margin:0;
-  font-size:30px;
-  letter-spacing:1px;
-}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-header p{
-  margin:4px 0 0;
-  font-size:13px;
-  opacity:.9;
-}
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.78);
+      border-bottom: 1px solid var(--line);
+    }
 
-main{
-  max-width:1500px;
-  margin:24px auto;
-  padding:0 16px 40px;
-}
+    .brand {
+      display: block;
+      width: fit-content;
+      margin: 0 auto;
+      padding: 28px 20px 18px;
+      text-align: center;
+    }
 
-.section{
-  background:white;
-  border:1px solid #ccc;
-  margin-bottom:28px;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-}
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      margin-bottom: 10px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      box-shadow: 0 0 22px rgba(36, 214, 255, 0.35);
+    }
 
-.section-title{
-  background:#8b0000;
-  color:white;
-  font-weight:bold;
-  font-size:18px;
-  padding:10px 14px;
-}
+    .brand-title {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 54px);
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      line-height: 1;
+    }
 
-.image-wrap{
-  padding:14px;
-  overflow-x:auto;
-}
+    .brand-subtitle {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+    }
 
-.image-wrap img{
-  width:100%;
-  max-width:1400px;
-  display:block;
-  margin:auto;
-}
+    .nav-wrap {
+      border-top: 1px solid var(--line);
+    }
 
-footer{
-  max-width:1500px;
-  margin:0 auto 30px;
-  padding:0 16px;
-  color:#777;
-  font-size:12px;
-}
-</style>
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      overflow-x: auto;
+      white-space: nowrap;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .main-nav a {
+      padding: 17px 18px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #dce6f5;
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .main-nav a:hover {
+      color: #ffffff;
+      background: var(--panel);
+      border-color: var(--line);
+    }
+
+    .hero {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 76px 22px 38px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 70px);
+      line-height: 1.03;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 22px auto 0;
+      color: #c4cedd;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(130px, 1fr));
+      gap: 14px;
+      max-width: 1180px;
+      margin: 34px auto 0;
+      padding: 0 22px 70px;
+    }
+
+    .card {
+      min-height: 150px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, var(--panel-strong), rgba(255,255,255,0.045));
+      box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(36, 214, 255, 0.55);
+      background: linear-gradient(180deg, rgba(36, 214, 255, 0.14), rgba(255,255,255,0.055));
+    }
+
+    .card-number {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    .card h3 {
+      margin: 18px 0 8px;
+      font-size: 15px;
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .coming-soon {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255, 47, 109, 0.14);
+      color: #ff9fbb;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    footer {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 22px 46px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    @media (max-width: 1060px) {
+      .cards {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .brand {
+        padding-top: 20px;
+      }
+      .main-nav {
+        justify-content: flex-start;
+      }
+      .cards {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        padding-top: 52px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Back to home">
+      <div class="logo-mark">SG</div>
+      <h1 class="brand-title">SAILGP REFERENCE</h1>
+      <div class="brand-subtitle">Unofficial Data Hub</div>
+    </a>
 
-<header>
-  <h1>SAILGP REFERENCE</h1>
-  <p>Unofficial statistics reference for SailGP</p>
-</header>
-
-<main>
-
-  <div class="section">
-    <div class="section-title">Fleet Race Summary</div>
-    <div class="image-wrap">
-      <img src="fleet_summary.png" alt="Fleet Race Summary">
+    <div class="nav-wrap">
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#fleet-race">FLEET RACE</a>
+        <a href="#event-results">EVENT RESULTS</a>
+        <a href="#championship">CHAMPIONSHIP</a>
+        <a href="#team-stats">TEAM STATS</a>
+        <a href="#records">RECORDS</a>
+        <a href="#analysis">ANALYSIS</a>
+        <a href="#about">ABOUT</a>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <div class="section">
-    <div class="section-title">Fleet Race Finishes by Position</div>
-    <div class="image-wrap">
-      <img src="fleet_finishes.png" alt="Fleet Race Finishes by Position">
-    </div>
-  </div>
+  <main>
+    <section class="hero">
+      <span class="eyebrow">SAILGP DATA / RESULTS / HISTORY</span>
+      <h2>Race data, team history,<br />and championship insights.</h2>
+      <p>
+        フリートレース、大会結果、年間順位、チーム別成績、歴代記録をまとめるための非公式SailGPデータサイトです。
+        各ページは現在準備中です。
+      </p>
+    </section>
 
-  <div class="section">
-    <div class="section-title">Fleet Race Last Win</div>
-    <div class="image-wrap">
-      <img src="fleet_lastwin.png" alt="Fleet Race Last Win">
-    </div>
-  </div>
+    <section class="cards" aria-label="Coming soon sections">
+      <a class="card" id="fleet-race" href="#fleet-race">
+        <div class="card-number">01</div>
+        <h3>FLEET RACE</h3>
+        <p>各レースの順位、ポイント、ペナルティ、レース別サマリー。</p>
+        <span class="coming-soon">COMING SOON</span>
+      </a>
 
-</main>
+      <a class="card" id="event-results" href="#event-results">
+        <div class="card-number">02</div>
+        <h3>EVENT RESULTS</h3>
+        <p>大会順位、Final進出、イベントポイント、開催地別結果。</p>
+        <span class="coming-soon">COMING SOON</span>
+      </a>
 
-<footer>
-  SAILGP REFERENCE is an unofficial statistics reference site.
-</footer>
+      <a class="card" id="championship" href="#championship">
+        <div class="card-number">03</div>
+        <h3>CHAMPIONSHIP</h3>
+        <p>シーズンランキング、総合ポイント、年間順位の推移。</p>
+        <span class="coming-soon">COMING SOON</span>
+      </a>
 
+      <a class="card" id="team-stats" href="#team-stats">
+        <div class="card-number">04</div>
+        <h3>TEAM STATS</h3>
+        <p>チーム別成績、Final履歴、勝利数、平均順位。</p>
+        <span class="coming-soon">COMING SOON</span>
+      </a>
+
+      <a class="card" id="records" href="#records">
+        <div class="card-number">05</div>
+        <h3>RECORDS</h3>
+        <p>歴代最多勝、連続記録、Final進出記録、チーム記録。</p>
+        <span class="coming-soon">COMING SOON</span>
+      </a>
+
+      <a class="card" id="analysis" href="#analysis">
+        <div class="card-number">06</div>
+        <h3>ANALYSIS</h3>
+        <p>レース傾向、スプリット方式、チーム比較、実況向け考察。</p>
+        <span class="coming-soon">COMING SOON</span>
+      </a>
+
+      <a class="card" id="about" href="#about">
+        <div class="card-number">07</div>
+        <h3>ABOUT</h3>
+        <p>サイト概要、データ方針、更新履歴、注意事項。</p>
+        <span class="coming-soon">COMING SOON</span>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <strong>SAILGP REFERENCE</strong><br />
+    This is an unofficial reference site and is not affiliated with SailGP.
+  </footer>
 </body>
 </html>
