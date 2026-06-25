@@ -1,586 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SailGP Reference</title>
-  <style>
-    :root{
-      --cyan:#00d9ff;
-      --red:#ff304f;
-      --bg:#020509;
-      --text:#f4f7fb;
-      --muted:#a7b0bd;
-      --line:rgba(0,217,255,.28);
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter,Arial,Helvetica,sans-serif;
-      color:var(--text);
-      background:#020509;
-      overflow-x:hidden;
-    }
-    a{color:inherit;text-decoration:none}
-    .page{
-      min-height:100vh;
-      background:
-        radial-gradient(circle at 78% 20%,rgba(255,255,255,.16),transparent 18%),
-        radial-gradient(circle at 72% 56%,rgba(0,217,255,.14),transparent 32%),
-        radial-gradient(circle at 92% 74%,rgba(255,48,79,.18),transparent 32%),
-        linear-gradient(180deg,#020509 0%,#030a12 55%,#010306 100%);
-    }
-
-    /* cinematic hero background */
-    .hero-bg{
-      position:absolute;
-      inset:72px 0 auto 0;
-      height:650px;
-      overflow:hidden;
-      pointer-events:none;
-      background:
-        linear-gradient(90deg,rgba(0,0,0,.98) 0%,rgba(0,0,0,.76) 34%,rgba(0,0,0,.22) 68%,rgba(0,0,0,.68) 100%),
-        linear-gradient(180deg,rgba(0,0,0,.20) 0%,rgba(0,0,0,.15) 58%,#020509 100%),
-        radial-gradient(circle at 62% 28%,rgba(255,255,255,.22),transparent 16%),
-        linear-gradient(130deg,#142636 0%,#06101a 48%,#020509 100%);
-    }
-    .hero-bg:before{
-      content:"";
-      position:absolute;
-      inset:-10% -8%;
-      background:
-        repeating-linear-gradient(105deg,transparent 0 45px,rgba(255,255,255,.045) 46px,transparent 49px),
-        repeating-linear-gradient(12deg,transparent 0 70px,rgba(255,255,255,.035) 71px,transparent 73px);
-      opacity:.8;
-      transform:skewX(-10deg);
-    }
-    .water{
-      position:absolute;
-      left:0;right:0;bottom:0;height:210px;
-      background:
-        repeating-linear-gradient(-8deg,rgba(0,217,255,.18) 0 2px,transparent 3px 22px),
-        linear-gradient(180deg,transparent 0%,rgba(0,217,255,.18) 42%,rgba(0,0,0,.85) 100%);
-      filter:blur(.2px);
-      opacity:.7;
-    }
-    .boat{
-      position:absolute;
-      right:4%;
-      bottom:120px;
-      width:560px;
-      height:310px;
-      transform:skewX(-8deg);
-      opacity:.95;
-      filter:drop-shadow(0 18px 30px rgba(0,0,0,.75));
-    }
-    .hull{
-      position:absolute;
-      right:0;bottom:28px;
-      width:440px;height:54px;
-      background:linear-gradient(90deg,#0a0f16,#f02d42 45%,#111a22 83%);
-      border-radius:70% 20% 45% 50%;
-      box-shadow:0 0 30px rgba(255,48,79,.28);
-    }
-    .foil{
-      position:absolute;
-      right:68px;bottom:0;
-      width:230px;height:10px;
-      background:#d8e5f2;
-      transform:rotate(-9deg);
-      opacity:.75;
-    }
-    .mast{
-      position:absolute;
-      right:160px;bottom:70px;
-      width:7px;height:278px;
-      background:linear-gradient(180deg,#cbd6e1,#394752);
-      transform:rotate(-4deg);
-    }
-    .sail-main{
-      position:absolute;
-      right:118px;bottom:86px;
-      width:210px;height:270px;
-      clip-path:polygon(42% 0,100% 100%,0 100%);
-      background:
-        linear-gradient(100deg,rgba(255,255,255,.78),rgba(30,40,50,.92) 34%,rgba(255,48,79,.70) 68%,rgba(0,0,0,.78));
-      border-left:1px solid rgba(255,255,255,.35);
-    }
-    .sail-main:after{
-      content:"SGR";
-      position:absolute;
-      right:28px;top:88px;
-      color:rgba(255,255,255,.70);
-      font-size:42px;
-      font-weight:1000;
-      font-style:italic;
-      transform:rotate(74deg);
-      letter-spacing:-.08em;
-    }
-    .sail-back{
-      position:absolute;
-      right:340px;bottom:85px;
-      width:115px;height:220px;
-      clip-path:polygon(42% 0,100% 100%,0 100%);
-      background:linear-gradient(100deg,rgba(255,255,255,.65),rgba(0,217,255,.35),rgba(0,0,0,.78));
-      opacity:.76;
-    }
-    .spray{
-      position:absolute;
-      right:0;bottom:56px;width:520px;height:80px;
-      background:radial-gradient(ellipse at center,rgba(255,255,255,.45),transparent 60%);
-      filter:blur(5px);
-      opacity:.7;
-    }
-
-    .wrap{
-      width:min(1180px,calc(100% - 64px));
-      margin:0 auto;
-      position:relative;
-      z-index:3;
-    }
-
-    header{
-      height:72px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      border-bottom:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,0,.20);
-      position:relative;
-      z-index:5;
-    }
-    .brand{
-      display:flex;
-      align-items:flex-start;
-      flex-direction:column;
-      min-width:230px;
-    }
-    .brand .sgr{
-      font-size:38px;
-      line-height:.78;
-      font-weight:1000;
-      font-style:italic;
-      letter-spacing:-.09em;
-      background:linear-gradient(90deg,var(--cyan),#ffffff 48%,#697585 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      text-shadow:0 0 24px rgba(0,217,255,.35);
-    }
-    .brand .sub{
-      margin-top:7px;
-      font-size:10px;
-      color:#dbe5ef;
-      letter-spacing:.30em;
-      font-weight:900;
-    }
-    nav{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap:27px;
-      flex-wrap:wrap;
-    }
-    nav a{
-      position:relative;
-      padding:29px 0 24px;
-      color:#f2f5f9;
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-    }
-    nav a:after{
-      content:"";
-      position:absolute;
-      left:0;right:0;bottom:18px;height:2px;
-      background:var(--cyan);
-      box-shadow:0 0 16px var(--cyan);
-      transform:scaleX(0);
-      transform-origin:left;
-      transition:.2s;
-    }
-    nav a:hover,
-    nav a.active{color:var(--cyan)}
-    nav a:hover:after,
-    nav a.active:after{transform:scaleX(1)}
-
-    .hero{
-      min-height:650px;
-      padding:108px 0 52px;
-    }
-    .kicker{
-      color:var(--cyan);
-      font-size:14px;
-      font-style:italic;
-      letter-spacing:.24em;
-      text-transform:uppercase;
-      font-weight:900;
-      margin-bottom:17px;
-    }
-    h1{
-      margin:0;
-      max-width:590px;
-      font-size:88px;
-      line-height:.88;
-      letter-spacing:-.07em;
-      text-transform:uppercase;
-      font-weight:1000;
-      font-style:italic;
-      text-shadow:0 12px 30px rgba(0,0,0,.85);
-    }
-    .blue-line{
-      width:395px;height:3px;
-      background:linear-gradient(90deg,var(--cyan),transparent);
-      margin:21px 0 22px;
-      box-shadow:0 0 18px rgba(0,217,255,.95);
-    }
-    .hero-lead{
-      max-width:500px;
-      margin:0 0 12px;
-      font-size:25px;
-      line-height:1.25;
-      font-weight:900;
-    }
-    .hero-lead span{color:var(--cyan)}
-    .hero-text{
-      max-width:520px;
-      margin:0 0 34px;
-      color:#d5dce7;
-      line-height:1.65;
-      font-size:15px;
-      font-weight:650;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:28px;
-      min-width:190px;
-      height:48px;
-      padding:0 21px;
-      border:1px solid var(--cyan);
-      border-radius:9px;
-      background:rgba(0,0,0,.30);
-      color:#fff;
-      font-size:12px;
-      text-transform:uppercase;
-      font-weight:950;
-      letter-spacing:.07em;
-      box-shadow:0 0 28px rgba(0,217,255,.14);
-    }
-    .btn:hover{background:rgba(0,217,255,.12)}
-    .btn b{font-size:22px;color:var(--cyan)}
-
-    .meta{
-      display:flex;
-      gap:36px;
-      margin-top:46px;
-      align-items:flex-start;
-    }
-    .meta-box{
-      min-width:185px;
-      border-left:1px solid rgba(255,255,255,.18);
-      padding-left:19px;
-    }
-    .meta-box:first-child{border-left:0;padding-left:0}
-    .meta-label{
-      color:var(--cyan);
-      font-size:12px;
-      text-transform:uppercase;
-      font-weight:950;
-      letter-spacing:.08em;
-    }
-    .meta-label.red{color:var(--red)}
-    .meta-value{
-      margin-top:9px;
-      color:#eaf0f7;
-      font-size:13px;
-      text-transform:uppercase;
-      font-weight:850;
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      margin-top:0;
-      border:1px solid var(--line);
-      border-radius:10px;
-      background:rgba(2,8,13,.80);
-      box-shadow:0 0 42px rgba(0,217,255,.12),inset 0 0 52px rgba(0,217,255,.04);
-      overflow:hidden;
-      backdrop-filter:blur(4px);
-    }
-    .stat{
-      min-height:142px;
-      display:grid;
-      grid-template-columns:52px 1fr;
-      align-items:center;
-      gap:17px;
-      padding:31px 34px;
-      border-left:1px solid rgba(255,255,255,.14);
-    }
-    .stat:first-child{border-left:0}
-    .icon{
-      color:var(--cyan);
-      font-size:35px;
-      text-shadow:0 0 18px rgba(0,217,255,.75);
-    }
-    .stat strong{
-      display:block;
-      font-size:47px;
-      line-height:.88;
-      font-style:italic;
-      font-weight:1000;
-      letter-spacing:-.06em;
-    }
-    .stat span{
-      display:block;
-      margin-top:10px;
-      color:#dce5ee;
-      font-size:12px;
-      font-weight:900;
-      line-height:1.35;
-      text-transform:uppercase;
-    }
-
-    .section-title{
-      margin:48px 0 23px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:18px;
-      font-size:28px;
-      font-weight:1000;
-      font-style:italic;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-    }
-    .section-title:before,
-    .section-title:after{
-      content:"";
-      width:132px;height:2px;
-      background:linear-gradient(90deg,transparent,var(--cyan));
-      box-shadow:0 0 14px var(--cyan);
-    }
-    .section-title:after{background:linear-gradient(90deg,var(--cyan),transparent)}
-
-    .updates{
-      display:grid;
-      grid-template-columns:1fr 1.18fr;
-      gap:24px;
-      padding-bottom:40px;
-    }
-    .panel{
-      border:1px solid rgba(0,217,255,.23);
-      border-radius:10px;
-      background:linear-gradient(145deg,rgba(7,18,28,.86),rgba(2,6,10,.88));
-      overflow:hidden;
-    }
-    .list{padding:21px 28px}
-    .row{
-      min-height:46px;
-      display:grid;
-      grid-template-columns:26px 1fr auto;
-      gap:14px;
-      align-items:center;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      font-size:13px;
-      font-weight:850;
-    }
-    .row:last-child{border-bottom:0}
-    .check{
-      width:22px;height:22px;border:1px solid var(--cyan);
-      border-radius:50%;
-      color:var(--cyan);
-      display:grid;place-items:center;
-      font-size:12px;
-    }
-    .date{color:#aab3c1;font-size:12px;font-weight:700}
-    .next{
-      position:relative;
-      min-height:248px;
-      padding:34px 36px;
-      border-color:rgba(255,48,79,.33);
-      background:
-        radial-gradient(circle at 78% 54%,rgba(255,48,79,.22),transparent 34%),
-        linear-gradient(145deg,rgba(22,9,14,.88),rgba(2,6,10,.88));
-      overflow:hidden;
-    }
-    .next:after{
-      content:"";
-      position:absolute;
-      right:42px;top:46px;
-      width:280px;height:155px;
-      border:2px solid rgba(255,48,79,.62);
-      border-radius:46% 54% 48% 52%;
-      transform:rotate(-6deg);
-      box-shadow:0 0 34px rgba(255,48,79,.28);
-      opacity:.62;
-    }
-    .next-label{
-      color:var(--red);
-      font-size:15px;
-      font-weight:950;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      margin-bottom:19px;
-    }
-    .next-name{
-      font-size:43px;
-      line-height:.88;
-      font-weight:1000;
-      font-style:italic;
-      text-transform:uppercase;
-      letter-spacing:-.05em;
-    }
-    .next-country{
-      margin-top:9px;
-      color:var(--red);
-      font-size:24px;
-      font-weight:1000;
-      font-style:italic;
-      text-transform:uppercase;
-    }
-    .next-date{
-      margin-top:20px;
-      font-size:14px;
-      color:#edf3fb;
-      font-weight:850;
-    }
-
-    footer{
-      border-top:1px solid rgba(255,255,255,.13);
-      padding:28px 0;
-      display:grid;
-      grid-template-columns:220px 1fr auto;
-      gap:34px;
-      align-items:center;
-      color:#8f99a8;
-      font-size:12px;
-      font-weight:650;
-    }
-    footer .sgr{font-size:31px}
-
-    @media(max-width:980px){
-      header{height:auto;padding:19px 0;align-items:flex-start;flex-direction:column}
-      nav{gap:17px;justify-content:flex-start}
-      nav a{padding:4px 0 10px}
-      .hero-bg{height:720px}
-      .boat{right:-160px;opacity:.55}
-      h1{font-size:66px}
-      .stats{grid-template-columns:repeat(2,1fr)}
-      .stat:nth-child(3){border-left:0;border-top:1px solid rgba(255,255,255,.14)}
-      .stat:nth-child(4){border-top:1px solid rgba(255,255,255,.14)}
-      .updates{grid-template-columns:1fr}
-      footer{grid-template-columns:1fr}
-    }
-    @media(max-width:620px){
-      .wrap{width:min(100% - 34px,1180px)}
-      .hero{padding-top:72px}
-      h1{font-size:51px}
-      .hero-lead{font-size:21px}
-      .blue-line{width:280px}
-      .meta{flex-direction:column;gap:18px}
-      .meta-box{border-left:0;padding-left:0}
-      .stats{grid-template-columns:1fr}
-      .stat{border-left:0;border-top:1px solid rgba(255,255,255,.14)}
-      .stat:first-child{border-top:0}
-      .section-title{font-size:20px;letter-spacing:.12em}
-      .section-title:before,.section-title:after{width:46px}
-      .row{grid-template-columns:26px 1fr}
-      .date{grid-column:2}
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sail Racing Reference</title>
+<style>
+:root{
+  --bg:#050914;
+  --panel:#0b1224;
+  --panel2:#101a33;
+  --cyan:#21d9ff;
+  --red:#ff2f5f;
+  --gold:#f4c542;
+  --text:#f7fbff;
+  --muted:#9aa8bd;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 10%,rgba(33,217,255,.25),transparent 28%),
+    radial-gradient(circle at 85% 20%,rgba(255,47,95,.22),transparent 30%),
+    linear-gradient(135deg,#050914,#071225 55%,#02040a);
+  min-height:100vh;
+}
+header{
+  padding:26px 7vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{
+  font-weight:900;
+  letter-spacing:.12em;
+  font-size:20px;
+}
+.logo span{color:var(--cyan)}
+nav a{
+  color:var(--muted);
+  text-decoration:none;
+  margin-left:24px;
+  font-weight:700;
+}
+.hero{
+  padding:70px 7vw 50px;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:36px;
+  align-items:center;
+}
+.badge{
+  display:inline-block;
+  border:1px solid rgba(255,255,255,.18);
+  padding:8px 12px;
+  border-radius:999px;
+  color:var(--cyan);
+  font-weight:800;
+  font-size:13px;
+}
+h1{
+  font-size:clamp(46px,7vw,92px);
+  line-height:.92;
+  margin:22px 0;
+  letter-spacing:-.06em;
+}
+h1 em{
+  color:transparent;
+  -webkit-text-stroke:1px var(--cyan);
+  font-style:normal;
+}
+.lead{
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.7;
+  max-width:620px;
+}
+.actions{margin-top:32px}
+.btn{
+  display:inline-block;
+  padding:15px 20px;
+  border-radius:14px;
+  margin-right:12px;
+  text-decoration:none;
+  font-weight:900;
+}
+.primary{
+  background:linear-gradient(90deg,var(--cyan),var(--red));
+  color:white;
+}
+.secondary{
+  border:1px solid rgba(255,255,255,.22);
+  color:white;
+}
+.visual{
+  position:relative;
+  min-height:420px;
+  border-radius:28px;
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.15);
+  overflow:hidden;
+  box-shadow:0 30px 90px rgba(0,0,0,.45);
+}
+.visual:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(110deg,transparent 0 40%,rgba(33,217,255,.18) 40% 43%,transparent 43%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,transparent 1px 70px);
+}
+.boat{
+  position:absolute;
+  left:12%;
+  right:10%;
+  top:35%;
+  height:70px;
+  transform:skewX(-18deg);
+  background:linear-gradient(90deg,var(--red),var(--cyan));
+  border-radius:10px 40px 40px 10px;
+  box-shadow:0 0 50px rgba(33,217,255,.45);
+}
+.wing{
+  position:absolute;
+  left:35%;
+  top:13%;
+  width:90px;
+  height:260px;
+  transform:skewX(-12deg);
+  background:linear-gradient(180deg,#fff,var(--cyan),#13203c);
+  clip-path:polygon(35% 0,100% 100%,0 100%);
+}
+.speed{
+  position:absolute;
+  right:28px;
+  bottom:26px;
+  font-size:54px;
+  font-weight:900;
+}
+.speed span{
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  letter-spacing:.18em;
+}
+.section{
+  padding:40px 7vw 80px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+.card{
+  background:rgba(11,18,36,.78);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:22px;
+  padding:24px;
+  min-height:180px;
+  transition:.25s;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:var(--cyan);
+  box-shadow:0 18px 50px rgba(33,217,255,.16);
+}
+.card h2{
+  margin:0 0 12px;
+  font-size:22px;
+}
+.card p{
+  color:var(--muted);
+  line-height:1.6;
+}
+.card a{
+  color:white;
+  text-decoration:none;
+  font-weight:900;
+}
+.num{
+  color:var(--gold);
+  font-size:42px;
+  font-weight:900;
+}
+footer{
+  border-top:1px solid rgba(255,255,255,.12);
+  padding:24px 7vw;
+  color:var(--muted);
+  font-size:13px;
+}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  nav{display:none}
+}
+</style>
 </head>
 <body>
-  <div class="page">
-    <div class="hero-bg">
-      <div class="boat">
-        <div class="spray"></div>
-        <div class="foil"></div>
-        <div class="hull"></div>
-        <div class="mast"></div>
-        <div class="sail-back"></div>
-        <div class="sail-main"></div>
-      </div>
-      <div class="water"></div>
+
+<header>
+  <div class="logo">SAIL <span>REFERENCE</span></div>
+  <nav>
+    <a href="#summary">Summary</a>
+    <a href="#stats">Stats</a>
+    <a href="#data">Data</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="badge">UNOFFICIAL RACING DATA HUB</div>
+    <h1>SAIL RACING<br><em>REFERENCE</em></h1>
+    <p class="lead">
+      Race results, fleet summaries, final appearances and team trends.
+      Built as a sharp reference page for broadcast preparation and racing analysis.
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="fleet_summary.png">Open Summary</a>
+      <a class="btn secondary" href="reference.csv">View Data</a>
+    </div>
+  </div>
+
+  <div class="visual">
+    <div class="wing"></div>
+    <div class="boat"></div>
+    <div class="speed"><span>TOP SPEED</span>99 KM/H</div>
+  </div>
+</section>
+
+<section class="section" id="summary">
+  <div class="grid">
+    <div class="card">
+      <div class="num">01</div>
+      <h2><a href="fleet_summary.png">Fleet Summary</a></h2>
+      <p>Overall fleet reference for quick race-day checking.</p>
     </div>
 
-    <header class="wrap">
-      <a class="brand" href="index.html" aria-label="SailGP Reference Home">
-        <div class="sgr">SGR</div>
-        <div class="sub">SAILGP REFERENCE</div>
-      </a>
-      <nav>
-        <a class="active" href="#">Fleet Race</a>
-        <a href="#">Event Results</a>
-        <a href="#">Championship</a>
-        <a href="#">Team Stats</a>
-        <a href="#">Records</a>
-        <a href="#">Analysis</a>
-        <a href="#">About</a>
-      </nav>
-    </header>
+    <div class="card">
+      <div class="num">02</div>
+      <h2><a href="fleet_race.png">Fleet Race</a></h2>
+      <p>Race-by-race finishing data and team comparison.</p>
+    </div>
 
-    <main class="wrap hero">
-      <div class="kicker">Unofficial Statistics Database</div>
-      <h1>SailGP Reference</h1>
-      <div class="blue-line"></div>
-      <p class="hero-lead">The most comprehensive unofficial database for <span>SailGP</span>.</p>
-      <p class="hero-text">Race results, championship standings, team statistics, historical records and in-depth analysis.</p>
-      <a class="btn" href="#">Explore Data <b>→</b></a>
+    <div class="card">
+      <div class="num">03</div>
+      <h2><a href="fleet_finishes.png">Finishes</a></h2>
+      <p>Finishing trends, top results and consistency checks.</p>
+    </div>
 
-      <div class="meta">
-        <div class="meta-box">
-          <div class="meta-label">Data Updated</div>
-          <div class="meta-value">May 24, 2024&nbsp;&nbsp;18:30 UTC</div>
-        </div>
-        <div class="meta-box">
-          <div class="meta-label red">Next Event</div>
-          <div class="meta-value">New York&nbsp;&nbsp;&nbsp;Jun 22–23, 2024</div>
-        </div>
-      </div>
-    </main>
-
-    <section class="wrap stats">
-      <div class="stat"><div class="icon">⚑</div><div><strong>207</strong><span>Fleet Races<br>Completed</span></div></div>
-      <div class="stat"><div class="icon">👥</div><div><strong>13</strong><span>Teams<br>Competing</span></div></div>
-      <div class="stat"><div class="icon">🏆</div><div><strong>6</strong><span>Seasons<br>2019–20 → 2024</span></div></div>
-      <div class="stat"><div class="icon">▰</div><div><strong>1,800+</strong><span>Results & Statistics<br>And Growing</span></div></div>
-    </section>
-
-    <section class="wrap">
-      <div class="section-title">Latest Update</div>
-      <div class="updates">
-        <div class="panel">
-          <div class="list">
-            <div class="row"><span class="check">✓</span><span>Halifax Event Results Added</span><span class="date">May 24, 2024 18:30 UTC</span></div>
-            <div class="row"><span class="check">✓</span><span>Championship Standings Updated</span><span class="date">May 24, 2024 18:30 UTC</span></div>
-            <div class="row"><span class="check">✓</span><span>Team Statistics Updated</span><span class="date">May 24, 2024 18:30 UTC</span></div>
-            <div class="row"><span class="check">✓</span><span>Records Database Updated</span><span class="date">May 24, 2024 18:30 UTC</span></div>
-            <div class="row"><span class="check">✓</span><span>Season 2024 Data Verified</span><span class="date">May 24, 2024 18:30 UTC</span></div>
-          </div>
-        </div>
-
-        <div class="panel next">
-          <div class="next-label">Next Event</div>
-          <div class="next-name">New York</div>
-          <div class="next-country">USA</div>
-          <div class="next-date">Jun 22–23, 2024</div>
-          <a class="btn" style="margin-top:27px;border-color:var(--red)" href="#">Event Preview <b>→</b></a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="wrap">
-      <a class="brand" href="index.html">
-        <div class="sgr">SGR</div>
-        <div class="sub">SAILGP REFERENCE</div>
-      </a>
-      <div>This is an unofficial statistics database and is not affiliated with SailGP.</div>
-      <div>© 2024 SailGP Reference</div>
-    </footer>
+    <div class="card">
+      <div class="num">04</div>
+      <h2><a href="fleet_lastwin.png">Last Win</a></h2>
+      <p>Last event wins and drought-style reference information.</p>
+    </div>
   </div>
+</section>
+
+<section class="section" id="stats">
+  <div class="card">
+    <h2>Broadcast Reference Style</h2>
+    <p>
+      Dark, high-contrast and fast to read. This page avoids official team logos
+      and uses an original text identity for an unofficial reference site.
+    </p>
+  </div>
+</section>
+
+<footer>
+  Unofficial reference page. Not affiliated with SailGP or any official rights holder.
+</footer>
+
 </body>
 </html>
