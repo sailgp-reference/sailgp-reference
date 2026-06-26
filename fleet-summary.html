@@ -6,466 +6,97 @@
 <title>Fleet Summary | Sail Racing Reference</title>
 <style>
 :root {
-  --bg:#050914;
-  --panel:#0b1224;
-  --panel2:#101a33;
-  --line:rgba(255,255,255,.12);
-  --cyan:#21d9ff;
-  --red:#ff2f5f;
-  --gold:#f4c542;
-  --silver:#c8d2e3;
-  --bronze:#c98a4a;
-  --text:#f7fbff;
-  --muted:#9aa8bd;
+  --bg:#050914; --panel:#0b1224; --panel2:#101a33; --line:rgba(255,255,255,.12);
+  --cyan:#21d9ff; --red:#ff2f5f; --gold:#f4c542; --green:#39e58c; --blue:#61d8ff;
+  --text:#f7fbff; --muted:#9aa8bd;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Inter,Arial,sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 12% 8%,rgba(33,217,255,.22),transparent 30%),
-    radial-gradient(circle at 86% 18%,rgba(255,47,95,.18),transparent 28%),
-    linear-gradient(135deg,#050914,#071225 56%,#02040a);
-  min-height:100vh;
-}
-header{
-  padding:24px 6vw;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.logo{font-weight:900;letter-spacing:.12em;font-size:18px}
-.logo span{color:var(--cyan)}
+body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at 12% 8%,rgba(33,217,255,.22),transparent 30%),radial-gradient(circle at 86% 18%,rgba(255,47,95,.18),transparent 28%),linear-gradient(135deg,#050914,#071225 56%,#02040a);min-height:100vh}
+header{padding:24px 6vw;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;letter-spacing:.12em;font-size:18px}.logo span{color:var(--cyan)}
 nav a{color:var(--muted);text-decoration:none;margin-left:22px;font-weight:800}
 .wrap{padding:28px 6vw 70px}
-.hero{
-  display:flex;
-  justify-content:space-between;
-  gap:24px;
-  align-items:flex-end;
-  margin-bottom:22px;
-}
-.badge{
-  display:inline-block;
-  border:1px solid rgba(255,255,255,.18);
-  padding:8px 12px;
-  border-radius:999px;
-  color:var(--cyan);
-  font-weight:900;
-  font-size:12px;
-  letter-spacing:.08em;
-}
-h1{
-  margin:18px 0 8px;
-  font-size:clamp(38px,6vw,76px);
-  line-height:.92;
-  letter-spacing:-.055em;
-}
-.lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:720px}
+.hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:22px}
+.badge{display:inline-block;border:1px solid rgba(255,255,255,.18);padding:8px 12px;border-radius:999px;color:var(--cyan);font-weight:900;font-size:12px;letter-spacing:.08em}
+h1{margin:18px 0 8px;font-size:clamp(38px,6vw,76px);line-height:.92;letter-spacing:-.055em}
+.lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:760px}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;min-width:420px}
-.kpi{
-  background:rgba(11,18,36,.72);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:16px;
-  text-align:right;
-}
-.kpi small{display:block;color:var(--muted);font-weight:800;font-size:11px;letter-spacing:.1em}
-.kpi b{font-size:30px;line-height:1.1}
-.board{
-  background:rgba(5,9,20,.72);
-  border:1px solid rgba(255,255,255,.16);
-  border-radius:24px;
-  overflow:hidden;
-  box-shadow:0 30px 90px rgba(0,0,0,.42);
-}
-.board-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px 22px;
-  background:linear-gradient(90deg,rgba(33,217,255,.16),rgba(255,47,95,.10));
-  border-bottom:1px solid var(--line);
-}
-.board-head h2{margin:0;font-size:19px;letter-spacing:.06em}
-.note{color:var(--muted);font-size:12px;font-weight:800}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:1080px}
-th{
-  position:sticky;top:0;
-  padding:14px 10px;
-  background:#081226;
-  color:#aebbd0;
-  border-bottom:1px solid var(--line);
-  font-size:12px;
-  letter-spacing:.08em;
-  text-align:center;
-  white-space:nowrap;
-}
-td{
-  padding:12px 10px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-  text-align:center;
-  font-weight:800;
-  white-space:nowrap;
-}
-td.stat-win{color:var(--gold)}
-td.stat-avg{color:var(--cyan)}
-td.stat-top3{color:#22c55e}
-td.stat-top5{color:#38bdf8}
-tbody tr{transition:.18s}
-tbody tr:hover{background:rgba(33,217,255,.10)}
-tbody tr.gold{background:linear-gradient(90deg,rgba(244,197,66,.18),transparent 42%)}
-tbody tr.silver{background:linear-gradient(90deg,rgba(200,210,227,.14),transparent 42%)}
-tbody tr.bronze{background:linear-gradient(90deg,rgba(201,138,74,.13),transparent 42%)}
-.rank{
-  font-size:18px;
-  color:#fff;
-}
-.team-pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:58px;
-  height:32px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  font-weight:900;
-  letter-spacing:.08em;
-}
-.aus{box-shadow:inset 4px 0 0 #1b6eff}
-.gbr{box-shadow:inset 4px 0 0 #f02f5f}
-.fra{box-shadow:inset 4px 0 0 #21d9ff}
-.jpn{box-shadow:inset 4px 0 0 #ffffff}
-.usa{box-shadow:inset 4px 0 0 #7aa7ff}
-.nzl{box-shadow:inset 4px 0 0 #111}
-.esp{box-shadow:inset 4px 0 0 #f4c542}
-.den{box-shadow:inset 4px 0 0 #ef4444}
-.can{box-shadow:inset 4px 0 0 #ef4444}
-.sui{box-shadow:inset 4px 0 0 #ef4444}
-.ger{box-shadow:inset 4px 0 0 #facc15}
-.ita{box-shadow:inset 4px 0 0 #22c55e}
-.bra{box-shadow:inset 4px 0 0 #22c55e}
-.swe{box-shadow:inset 4px 0 0 #38bdf8}
-.chi{box-shadow:inset 4px 0 0 #ef4444}
-.percent{min-width:126px}
-.percent span{display:inline-block;width:48px;text-align:center}
-.bar{
-  display:inline-block;
-  margin-left:8px;
-  width:58px;
-  height:7px;
-  border-radius:999px;
-  background:rgba(255,255,255,.12);
-  overflow:hidden;
-  vertical-align:middle;
-}
-.bar i{
-  display:block;
-  height:100%;
-  border-radius:999px;
-  background:linear-gradient(90deg,var(--cyan),var(--gold));
-}
-.bar.top3 i{background:linear-gradient(90deg,#16a34a,#86efac)}
-.bar.top5 i{background:linear-gradient(90deg,#0284c7,#7dd3fc)}
+.kpi{background:rgba(11,18,36,.72);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:right}
+.kpi small{display:block;color:var(--muted);font-weight:800;font-size:11px;letter-spacing:.1em}.kpi b{font-size:30px;line-height:1.1}
+.board{background:rgba(5,9,20,.72);border:1px solid rgba(255,255,255,.16);border-radius:24px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.42)}
+.board-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 22px;background:linear-gradient(90deg,rgba(33,217,255,.16),rgba(255,47,95,.10));border-bottom:1px solid var(--line)}
+.board-head h2{margin:0;font-size:19px;letter-spacing:.06em}.note{color:var(--muted);font-size:12px;font-weight:800;text-align:right}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:1120px}
+th{position:sticky;top:0;padding:14px 10px;background:#081226;color:#aebbd0;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.08em;text-align:center;white-space:nowrap;user-select:none}
+th.sortable{cursor:pointer}th.sortable:hover{color:#fff;background:#0c1a35}th .arrow{display:inline-block;width:13px;margin-left:4px;color:var(--cyan)}
+td{padding:12px 10px;border-bottom:1px solid rgba(255,255,255,.07);text-align:center;font-weight:800;white-space:nowrap;color:#fff}
+tbody tr{transition:.18s}tbody tr:hover{background:rgba(33,217,255,.10)}
+.rank{font-size:18px;color:#fff}.rank.medal1{color:var(--gold)}.rank.medal2{color:#d8e1f2}.rank.medal3{color:#c98a4a}
+.team-cell{text-align:left;min-width:118px}.team-wrap{display:inline-flex;align-items:center;gap:10px;justify-content:flex-start}
+.flag{font-size:22px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.team-code{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:32px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;font-weight:900;letter-spacing:.08em}
+.team-code.active{box-shadow:inset 4px 0 0 var(--cyan)}.team-code.withdrawn{opacity:.55;box-shadow:inset 4px 0 0 #666}
+.cell-top{color:var(--gold);text-shadow:0 0 18px rgba(244,197,66,.38)}.cell-top3{color:var(--green);text-shadow:0 0 14px rgba(57,229,140,.30)}.cell-top5{color:var(--blue);text-shadow:0 0 14px rgba(97,216,255,.30)}
+.percent{min-width:126px}.percent span{display:inline-block;width:48px;text-align:center}
+.bar{display:inline-block;margin-left:8px;width:58px;height:7px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;vertical-align:middle}.bar i{display:block;height:100%;border-radius:999px;background:rgba(255,255,255,.55)}
+.cell-top3 .bar i{background:linear-gradient(90deg,#16a34a,#86efac)}.cell-top5 .bar i{background:linear-gradient(90deg,#0284c7,#7dd3fc)}
 footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
-@media(max-width:980px){
-  header{align-items:flex-start;gap:12px}
-  nav a{margin-left:12px}
-  .hero{display:block}
-  .kpis{grid-template-columns:repeat(2,1fr);min-width:0;margin-top:18px}
-}
+@media(max-width:980px){header{align-items:flex-start;gap:12px}nav a{margin-left:12px}.hero{display:block}.kpis{grid-template-columns:repeat(2,1fr);min-width:0;margin-top:18px}}
 </style>
 </head>
 <body>
-<header>
-  <div class="logo">SAIL <span>REFERENCE</span></div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="fleet-summary.html">Fleet Summary</a>
-  </nav>
-</header>
-
+<header><div class="logo">SAIL <span>REFERENCE</span></div><nav><a href="index.html">Home</a><a href="fleet-summary.html">Fleet Summary</a></nav></header>
 <main class="wrap">
-  <section class="hero">
-    <div>
-      <div class="badge">UNOFFICIAL DATA BOARD</div>
-      <h1>FLEET<br>SUMMARY</h1>
-      <p class="lead">Fleet race results summary generated from the reference workbook. Percentages are shown as TOP3% and TOP5% with quick-read bars for race-day preparation.</p>
-    </div>
-    <div class="kpis">
-      <div class="kpi"><small>TEAMS</small><b>15</b></div>
-      <div class="kpi"><small>TOTAL APP</small><b>2798</b></div>
-      <div class="kpi"><small>TOTAL WINS</small><b>298</b></div>
-      <div class="kpi"><small>LEADER</small><b>AUS</b></div>
-    </div>
-  </section>
-
-  <section class="board">
-    <div class="board-head">
-      <h2>FLEET RACE STATS</h2>
-      <div class="note">Source sheet: WEB_FLEET_SUMMARY</div>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Rk</th><th>TEAM</th><th>SINCE</th><th>APP</th><th>WIN</th><th>AVG</th><th>TOP3</th><th>TOP3%</th><th>TOP5</th><th>TOP5%</th><th>STREAK</th><th>DNS</th><th>DNF</th><th>DSQ</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-      <tr class="gold">
-        <td class="rank">1</td>
-        <td><span class="team-pill aus">AUS</span></td>
-        <td>S1</td>
-        <td>289</td>
-        <td class="num stat-win">80</td>
-        <td class="stat-avg">.277</td>
-        <td>167</td>
-        <td class="percent stat-top3"><span>57.8%</span><div class="bar top3"><i style="width:77.0%"></i></div></td>
-        <td>215</td>
-        <td class="percent stat-top5"><span>74.4%</span><div class="bar top5"><i style="width:87.5%"></i></div></td>
-        <td>4</td>
-        <td>2</td>
-        <td>3</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">2</td>
-        <td><span class="team-pill jpn">JPN</span></td>
-        <td>S1</td>
-        <td>57</td>
-        <td class="num stat-win">20</td>
-        <td class="stat-avg">.351</td>
-        <td>41</td>
-        <td class="percent stat-top3"><span>71.9%</span><div class="bar top3"><i style="width:95.9%"></i></div></td>
-        <td>48</td>
-        <td class="percent stat-top5"><span>84.2%</span><div class="bar top5"><i style="width:99.1%"></i></div></td>
-        <td>3 (2)</td>
-        <td>2</td>
-        <td>1</td>
-        <td>0</td>
-      </tr>
-      <tr class="silver">
-        <td class="rank">3</td>
-        <td><span class="team-pill gbr">GBR</span></td>
-        <td>S1</td>
-        <td>284</td>
-        <td class="num stat-win">37</td>
-        <td class="stat-avg">.130</td>
-        <td>116</td>
-        <td class="percent stat-top3"><span>40.8%</span><div class="bar top3"><i style="width:54.5%"></i></div></td>
-        <td>185</td>
-        <td class="percent stat-top5"><span>65.1%</span><div class="bar top5"><i style="width:76.6%"></i></div></td>
-        <td>2 (4)</td>
-        <td>8</td>
-        <td>0</td>
-        <td>1</td>
-      </tr>
-      <tr class="bronze">
-        <td class="rank">4</td>
-        <td><span class="team-pill fra">FRA</span></td>
-        <td>S1</td>
-        <td>265</td>
-        <td class="num stat-win">21</td>
-        <td class="stat-avg">.079</td>
-        <td>83</td>
-        <td class="percent stat-top3"><span>31.3%</span><div class="bar top3"><i style="width:41.8%"></i></div></td>
-        <td>146</td>
-        <td class="percent stat-top5"><span>55.1%</span><div class="bar top5"><i style="width:64.8%"></i></div></td>
-        <td>4</td>
-        <td>24</td>
-        <td>2</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">5</td>
-        <td><span class="team-pill chi">CHI</span></td>
-        <td>S1</td>
-        <td>25</td>
-        <td class="num stat-win">1</td>
-        <td class="stat-avg">.040</td>
-        <td>10</td>
-        <td class="percent stat-top3"><span>40.0%</span><div class="bar top3"><i style="width:53.3%"></i></div></td>
-        <td>18</td>
-        <td class="percent stat-top5"><span>72.0%</span><div class="bar top5"><i style="width:84.7%"></i></div></td>
-        <td>-</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">6</td>
-        <td><span class="team-pill usa">USA</span></td>
-        <td>S1</td>
-        <td>277</td>
-        <td class="num stat-win">18</td>
-        <td class="stat-avg">.065</td>
-        <td>70</td>
-        <td class="percent stat-top3"><span>25.3%</span><div class="bar top3"><i style="width:33.7%"></i></div></td>
-        <td>131</td>
-        <td class="percent stat-top5"><span>47.3%</span><div class="bar top5"><i style="width:55.6%"></i></div></td>
-        <td>2</td>
-        <td>15</td>
-        <td>2</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">7</td>
-        <td><span class="team-pill nzl">NZL</span></td>
-        <td>S2</td>
-        <td>228</td>
-        <td class="num stat-win">34</td>
-        <td class="stat-avg">.149</td>
-        <td>96</td>
-        <td class="percent stat-top3"><span>42.1%</span><div class="bar top3"><i style="width:56.1%"></i></div></td>
-        <td>159</td>
-        <td class="percent stat-top5"><span>69.7%</span><div class="bar top5"><i style="width:82.0%"></i></div></td>
-        <td>5</td>
-        <td>39</td>
-        <td>1</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">8</td>
-        <td><span class="team-pill esp">ESP</span></td>
-        <td>S2</td>
-        <td>250</td>
-        <td class="num stat-win">24</td>
-        <td class="stat-avg">.096</td>
-        <td>74</td>
-        <td class="percent stat-top3"><span>29.6%</span><div class="bar top3"><i style="width:39.5%"></i></div></td>
-        <td>132</td>
-        <td class="percent stat-top5"><span>52.8%</span><div class="bar top5"><i style="width:62.1%"></i></div></td>
-        <td>2 (2)</td>
-        <td>17</td>
-        <td>2</td>
-        <td>1</td>
-      </tr>
-      <tr class="">
-        <td class="rank">9</td>
-        <td><span class="team-pill den">DEN</span></td>
-        <td>S2</td>
-        <td>254</td>
-        <td class="num stat-win">18</td>
-        <td class="stat-avg">.071</td>
-        <td>75</td>
-        <td class="percent stat-top3"><span>29.5%</span><div class="bar top3"><i style="width:39.4%"></i></div></td>
-        <td>131</td>
-        <td class="percent stat-top5"><span>51.6%</span><div class="bar top5"><i style="width:60.7%"></i></div></td>
-        <td>2 (3)</td>
-        <td>13</td>
-        <td>2</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">10</td>
-        <td><span class="team-pill can">CAN</span></td>
-        <td>S3</td>
-        <td>225</td>
-        <td class="num stat-win">18</td>
-        <td class="stat-avg">.080</td>
-        <td>67</td>
-        <td class="percent stat-top3"><span>29.8%</span><div class="bar top3"><i style="width:39.7%"></i></div></td>
-        <td>122</td>
-        <td class="percent stat-top5"><span>54.2%</span><div class="bar top5"><i style="width:63.8%"></i></div></td>
-        <td>3</td>
-        <td>2</td>
-        <td>1</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">11</td>
-        <td><span class="team-pill sui">SUI</span></td>
-        <td>S3</td>
-        <td>219</td>
-        <td class="num stat-win">11</td>
-        <td class="stat-avg">.050</td>
-        <td>29</td>
-        <td class="percent stat-top3"><span>13.2%</span><div class="bar top3"><i style="width:17.7%"></i></div></td>
-        <td>63</td>
-        <td class="percent stat-top5"><span>28.8%</span><div class="bar top5"><i style="width:33.8%"></i></div></td>
-        <td>-</td>
-        <td>8</td>
-        <td>1</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">12</td>
-        <td><span class="team-pill ger">GER</span></td>
-        <td>S4</td>
-        <td>170</td>
-        <td class="num stat-win">7</td>
-        <td class="stat-avg">.041</td>
-        <td>27</td>
-        <td class="percent stat-top3"><span>15.9%</span><div class="bar top3"><i style="width:21.2%"></i></div></td>
-        <td>56</td>
-        <td class="percent stat-top5"><span>32.9%</span><div class="bar top5"><i style="width:38.8%"></i></div></td>
-        <td>-</td>
-        <td>5</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">13</td>
-        <td><span class="team-pill ita">ITA</span></td>
-        <td>S5</td>
-        <td>115</td>
-        <td class="num stat-win">2</td>
-        <td class="stat-avg">.017</td>
-        <td>18</td>
-        <td class="percent stat-top3"><span>15.7%</span><div class="bar top3"><i style="width:20.9%"></i></div></td>
-        <td>33</td>
-        <td class="percent stat-top5"><span>28.7%</span><div class="bar top5"><i style="width:33.8%"></i></div></td>
-        <td>-</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">14</td>
-        <td><span class="team-pill bra">BRA</span></td>
-        <td>S5</td>
-        <td>105</td>
-        <td class="num stat-win">2</td>
-        <td class="stat-avg">.019</td>
-        <td>6</td>
-        <td class="percent stat-top3"><span>5.7%</span><div class="bar top3"><i style="width:7.6%"></i></div></td>
-        <td>24</td>
-        <td class="percent stat-top5"><span>22.9%</span><div class="bar top5"><i style="width:26.9%"></i></div></td>
-        <td>-</td>
-        <td>10</td>
-        <td>2</td>
-        <td>0</td>
-      </tr>
-      <tr class="">
-        <td class="rank">15</td>
-        <td><span class="team-pill swe">SWE</span></td>
-        <td>S6</td>
-        <td>35</td>
-        <td class="num stat-win">5</td>
-        <td class="stat-avg">.143</td>
-        <td>13</td>
-        <td class="percent stat-top3"><span>37.1%</span><div class="bar top3"><i style="width:49.5%"></i></div></td>
-        <td>22</td>
-        <td class="percent stat-top5"><span>62.9%</span><div class="bar top5"><i style="width:73.9%"></i></div></td>
-        <td>2</td>
-        <td>4</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</main>
-
-<footer>
-  Unofficial reference page. Not affiliated with SailGP or any official rights holder.
-</footer>
+<section class="hero"><div><div class="badge">UNOFFICIAL DATA BOARD</div><h1>FLEET<br>SUMMARY</h1><p class="lead">Fleet race results summary generated from the reference workbook. Rk is treated as Championship Rank and stays fixed while each stat column can be sorted.</p></div>
+<div class="kpis"><div class="kpi"><small>TEAMS</small><b>15</b></div><div class="kpi"><small>TOTAL APP</small><b>2798</b></div><div class="kpi"><small>TOTAL WINS</small><b>298</b></div><div class="kpi"><small>LEADER</small><b>AUS</b></div></div></section>
+<section class="board"><div class="board-head"><h2>FLEET RACE STATS</h2><div class="note">Click headers to sort / JPN and CHI excluded from highlight logic</div></div><div class="table-wrap">
+<table id="fleetTable"><thead><tr>
+<th class="sortable" data-key="rk" data-type="num">Rk<span class="arrow"></span></th><th class="sortable" data-key="team" data-type="text">TEAM<span class="arrow"></span></th><th class="sortable" data-key="since" data-type="text">SINCE<span class="arrow"></span></th><th class="sortable" data-key="app" data-type="num">APP<span class="arrow"></span></th><th class="sortable" data-key="win" data-type="num">WIN<span class="arrow"></span></th><th class="sortable" data-key="avg" data-type="num">AVG<span class="arrow"></span></th><th class="sortable" data-key="top3" data-type="num">TOP3<span class="arrow"></span></th><th class="sortable" data-key="top3pct" data-type="num">TOP3%<span class="arrow"></span></th><th class="sortable" data-key="top5" data-type="num">TOP5<span class="arrow"></span></th><th class="sortable" data-key="top5pct" data-type="num">TOP5%<span class="arrow"></span></th><th class="sortable" data-key="streakNum" data-type="num">STREAK<span class="arrow"></span></th><th class="sortable" data-key="dns" data-type="num">DNS<span class="arrow"></span></th><th class="sortable" data-key="dnf" data-type="num">DNF<span class="arrow"></span></th><th class="sortable" data-key="dsq" data-type="num">DSQ<span class="arrow"></span></th>
+</tr></thead><tbody></tbody></table></div></section></main>
+<footer>Unofficial reference page. Not affiliated with SailGP or any official rights holder.</footer>
+<script>
+const rows = [{"rk": 1, "team": "AUS", "since": "S1", "app": 289, "win": 80, "avg": 0.2768166089965398, "top3": 167, "top3pct": 0.5778546712802768, "top5": 215, "top5pct": 0.7439446366782007, "streak": "4", "dns": 2, "dnf": 3, "dsq": 0, "flag": "🇦🇺", "avgDisplay": ".277", "top3pctDisplay": "57.8%", "top5pctDisplay": "74.4%", "streakNum": 4, "hlWin": true, "hlAvg": true, "hlStreak": false, "hlTop3Pct": true, "hlTop5Pct": true}, {"rk": 2, "team": "JPN", "since": "S1", "app": 57, "win": 20, "avg": 0.3508771929824561, "top3": 41, "top3pct": 0.7192982456140351, "top5": 48, "top5pct": 0.8421052631578947, "streak": "3 (2)", "dns": 2, "dnf": 1, "dsq": 0, "flag": "🇯🇵", "avgDisplay": ".351", "top3pctDisplay": "71.9%", "top5pctDisplay": "84.2%", "streakNum": 3, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 3, "team": "GBR", "since": "S1", "app": 284, "win": 37, "avg": 0.13028169014084506, "top3": 116, "top3pct": 0.4084507042253521, "top5": 185, "top5pct": 0.6514084507042254, "streak": "2 (4)", "dns": 8, "dnf": 0, "dsq": 1, "flag": "🇬🇧", "avgDisplay": ".130", "top3pctDisplay": "40.8%", "top5pctDisplay": "65.1%", "streakNum": 2, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 4, "team": "FRA", "since": "S1", "app": 265, "win": 21, "avg": 0.07924528301886792, "top3": 83, "top3pct": 0.3132075471698113, "top5": 146, "top5pct": 0.5509433962264151, "streak": "4", "dns": 24, "dnf": 2, "dsq": 0, "flag": "🇫🇷", "avgDisplay": ".079", "top3pctDisplay": "31.3%", "top5pctDisplay": "55.1%", "streakNum": 4, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 5, "team": "CHI", "since": "S1", "app": 25, "win": 1, "avg": 0.04, "top3": 10, "top3pct": 0.4, "top5": 18, "top5pct": 0.72, "streak": "-", "dns": 0, "dnf": 0, "dsq": 0, "flag": "🇨🇳", "avgDisplay": ".040", "top3pctDisplay": "40.0%", "top5pctDisplay": "72.0%", "streakNum": -1, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 6, "team": "USA", "since": "S1", "app": 277, "win": 18, "avg": 0.06498194945848375, "top3": 70, "top3pct": 0.2527075812274368, "top5": 131, "top5pct": 0.4729241877256318, "streak": "2", "dns": 15, "dnf": 2, "dsq": 0, "flag": "🇺🇸", "avgDisplay": ".065", "top3pctDisplay": "25.3%", "top5pctDisplay": "47.3%", "streakNum": 2, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 7, "team": "NZL", "since": "S2", "app": 228, "win": 34, "avg": 0.14912280701754385, "top3": 96, "top3pct": 0.42105263157894735, "top5": 159, "top5pct": 0.6973684210526315, "streak": "5", "dns": 39, "dnf": 1, "dsq": 0, "flag": "🇳🇿", "avgDisplay": ".149", "top3pctDisplay": "42.1%", "top5pctDisplay": "69.7%", "streakNum": 5, "hlWin": false, "hlAvg": false, "hlStreak": true, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 8, "team": "ESP", "since": "S2", "app": 250, "win": 24, "avg": 0.096, "top3": 74, "top3pct": 0.296, "top5": 132, "top5pct": 0.528, "streak": "2 (2)", "dns": 17, "dnf": 2, "dsq": 1, "flag": "🇪🇸", "avgDisplay": ".096", "top3pctDisplay": "29.6%", "top5pctDisplay": "52.8%", "streakNum": 2, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 9, "team": "DEN", "since": "S2", "app": 254, "win": 18, "avg": 0.07086614173228346, "top3": 75, "top3pct": 0.2952755905511811, "top5": 131, "top5pct": 0.515748031496063, "streak": "2 (3)", "dns": 13, "dnf": 2, "dsq": 0, "flag": "🇩🇰", "avgDisplay": ".071", "top3pctDisplay": "29.5%", "top5pctDisplay": "51.6%", "streakNum": 2, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 10, "team": "CAN", "since": "S3", "app": 225, "win": 18, "avg": 0.08, "top3": 67, "top3pct": 0.29777777777777775, "top5": 122, "top5pct": 0.5422222222222223, "streak": "3", "dns": 2, "dnf": 1, "dsq": 0, "flag": "🇨🇦", "avgDisplay": ".080", "top3pctDisplay": "29.8%", "top5pctDisplay": "54.2%", "streakNum": 3, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 11, "team": "SUI", "since": "S3", "app": 219, "win": 11, "avg": 0.0502283105022831, "top3": 29, "top3pct": 0.1324200913242009, "top5": 63, "top5pct": 0.2876712328767123, "streak": "-", "dns": 8, "dnf": 1, "dsq": 0, "flag": "🇨🇭", "avgDisplay": ".050", "top3pctDisplay": "13.2%", "top5pctDisplay": "28.8%", "streakNum": -1, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 12, "team": "GER", "since": "S4", "app": 170, "win": 7, "avg": 0.041176470588235294, "top3": 27, "top3pct": 0.1588235294117647, "top5": 56, "top5pct": 0.32941176470588235, "streak": "-", "dns": 5, "dnf": 0, "dsq": 0, "flag": "🇩🇪", "avgDisplay": ".041", "top3pctDisplay": "15.9%", "top5pctDisplay": "32.9%", "streakNum": -1, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 13, "team": "ITA", "since": "S5", "app": 115, "win": 2, "avg": 0.017391304347826087, "top3": 18, "top3pct": 0.1565217391304348, "top5": 33, "top5pct": 0.28695652173913044, "streak": "-", "dns": 0, "dnf": 1, "dsq": 0, "flag": "🇮🇹", "avgDisplay": ".017", "top3pctDisplay": "15.7%", "top5pctDisplay": "28.7%", "streakNum": -1, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 14, "team": "BRA", "since": "S5", "app": 105, "win": 2, "avg": 0.01904761904761905, "top3": 6, "top3pct": 0.05714285714285714, "top5": 24, "top5pct": 0.22857142857142856, "streak": "-", "dns": 10, "dnf": 2, "dsq": 0, "flag": "🇧🇷", "avgDisplay": ".019", "top3pctDisplay": "5.7%", "top5pctDisplay": "22.9%", "streakNum": -1, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"rk": 15, "team": "SWE", "since": "S6", "app": 35, "win": 5, "avg": 0.14285714285714285, "top3": 13, "top3pct": 0.37142857142857144, "top5": 22, "top5pct": 0.6285714285714286, "streak": "2", "dns": 4, "dnf": 0, "dsq": 0, "flag": "🇸🇪", "avgDisplay": ".143", "top3pctDisplay": "37.1%", "top5pctDisplay": "62.9%", "streakNum": 2, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}];
+let sortKey = 'rk';
+let sortDir = 'asc';
+const tbody = document.querySelector('#fleetTable tbody');
+function esc(v){return String(v).replace(/[&<>"]/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));}
+function pctWidth(v){return Math.max(3, Math.min(100, v*100));}
+function rankClass(rk){return rk===1?'medal1':rk===2?'medal2':rk===3?'medal3':'';}
+function render(){
+  const sorted = [...rows].sort((a,b)=>{
+    let av=a[sortKey], bv=b[sortKey];
+    if(sortKey==='streakNum'){ av=a.streakNum; bv=b.streakNum; }
+    if(typeof av === 'string'){ av=av.toLowerCase(); bv=String(bv).toLowerCase(); }
+    if(av < bv) return sortDir === 'asc' ? -1 : 1;
+    if(av > bv) return sortDir === 'asc' ? 1 : -1;
+    return a.rk - b.rk;
+  });
+  tbody.innerHTML = sorted.map(r=>`<tr>
+    <td class="rank ${rankClass(r.rk)}">${r.rk}</td>
+    <td class="team-cell"><span class="team-wrap"><span class="flag">${r.flag}</span><span class="team-code ${(r.team==='JPN'||r.team==='CHI')?'withdrawn':'active'}">${esc(r.team)}</span></span></td>
+    <td>${esc(r.since)}</td><td>${r.app}</td>
+    <td class="${r.hlWin?'cell-top':''}">${r.win}</td>
+    <td class="${r.hlAvg?'cell-top':''}">${r.avgDisplay}</td>
+    <td>${r.top3}</td>
+    <td class="percent ${r.hlTop3Pct?'cell-top3':''}"><span>${r.top3pctDisplay}</span><div class="bar"><i style="width:${pctWidth(r.top3pct)}%"></i></div></td>
+    <td>${r.top5}</td>
+    <td class="percent ${r.hlTop5Pct?'cell-top5':''}"><span>${r.top5pctDisplay}</span><div class="bar"><i style="width:${pctWidth(r.top5pct)}%"></i></div></td>
+    <td class="${r.hlStreak?'cell-top':''}">${esc(r.streak)}</td>
+    <td>${r.dns}</td><td>${r.dnf}</td><td>${r.dsq}</td>
+  </tr>`).join('');
+  document.querySelectorAll('th .arrow').forEach(a=>a.textContent='');
+  const activeTh = document.querySelector(`th[data-key="${sortKey}"] .arrow`);
+  if(activeTh) activeTh.textContent = sortDir === 'asc' ? '▲' : '▼';
+}
+document.querySelectorAll('th.sortable').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const key = th.dataset.key;
+    if(sortKey === key) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    else { sortKey = key; sortDir = ['win','avg','top3','top3pct','top5','top5pct','streakNum','app'].includes(key) ? 'desc' : 'asc'; }
+    render();
+  });
+});
+render();
+</script>
 </body>
 </html>
