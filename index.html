@@ -1,366 +1,275 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Unofficial SailGP Reference | Fleet Race Finishes by Position</title>
-  <style>
-    :root {
-      --bg: #05070b;
-      --panel: rgba(13, 18, 28, 0.86);
-      --panel-2: rgba(20, 29, 44, 0.72);
-      --line: rgba(255, 255, 255, 0.12);
-      --text: #f5f7fb;
-      --muted: #9ea8ba;
-      --accent: #46e0ff;
-      --accent-2: #ff2f7d;
-      --gold: #ffd166;
-      --silver: #d8dde7;
-      --bronze: #cd7f32;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-      background:
-        radial-gradient(circle at 15% 5%, rgba(70,224,255,.20), transparent 28%),
-        radial-gradient(circle at 80% 0%, rgba(255,47,125,.18), transparent 26%),
-        linear-gradient(135deg, #05070b 0%, #08111f 42%, #02040a 100%);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 18px clamp(18px, 4vw, 54px);
-      background: rgba(3, 6, 12, .78);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .brand {
-      letter-spacing: .12em;
-      font-weight: 900;
-      font-size: 14px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .brand span { color: var(--accent); }
-
-    nav {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    nav a.active, nav a:hover { color: var(--text); }
-
-    main { padding: clamp(28px, 5vw, 70px) clamp(14px, 4vw, 54px) 70px; }
-
-    .hero {
-      max-width: 1180px;
-      margin: 0 auto 26px;
-      padding: clamp(22px, 4vw, 42px);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
-        var(--panel);
-      box-shadow: 0 24px 70px rgba(0,0,0,.35);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      right: -90px;
-      top: -110px;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(70,224,255,.25), transparent 68%);
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 36px;
-      height: 2px;
-      background: var(--accent);
-      box-shadow: 0 0 18px var(--accent);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(32px, 6vw, 72px);
-      line-height: .92;
-      letter-spacing: -.055em;
-      text-transform: uppercase;
-    }
-
-    .summary {
-      margin: 18px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-      max-width: 720px;
-    }
-
-    .stats-grid {
-      max-width: 1180px;
-      margin: 18px auto 24px;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .stat-card {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: var(--panel-2);
-      box-shadow: 0 18px 45px rgba(0,0,0,.22);
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    .stat-value {
-      margin-top: 6px;
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: -.04em;
-    }
-
-    .table-wrap {
-      max-width: 1180px;
-      margin: 0 auto;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: rgba(9, 13, 21, .86);
-      box-shadow: 0 24px 70px rgba(0,0,0,.34);
-      overflow: hidden;
-    }
-
-    .table-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 20px 22px;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(90deg, rgba(70,224,255,.12), rgba(255,47,125,.08), transparent);
-    }
-
-    .table-title {
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-
-    .note {
-      color: var(--muted);
-      font-size: 12px;
-      text-align: right;
-    }
-
-    .scroll { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      min-width: 1060px;
-      border-collapse: collapse;
-      font-variant-numeric: tabular-nums;
-    }
-
-    th, td {
-      padding: 12px 11px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      text-align: right;
-      white-space: nowrap;
-      font-size: 13px;
-    }
-
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      background: #0b111d;
-    }
-
-    th:first-child, td:first-child { text-align: center; width: 54px; }
-    th:nth-child(2), td:nth-child(2) {
-      text-align: left;
-      position: sticky;
-      left: 0;
-      z-index: 1;
-      background: linear-gradient(90deg, #0a101b 82%, rgba(10,16,27,0));
-    }
-    th:nth-child(2) { z-index: 3; background: #0b111d; }
-
-    tbody tr:hover { background: rgba(70,224,255,.06); }
-    tbody tr:last-child td { border-bottom: none; }
-
-    .team {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 900;
-      letter-spacing: .08em;
-    }
-
-    .rank {
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .pos-1 { color: var(--gold); font-weight: 900; }
-    .pos-2 { color: var(--silver); font-weight: 900; }
-    .pos-3 { color: var(--bronze); font-weight: 900; }
-
-    .bar-cell {
-      display: grid;
-      grid-template-columns: 36px 1fr;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .bar {
-      height: 6px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(70,224,255,.95), rgba(255,47,125,.82));
-      box-shadow: 0 0 14px rgba(70,224,255,.28);
-    }
-
-    footer {
-      max-width: 1180px;
-      margin: 22px auto 0;
-      color: rgba(255,255,255,.42);
-      font-size: 11px;
-      text-align: right;
-    }
-
-    @media (max-width: 760px) {
-      .site-header { align-items: flex-start; flex-direction: column; }
-      nav { justify-content: flex-start; }
-      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .table-head { align-items: flex-start; flex-direction: column; }
-      .note { text-align: left; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sail Racing Reference</title>
+<style>
+:root{
+  --bg:#050914;
+  --panel:#0b1224;
+  --panel2:#101a33;
+  --cyan:#21d9ff;
+  --red:#ff2f5f;
+  --gold:#f4c542;
+  --text:#f7fbff;
+  --muted:#9aa8bd;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 10%,rgba(33,217,255,.25),transparent 28%),
+    radial-gradient(circle at 85% 20%,rgba(255,47,95,.22),transparent 30%),
+    linear-gradient(135deg,#050914,#071225 55%,#02040a);
+  min-height:100vh;
+}
+header{
+  padding:26px 7vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{
+  font-weight:900;
+  letter-spacing:.12em;
+  font-size:20px;
+}
+.logo span{color:var(--cyan)}
+nav a{
+  color:var(--muted);
+  text-decoration:none;
+  margin-left:24px;
+  font-weight:700;
+}
+.hero{
+  padding:70px 7vw 50px;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:36px;
+  align-items:center;
+}
+.badge{
+  display:inline-block;
+  border:1px solid rgba(255,255,255,.18);
+  padding:8px 12px;
+  border-radius:999px;
+  color:var(--cyan);
+  font-weight:800;
+  font-size:13px;
+}
+h1{
+  font-size:clamp(46px,7vw,92px);
+  line-height:.92;
+  margin:22px 0;
+  letter-spacing:-.06em;
+}
+h1 em{
+  color:transparent;
+  -webkit-text-stroke:1px var(--cyan);
+  font-style:normal;
+}
+.lead{
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.7;
+  max-width:620px;
+}
+.actions{margin-top:32px}
+.btn{
+  display:inline-block;
+  padding:15px 20px;
+  border-radius:14px;
+  margin-right:12px;
+  text-decoration:none;
+  font-weight:900;
+}
+.primary{
+  background:linear-gradient(90deg,var(--cyan),var(--red));
+  color:white;
+}
+.secondary{
+  border:1px solid rgba(255,255,255,.22);
+  color:white;
+}
+.visual{
+  position:relative;
+  min-height:420px;
+  border-radius:28px;
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.15);
+  overflow:hidden;
+  box-shadow:0 30px 90px rgba(0,0,0,.45);
+}
+.visual:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(110deg,transparent 0 40%,rgba(33,217,255,.18) 40% 43%,transparent 43%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,transparent 1px 70px);
+}
+.boat{
+  position:absolute;
+  left:12%;
+  right:10%;
+  top:35%;
+  height:70px;
+  transform:skewX(-18deg);
+  background:linear-gradient(90deg,var(--red),var(--cyan));
+  border-radius:10px 40px 40px 10px;
+  box-shadow:0 0 50px rgba(33,217,255,.45);
+}
+.wing{
+  position:absolute;
+  left:35%;
+  top:13%;
+  width:90px;
+  height:260px;
+  transform:skewX(-12deg);
+  background:linear-gradient(180deg,#fff,var(--cyan),#13203c);
+  clip-path:polygon(35% 0,100% 100%,0 100%);
+}
+.speed{
+  position:absolute;
+  right:28px;
+  bottom:26px;
+  font-size:54px;
+  font-weight:900;
+}
+.speed span{
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  letter-spacing:.18em;
+}
+.section{
+  padding:40px 7vw 80px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+.card{
+  background:rgba(11,18,36,.78);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:22px;
+  padding:24px;
+  min-height:180px;
+  transition:.25s;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:var(--cyan);
+  box-shadow:0 18px 50px rgba(33,217,255,.16);
+}
+.card h2{
+  margin:0 0 12px;
+  font-size:22px;
+}
+.card p{
+  color:var(--muted);
+  line-height:1.6;
+}
+.card a{
+  color:white;
+  text-decoration:none;
+  font-weight:900;
+}
+.num{
+  color:var(--gold);
+  font-size:42px;
+  font-weight:900;
+}
+footer{
+  border-top:1px solid rgba(255,255,255,.12);
+  padding:24px 7vw;
+  color:var(--muted);
+  font-size:13px;
+}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  nav{display:none}
+}
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">UNOFFICIAL <span>SAILGP</span> REFERENCE</div>
-    <nav aria-label="Main navigation">
-      <a href="#">Home</a>
-      <a class="active" href="#fleet-finishes">Fleet Race Finishes</a>
-      <a href="#">Fleet Summary</a>
-      <a href="#">Season</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero" id="fleet-finishes">
-      <div class="eyebrow">Reference Table</div>
-      <h1>Fleet Race<br>Finishes by Position</h1>
-      <p class="summary">A team-by-team count of finishing positions in fleet races. DNS, DNF and DSQ are excluded from the table.</p>
-    </section>
+<header>
+  <div class="logo">SAIL <span>REFERENCE</span></div>
+  <nav>
+    <a href="#summary">Summary</a>
+    <a href="#stats">Stats</a>
+    <a href="#data">Data</a>
+  </nav>
+</header>
 
-    <section class="stats-grid" aria-label="Quick stats">
-      <div class="stat-card">
-        <div class="stat-label">Most 1st-place finishes</div>
-        <div class="stat-value">AUS 80</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Most podium finishes</div>
-        <div class="stat-value">AUS 167</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Teams listed</div>
-        <div class="stat-value">15</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Positions covered</div>
-        <div class="stat-value">1st–13th</div>
-      </div>
-    </section>
+<section class="hero">
+  <div>
+    <div class="badge">UNOFFICIAL RACING DATA HUB</div>
+    <h1>SAIL RACING<br><em>REFERENCE</em></h1>
+    <p class="lead">
+      Race results, fleet summaries, final appearances and team trends.
+      Built as a sharp reference page for broadcast preparation and racing analysis.
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="fleet-summary.html">Open Summary</a>
+      <a class="btn secondary" href="reference.csv">View Data</a>
+    </div>
+  </div>
 
-    <section class="table-wrap">
-      <div class="table-head">
-        <div class="table-title">Fleet Race Finishes by Position</div>
-        <div class="note">Excluding DNS, DNF and DSQ</div>
-      </div>
-      <div class="scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Rk</th><th>Team</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th>7th</th><th>8th</th><th>9th</th><th>10th</th><th>11th</th><th>12th</th><th>13th</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td class="rank">1</td><td><span class="team">AUS</span></td><td class="pos-1"><div class="bar-cell"><span>80</span><span class="bar" style="width:100%"></span></div></td><td class="pos-2">49</td><td class="pos-3">38</td><td>22</td><td>26</td><td>19</td><td>11</td><td>20</td><td>9</td><td>9</td><td>3</td><td>0</td><td>0</td></tr>
-            <tr><td class="rank">2</td><td><span class="team">JPN</span></td><td class="pos-1"><div class="bar-cell"><span>20</span><span class="bar" style="width:25%"></span></div></td><td class="pos-2">13</td><td class="pos-3">8</td><td>3</td><td>4</td><td>3</td><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td class="rank">3</td><td><span class="team">GBR</span></td><td class="pos-1"><div class="bar-cell"><span>37</span><span class="bar" style="width:46%"></span></div></td><td class="pos-2">44</td><td class="pos-3">35</td><td>33</td><td>36</td><td>34</td><td>24</td><td>15</td><td>8</td><td>7</td><td>8</td><td>2</td><td>0</td></tr>
-            <tr><td class="rank">4</td><td><span class="team">FRA</span></td><td class="pos-1"><div class="bar-cell"><span>21</span><span class="bar" style="width:26%"></span></div></td><td class="pos-2">29</td><td class="pos-3">33</td><td>36</td><td>27</td><td>38</td><td>20</td><td>25</td><td>22</td><td>6</td><td>5</td><td>1</td><td>0</td></tr>
-            <tr><td class="rank">5</td><td><span class="team">CHI</span></td><td class="pos-1"><div class="bar-cell"><span>1</span><span class="bar" style="width:1%"></span></div></td><td class="pos-2">4</td><td class="pos-3">5</td><td>2</td><td>6</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td class="rank">6</td><td><span class="team">USA</span></td><td class="pos-1"><div class="bar-cell"><span>18</span><span class="bar" style="width:23%"></span></div></td><td class="pos-2">16</td><td class="pos-3">36</td><td>32</td><td>29</td><td>24</td><td>29</td><td>22</td><td>28</td><td>23</td><td>8</td><td>10</td><td>0</td></tr>
-            <tr><td class="rank">7</td><td><span class="team">NZL</span></td><td class="pos-1"><div class="bar-cell"><span>34</span><span class="bar" style="width:43%"></span></div></td><td class="pos-2">35</td><td class="pos-3">27</td><td>31</td><td>32</td><td>23</td><td>12</td><td>19</td><td>3</td><td>4</td><td>7</td><td>0</td><td>0</td></tr>
-            <tr><td class="rank">8</td><td><span class="team">ESP</span></td><td class="pos-1"><div class="bar-cell"><span>24</span><span class="bar" style="width:30%"></span></div></td><td class="pos-2">22</td><td class="pos-3">28</td><td>33</td><td>25</td><td>25</td><td>27</td><td>27</td><td>23</td><td>6</td><td>4</td><td>3</td><td>0</td></tr>
-            <tr><td class="rank">9</td><td><span class="team">DEN</span></td><td class="pos-1"><div class="bar-cell"><span>18</span><span class="bar" style="width:23%"></span></div></td><td class="pos-2">27</td><td class="pos-3">30</td><td>32</td><td>24</td><td>39</td><td>27</td><td>24</td><td>11</td><td>12</td><td>6</td><td>2</td><td>0</td></tr>
-            <tr><td class="rank">10</td><td><span class="team">CAN</span></td><td class="pos-1"><div class="bar-cell"><span>18</span><span class="bar" style="width:23%"></span></div></td><td class="pos-2">26</td><td class="pos-3">23</td><td>23</td><td>32</td><td>17</td><td>22</td><td>18</td><td>17</td><td>11</td><td>12</td><td>4</td><td>1</td></tr>
-            <tr><td class="rank">11</td><td><span class="team">SUI</span></td><td class="pos-1"><div class="bar-cell"><span>11</span><span class="bar" style="width:14%"></span></div></td><td class="pos-2">11</td><td class="pos-3">7</td><td>15</td><td>19</td><td>27</td><td>32</td><td>28</td><td>29</td><td>26</td><td>11</td><td>2</td><td>0</td></tr>
-            <tr><td class="rank">12</td><td><span class="team">GER</span></td><td class="pos-1"><div class="bar-cell"><span>7</span><span class="bar" style="width:9%"></span></div></td><td class="pos-2">8</td><td class="pos-3">12</td><td>11</td><td>18</td><td>12</td><td>24</td><td>21</td><td>29</td><td>12</td><td>10</td><td>5</td><td>1</td></tr>
-            <tr><td class="rank">13</td><td><span class="team">ITA</span></td><td class="pos-1"><div class="bar-cell"><span>2</span><span class="bar" style="width:3%"></span></div></td><td class="pos-2">6</td><td class="pos-3">10</td><td>9</td><td>6</td><td>12</td><td>13</td><td>11</td><td>14</td><td>17</td><td>7</td><td>7</td><td>0</td></tr>
-            <tr><td class="rank">14</td><td><span class="team">BRA</span></td><td class="pos-1"><div class="bar-cell"><span>2</span><span class="bar" style="width:3%"></span></div></td><td class="pos-2">2</td><td class="pos-3">2</td><td>8</td><td>10</td><td>7</td><td>12</td><td>10</td><td>13</td><td>14</td><td>17</td><td>6</td><td>0</td></tr>
-            <tr><td class="rank">15</td><td><span class="team">SWE</span></td><td class="pos-1"><div class="bar-cell"><span>5</span><span class="bar" style="width:6%"></span></div></td><td class="pos-2">5</td><td class="pos-3">3</td><td>6</td><td>3</td><td>2</td><td>2</td><td>2</td><td>4</td><td>1</td><td>2</td><td>0</td><td>0</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+  <div class="visual">
+    <div class="wing"></div>
+    <div class="boat"></div>
+    <div class="speed"><span>TOP SPEED</span>99 KM/H</div>
+  </div>
+</section>
 
-    <footer>Unofficial reference page. Data source: SAIL GP REFERENCE workbook.</footer>
-  </main>
+<section class="section" id="summary">
+  <div class="grid">
+    <div class="card">
+      <div class="num">01</div>
+      <h2><a href="fleet_summary.png">Fleet Summary</a></h2>
+      <p>Overall fleet reference for quick race-day checking.</p>
+    </div>
+
+    <div class="card">
+      <div class="num">02</div>
+      <h2><a href="fleet_race.png">Fleet Race</a></h2>
+      <p>Race-by-race finishing data and team comparison.</p>
+    </div>
+
+    <div class="card">
+      <div class="num">03</div>
+      <h2><a href="fleet_finishes.png">Finishes</a></h2>
+      <p>Finishing trends, top results and consistency checks.</p>
+    </div>
+
+    <div class="card">
+      <div class="num">04</div>
+      <h2><a href="fleet_lastwin.png">Last Win</a></h2>
+      <p>Last event wins and drought-style reference information.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="stats">
+  <div class="card">
+    <h2>Broadcast Reference Style</h2>
+    <p>
+      Dark, high-contrast and fast to read. This page avoids official team logos
+      and uses an original text identity for an unofficial reference site.
+    </p>
+  </div>
+</section>
+
+<footer>
+  Unofficial reference page. Not affiliated with SailGP or any official rights holder.
+</footer>
+
 </body>
 </html>
