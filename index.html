@@ -1,538 +1,366 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SGR | Sailing Reference</title>
-<style>
-:root {
-  --bg:#02050a;
-  --cyan:#00d8ff;
-  --red:#ff173d;
-  --white:#f7fbff;
-  --muted:#a8b4c6;
-}
-* { box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body {
-  margin:0;
-  background:#02050a;
-  color:var(--white);
-  font-family:Inter,Arial,Helvetica,sans-serif;
-  overflow-x:hidden;
-}
-a { color:inherit; text-decoration:none; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unofficial SailGP Reference | Fleet Race Finishes by Position</title>
+  <style>
+    :root {
+      --bg: #05070b;
+      --panel: rgba(13, 18, 28, 0.86);
+      --panel-2: rgba(20, 29, 44, 0.72);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f5f7fb;
+      --muted: #9ea8ba;
+      --accent: #46e0ff;
+      --accent-2: #ff2f7d;
+      --gold: #ffd166;
+      --silver: #d8dde7;
+      --bronze: #cd7f32;
+    }
 
-.header {
-  position:fixed;
-  top:0; left:0; right:0;
-  height:88px;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 42px;
-  background:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.34));
-  border-bottom:1px solid rgba(255,255,255,.16);
-  backdrop-filter:blur(14px);
-}
-.logo { display:flex; flex-direction:column; line-height:1; }
-.logo-main {
-  font-size:44px;
-  font-weight:1000;
-  font-style:italic;
-  letter-spacing:-.08em;
-  transform:skewX(-12deg);
-  background:linear-gradient(90deg,#fff 0%,#dce9f8 22%,var(--cyan) 48%,#0b5e9d 72%,#fff 100%);
-  -webkit-background-clip:text;
-  color:transparent;
-  filter:drop-shadow(0 0 16px rgba(0,216,255,.56));
-}
-.logo-sub {
-  margin-top:5px;
-  color:#dce8f6;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.42em;
-}
-.nav { display:flex; gap:26px; align-items:center; }
-.nav a {
-  position:relative;
-  text-transform:uppercase;
-  font-size:12px;
-  font-weight:1000;
-  letter-spacing:.08em;
-  opacity:.88;
-}
-.nav a:hover,.nav a.active { opacity:1; color:var(--cyan); }
-.nav a::after {
-  content:"";
-  position:absolute;
-  left:0; right:0;
-  bottom:-27px;
-  height:2px;
-  background:var(--cyan);
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:.22s;
-  box-shadow:0 0 18px var(--cyan);
-}
-.nav a:hover::after,.nav a.active::after { transform:scaleX(1); }
-.official {
-  height:42px;
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:0 18px;
-  border:1px solid rgba(255,255,255,.42);
-  border-radius:7px;
-  font-size:12px;
-  font-weight:1000;
-  text-transform:uppercase;
-  letter-spacing:.09em;
-}
-.official:hover {
-  border-color:var(--cyan);
-  color:var(--cyan);
-  box-shadow:0 0 28px rgba(0,216,255,.25);
-}
+    * { box-sizing: border-box; }
 
-.hero {
-  position:relative;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  padding:140px 46px 74px;
-  overflow:hidden;
-  isolation:isolate;
-}
-.hero-bg {
-  position:absolute;
-  inset:0;
-  z-index:-5;
-  background-image:url("sgr-hero-clean.png");
-  background-size:cover;
-  background-position:center top;
-  transform:scale(1.015);
-  animation:heroPush 9s ease-in-out infinite alternate;
-}
-.hero::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-4;
-  background:
-    linear-gradient(90deg,rgba(0,0,0,.48) 0%,rgba(0,0,0,.24) 34%,rgba(0,0,0,.05) 64%,rgba(0,0,0,.22) 100%),
-    linear-gradient(180deg,rgba(0,0,0,.03) 0%,rgba(0,0,0,.03) 64%,#02050a 100%);
-}
-.hero::after {
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-3;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 72% 54%,rgba(0,216,255,.08),transparent 24%),
-    repeating-linear-gradient(115deg,rgba(255,255,255,.024) 0 1px,transparent 1px 80px);
-  mix-blend-mode:screen;
-}
-.light {
-  position:absolute;
-  inset:0;
-  z-index:1;
-  pointer-events:none;
-  overflow:hidden;
-}
-.light span {
-  position:absolute;
-  right:-12vw;
-  height:3px;
-  width:60vw;
-  border-radius:999px;
-  opacity:.70;
-}
-.light span:nth-child(1) {
-  top:43%;
-  transform:rotate(14deg);
-  background:linear-gradient(90deg,transparent,var(--red));
-  box-shadow:0 0 24px var(--red);
-}
-.light span:nth-child(2) {
-  top:62%;
-  transform:rotate(-10deg);
-  background:linear-gradient(90deg,transparent,var(--cyan));
-  box-shadow:0 0 24px var(--cyan);
-}
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      background:
+        radial-gradient(circle at 15% 5%, rgba(70,224,255,.20), transparent 28%),
+        radial-gradient(circle at 80% 0%, rgba(255,47,125,.18), transparent 26%),
+        linear-gradient(135deg, #05070b 0%, #08111f 42%, #02040a 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-.hero-content {
-  position:relative;
-  z-index:5;
-  width:min(760px,56vw);
-  max-width:760px;
-}
-.kicker {
-  display:inline-block;
-  color:var(--cyan);
-  font-size:14px;
-  font-weight:1000;
-  letter-spacing:.36em;
-  text-transform:uppercase;
-  transform:skewX(-10deg);
-  text-shadow:0 0 18px rgba(0,216,255,.70);
-}
-h1 {
-  margin:18px 0 16px;
-  font-size:clamp(54px,7.3vw,110px);
-  line-height:.88;
-  letter-spacing:-.045em;
-  font-weight:1000;
-  font-style:italic;
-  text-transform:uppercase;
-  max-width:760px;
-}
-h1 span {
-  display:block;
-  background:linear-gradient(180deg,#fff 0%,#edf4fb 46%,#9ba8b8 100%);
-  -webkit-background-clip:text;
-  color:transparent;
-  text-shadow:0 28px 52px rgba(0,0,0,.65);
-}
-.rule {
-  width:365px;
-  height:2px;
-  margin:0 0 26px;
-  background:linear-gradient(90deg,var(--cyan),transparent);
-  box-shadow:0 0 22px var(--cyan);
-}
-.lead {
-  margin:0;
-  max-width:560px;
-  font-size:22px;
-  line-height:1.54;
-  font-weight:900;
-  text-shadow:0 10px 26px rgba(0,0,0,.50);
-}
-.lead strong { color:var(--cyan); }
-.sublead {
-  margin:13px 0 0;
-  max-width:540px;
-  color:#e5ebf3;
-  font-size:15px;
-  line-height:1.75;
-  font-weight:750;
-  text-shadow:0 8px 22px rgba(0,0,0,.50);
-}
-.actions { display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
-.btn {
-  position:relative;
-  display:inline-flex;
-  align-items:center;
-  gap:18px;
-  min-height:50px;
-  padding:0 22px;
-  border-radius:10px;
-  border:1px solid rgba(0,216,255,.78);
-  background:rgba(0,15,28,.62);
-  text-transform:uppercase;
-  font-size:13px;
-  font-weight:1000;
-  letter-spacing:.08em;
-  box-shadow:0 0 30px rgba(0,216,255,.24);
-  backdrop-filter:blur(10px);
-}
-.btn::after { content:"→"; color:var(--cyan); font-size:24px; }
-.btn:hover { background:rgba(0,216,255,.17); box-shadow:0 0 44px rgba(0,216,255,.46); }
-.btn.red { border-color:rgba(255,23,61,.70); box-shadow:0 0 30px rgba(255,23,61,.20); }
-.btn.red::after { color:var(--red); }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 18px clamp(18px, 4vw, 54px);
+      background: rgba(3, 6, 12, .78);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
 
-.hero-meta {
-  position:absolute;
-  z-index:6;
-  right:46px;
-  top:170px;
-  width:280px;
-  display:grid;
-  gap:28px;
-}
-.meta-card {
-  padding:22px 0 22px 22px;
-  border-left:2px solid rgba(255,255,255,.38);
-  background:linear-gradient(90deg,rgba(0,0,0,.26),rgba(0,0,0,.03));
-}
-.meta-card b {
-  display:block;
-  margin-bottom:12px;
-  color:var(--red);
-  font-size:13px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-.meta-card.data b { color:var(--cyan); }
-.meta-card h3 {
-  margin:0 0 6px;
-  font-size:32px;
-  line-height:.95;
-  text-transform:uppercase;
-  font-style:italic;
-}
-.meta-card small { display:block; color:#f2f6ff; font-weight:900; margin-top:6px; }
-.meta-card .official-event {
-  margin-top:18px;
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  height:42px;
-  padding:0 17px;
-  border:1px solid rgba(255,23,61,.70);
-  border-radius:8px;
-  font-size:12px;
-  font-weight:1000;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  background:rgba(0,0,0,.22);
-}
+    .brand {
+      letter-spacing: .12em;
+      font-weight: 900;
+      font-size: 14px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
 
-.stats {
-  position:relative;
-  z-index:10;
-  margin:-36px 46px 0;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  border:1px solid rgba(0,216,255,.38);
-  border-radius:14px;
-  overflow:hidden;
-  background:linear-gradient(180deg,rgba(5,20,34,.90),rgba(3,9,16,.94));
-  box-shadow:0 0 54px rgba(0,216,255,.20), inset 0 0 70px rgba(0,216,255,.06);
-}
-.stat {
-  min-height:136px;
-  display:grid;
-  grid-template-columns:74px 1fr;
-  align-items:center;
-  gap:14px;
-  padding:26px;
-  border-right:1px solid rgba(255,255,255,.14);
-}
-.stat:last-child { border-right:0; }
-.stat-icon {
-  width:54px;height:54px;
-  display:grid;place-items:center;
-  color:var(--cyan);
-  font-size:38px;
-  filter:drop-shadow(0 0 13px rgba(0,216,255,.78));
-}
-.stat-num { font-size:48px; font-weight:1000; font-style:italic; letter-spacing:-.04em; }
-.stat-title { font-size:13px; font-weight:1000; letter-spacing:.06em; text-transform:uppercase; }
-.stat-sub { margin-top:7px; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+    .brand span { color: var(--accent); }
 
-.section {
-  padding:64px 46px;
-  background:
-    radial-gradient(circle at 18% 5%,rgba(0,216,255,.10),transparent 24%),
-    radial-gradient(circle at 82% 20%,rgba(255,23,61,.08),transparent 22%),
-    #02050a;
-}
-.panels { display:grid; grid-template-columns:1.08fr .92fr; gap:26px; }
-.panel {
-  min-height:292px;
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:14px;
-  overflow:hidden;
-  background:linear-gradient(180deg,rgba(6,17,29,.88),rgba(2,7,13,.92));
-  box-shadow:inset 0 0 62px rgba(0,216,255,.04);
-}
-.preview,.update-card { padding:24px; }
-.preview-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
-.preview-head h3 { margin:0; font-size:19px; letter-spacing:.12em; text-transform:uppercase; }
-.preview-head a { color:var(--cyan);font-size:24px; }
-.mini-table-wrap {
-  overflow-x:auto;
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:10px;
-  -webkit-overflow-scrolling:touch;
-}
-.mini-table { min-width:670px; border-collapse:separate; border-spacing:0; width:100%; font-weight:800; }
-.mini-table th,.mini-table td {
-  height:38px;
-  padding:0 12px;
-  text-align:center;
-  border-bottom:1px solid rgba(255,255,255,.09);
-  white-space:nowrap;
-}
-.mini-table th { color:#b7c3d4; font-size:12px; text-transform:uppercase; background:rgba(255,255,255,.04); }
-.mini-table th.sticky-rk,.mini-table td.sticky-rk { position:sticky; left:0; z-index:3; width:52px; background:#07131f; }
-.mini-table th.sticky-team,.mini-table td.sticky-team { position:sticky; left:52px; z-index:3; width:120px; background:#0a1826; text-align:left; }
-.mini-table th.sticky-rk,.mini-table th.sticky-team { z-index:4; }
-.preview-note { margin:14px 0 0; color:#bdc8d6; font-size:13px; }
-.update-row {
-  display:grid;
-  grid-template-columns:30px 1fr 170px;
-  align-items:center;
-  gap:15px;
-  padding:14px 0;
-  border-bottom:1px solid rgba(255,255,255,.10);
-}
-.check {
-  width:24px;height:24px;
-  display:grid;place-items:center;
-  color:var(--cyan);
-  border:1px solid var(--cyan);
-  border-radius:50%;
-  box-shadow:0 0 18px rgba(0,216,255,.42);
-}
-.update-name { font-weight:900; }
-.update-date { color:var(--muted);font-size:13px;font-weight:800; }
+    nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
 
-.footer {
-  display:grid;
-  grid-template-columns:190px 1fr 210px 210px;
-  gap:30px;
-  align-items:start;
-  padding:30px 46px;
-  border-top:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.86);
-  color:var(--muted);
-  font-size:12px;
-}
-.footer .logo-main { font-size:34px; }
-.footer .logo-sub { font-size:10px; }
-.footer b { color:#dce8f5; }
-.footer a { display:block; color:var(--muted); margin-top:8px; }
-.footer a:hover { color:var(--cyan); }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+    }
 
-@keyframes heroPush {
-  from { transform:scale(1.015) translateY(0); }
-  to { transform:scale(1.045) translateY(-8px); }
-}
-@media(max-width:1120px) {
-  .nav { display:none; }
-  .hero-content { width:70vw; }
-  .hero-meta { display:none; }
-  .stats { grid-template-columns:repeat(2,1fr); }
-  .panels { grid-template-columns:1fr; }
-}
-@media(max-width:720px) {
-  .header { height:76px;padding:0 20px; }
-  .logo-main { font-size:34px; }
-  .logo-sub { font-size:9px; }
-  .official { display:none; }
-  .hero { min-height:100vh;padding:112px 22px 72px; }
-  .hero-bg {
-    background-size:auto 100vh;
-    background-position:center top;
-    animation:none;
-  }
-  .hero::before {
-    background:
-      linear-gradient(90deg,rgba(0,0,0,.64) 0%,rgba(0,0,0,.36) 52%,rgba(0,0,0,.12) 100%),
-      linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.18) 64%,#02050a 100%);
-  }
-  .hero-content { width:100%; }
-  h1 { font-size:clamp(48px,15vw,64px); letter-spacing:-.035em; }
-  .kicker { font-size:12px; }
-  .lead { font-size:19px; }
-  .stats { margin:0 22px;grid-template-columns:1fr; }
-  .stat { min-height:116px; }
-  .section { padding:46px 22px; }
-  .update-row { grid-template-columns:28px 1fr; }
-  .update-date { grid-column:2; }
-  .footer { grid-template-columns:1fr;padding:28px 22px; }
-}
-</style>
+    nav a.active, nav a:hover { color: var(--text); }
+
+    main { padding: clamp(28px, 5vw, 70px) clamp(14px, 4vw, 54px) 70px; }
+
+    .hero {
+      max-width: 1180px;
+      margin: 0 auto 26px;
+      padding: clamp(22px, 4vw, 42px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+        var(--panel);
+      box-shadow: 0 24px 70px rgba(0,0,0,.35);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -110px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(70,224,255,.25), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 2px;
+      background: var(--accent);
+      box-shadow: 0 0 18px var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 6vw, 72px);
+      line-height: .92;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .summary {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 720px;
+    }
+
+    .stats-grid {
+      max-width: 1180px;
+      margin: 18px auto 24px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel-2);
+      box-shadow: 0 18px 45px rgba(0,0,0,.22);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      margin-top: 6px;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    .table-wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(9, 13, 21, .86);
+      box-shadow: 0 24px 70px rgba(0,0,0,.34);
+      overflow: hidden;
+    }
+
+    .table-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(70,224,255,.12), rgba(255,47,125,.08), transparent);
+    }
+
+    .table-title {
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .scroll { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      min-width: 1060px;
+      border-collapse: collapse;
+      font-variant-numeric: tabular-nums;
+    }
+
+    th, td {
+      padding: 12px 11px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      text-align: right;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: #0b111d;
+    }
+
+    th:first-child, td:first-child { text-align: center; width: 54px; }
+    th:nth-child(2), td:nth-child(2) {
+      text-align: left;
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: linear-gradient(90deg, #0a101b 82%, rgba(10,16,27,0));
+    }
+    th:nth-child(2) { z-index: 3; background: #0b111d; }
+
+    tbody tr:hover { background: rgba(70,224,255,.06); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .team {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .rank {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .pos-1 { color: var(--gold); font-weight: 900; }
+    .pos-2 { color: var(--silver); font-weight: 900; }
+    .pos-3 { color: var(--bronze); font-weight: 900; }
+
+    .bar-cell {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar {
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(70,224,255,.95), rgba(255,47,125,.82));
+      box-shadow: 0 0 14px rgba(70,224,255,.28);
+    }
+
+    footer {
+      max-width: 1180px;
+      margin: 22px auto 0;
+      color: rgba(255,255,255,.42);
+      font-size: 11px;
+      text-align: right;
+    }
+
+    @media (max-width: 760px) {
+      .site-header { align-items: flex-start; flex-direction: column; }
+      nav { justify-content: flex-start; }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .table-head { align-items: flex-start; flex-direction: column; }
+      .note { text-align: left; }
+    }
+  </style>
 </head>
 <body>
-<header class="header">
-  <a class="logo" href="index.html">
-    <span class="logo-main">SGR</span>
-    <span class="logo-sub">SAIL REFERENCE</span>
-  </a>
-  <nav class="nav">
-    <a class="active" href="fleet-summary.html">Fleet Race</a>
-    <a href="#">Event Results</a>
-    <a href="#">Championship</a>
-    <a href="#">Team Stats</a>
-    <a href="#">Records</a>
-    <a href="#">Analysis</a>
-    <a href="#">About</a>
-  </nav>
-  <a class="official" href="https://sailgp.com/" target="_blank" rel="noopener noreferrer">Official ↗</a>
-</header>
+  <header class="site-header">
+    <div class="brand">UNOFFICIAL <span>SAILGP</span> REFERENCE</div>
+    <nav aria-label="Main navigation">
+      <a href="#">Home</a>
+      <a class="active" href="#fleet-finishes">Fleet Race Finishes</a>
+      <a href="#">Fleet Summary</a>
+      <a href="#">Season</a>
+    </nav>
+  </header>
 
-<section class="hero">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="light" aria-hidden="true"><span></span><span></span></div>
-  <div class="hero-content">
-    <div class="kicker">Unofficial Statistics Database</div>
-    <h1><span>Sailing</span><span>Reference</span></h1>
-    <div class="rule"></div>
-    <p class="lead">The most comprehensive unofficial database for <strong>SailGP</strong>.</p>
-    <p class="sublead">Race results, championship standings, team statistics, historical records and in-depth analysis.</p>
-    <div class="actions">
-      <a class="btn" href="fleet-summary.html">Explore Fleet Race</a>
-      <a class="btn red" href="#updates">View Latest Update</a>
-    </div>
-  </div>
-  <aside class="hero-meta">
-    <div class="meta-card">
-      <b>Next Event</b>
-      <h3>Portsmouth</h3>
-      <small>United Kingdom</small>
-      <small>Jul 25–26, 2026</small>
-      <a class="official-event" href="https://sailgp.com/general/2026/calendar/" target="_blank" rel="noopener noreferrer">Official Event Page ↗</a>
-    </div>
-    <div class="meta-card data">
-      <b>Data Updated</b>
-      <small>Through Halifax 2026</small>
-    </div>
-  </aside>
-</section>
+  <main>
+    <section class="hero" id="fleet-finishes">
+      <div class="eyebrow">Reference Table</div>
+      <h1>Fleet Race<br>Finishes by Position</h1>
+      <p class="summary">A team-by-team count of finishing positions in fleet races. DNS, DNF and DSQ are excluded from the table.</p>
+    </section>
 
-<section class="stats" aria-label="Database overview">
-  <div class="stat"><div class="stat-icon">⚑</div><div><div class="stat-num">298</div><div class="stat-title">Fleet Races</div><div class="stat-sub">Completed</div></div></div>
-  <div class="stat"><div class="stat-icon">●●●</div><div><div class="stat-num">13</div><div class="stat-title">Teams</div><div class="stat-sub">Competing</div></div></div>
-  <div class="stat"><div class="stat-icon">🏆</div><div><div class="stat-num">6</div><div class="stat-title">Seasons</div><div class="stat-sub">2019–20 → 2026</div></div></div>
-  <div class="stat"><div class="stat-icon">▰</div><div><div class="stat-num">80</div><div class="stat-title">Win Leader</div><div class="stat-sub">AUS All-Time Wins</div></div></div>
-</section>
+    <section class="stats-grid" aria-label="Quick stats">
+      <div class="stat-card">
+        <div class="stat-label">Most 1st-place finishes</div>
+        <div class="stat-value">AUS 80</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Most podium finishes</div>
+        <div class="stat-value">AUS 167</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Teams listed</div>
+        <div class="stat-value">15</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Positions covered</div>
+        <div class="stat-value">1st–13th</div>
+      </div>
+    </section>
 
-<main class="section" id="updates">
-  <section class="panels">
-    <div class="panel preview">
-      <div class="preview-head"><h3>Fleet Race Summary</h3><a href="fleet-summary.html">›</a></div>
-      <div class="mini-table-wrap">
-        <table class="mini-table">
-          <thead><tr><th class="sticky-rk">Rk</th><th class="sticky-team">Team</th><th>APP</th><th>WIN</th><th>AVG</th><th>TOP3%</th><th>TOP5%</th><th>STREAK</th></tr></thead>
+    <section class="table-wrap">
+      <div class="table-head">
+        <div class="table-title">Fleet Race Finishes by Position</div>
+        <div class="note">Excluding DNS, DNF and DSQ</div>
+      </div>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Rk</th><th>Team</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th>7th</th><th>8th</th><th>9th</th><th>10th</th><th>11th</th><th>12th</th><th>13th</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td class="sticky-rk">1</td><td class="sticky-team"><span class="flag">🇦🇺</span>AUS</td><td>85</td><td>80</td><td>3.32</td><td>76.5</td><td>92.9</td><td>11</td></tr>
-            <tr><td class="sticky-rk">2</td><td class="sticky-team"><span class="flag">🇬🇧</span>GBR</td><td>68</td><td>35</td><td>4.26</td><td>69.1</td><td>88.2</td><td>7</td></tr>
-            <tr><td class="sticky-rk">3</td><td class="sticky-team"><span class="flag">🇪🇸</span>ESP</td><td>84</td><td>32</td><td>4.42</td><td>66.7</td><td>84.5</td><td>8</td></tr>
-            <tr><td class="sticky-rk">4</td><td class="sticky-team"><span class="flag">🇫🇷</span>FRA</td><td>82</td><td>29</td><td>4.76</td><td>60.0</td><td>79.3</td><td>6</td></tr>
+            <tr><td class="rank">1</td><td><span class="team">AUS</span></td><td class="pos-1"><div class="bar-cell"><span>80</span><span class="bar" style="width:100%"></span></div></td><td class="pos-2">49</td><td class="pos-3">38</td><td>22</td><td>26</td><td>19</td><td>11</td><td>20</td><td>9</td><td>9</td><td>3</td><td>0</td><td>0</td></tr>
+            <tr><td class="rank">2</td><td><span class="team">JPN</span></td><td class="pos-1"><div class="bar-cell"><span>20</span><span class="bar" style="width:25%"></span></div></td><td class="pos-2">13</td><td class="pos-3">8</td><td>3</td><td>4</td><td>3</td><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td class="rank">3</td><td><span class="team">GBR</span></td><td class="pos-1"><div class="bar-cell"><span>37</span><span class="bar" style="width:46%"></span></div></td><td class="pos-2">44</td><td class="pos-3">35</td><td>33</td><td>36</td><td>34</td><td>24</td><td>15</td><td>8</td><td>7</td><td>8</td><td>2</td><td>0</td></tr>
+            <tr><td class="rank">4</td><td><span class="team">FRA</span></td><td class="pos-1"><div class="bar-cell"><span>21</span><span class="bar" style="width:26%"></span></div></td><td class="pos-2">29</td><td class="pos-3">33</td><td>36</td><td>27</td><td>38</td><td>20</td><td>25</td><td>22</td><td>6</td><td>5</td><td>1</td><td>0</td></tr>
+            <tr><td class="rank">5</td><td><span class="team">CHI</span></td><td class="pos-1"><div class="bar-cell"><span>1</span><span class="bar" style="width:1%"></span></div></td><td class="pos-2">4</td><td class="pos-3">5</td><td>2</td><td>6</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td class="rank">6</td><td><span class="team">USA</span></td><td class="pos-1"><div class="bar-cell"><span>18</span><span class="bar" style="width:23%"></span></div></td><td class="pos-2">16</td><td class="pos-3">36</td><td>32</td><td>29</td><td>24</td><td>29</td><td>22</td><td>28</td><td>23</td><td>8</td><td>10</td><td>0</td></tr>
+            <tr><td class="rank">7</td><td><span class="team">NZL</span></td><td class="pos-1"><div class="bar-cell"><span>34</span><span class="bar" style="width:43%"></span></div></td><td class="pos-2">35</td><td class="pos-3">27</td><td>31</td><td>32</td><td>23</td><td>12</td><td>19</td><td>3</td><td>4</td><td>7</td><td>0</td><td>0</td></tr>
+            <tr><td class="rank">8</td><td><span class="team">ESP</span></td><td class="pos-1"><div class="bar-cell"><span>24</span><span class="bar" style="width:30%"></span></div></td><td class="pos-2">22</td><td class="pos-3">28</td><td>33</td><td>25</td><td>25</td><td>27</td><td>27</td><td>23</td><td>6</td><td>4</td><td>3</td><td>0</td></tr>
+            <tr><td class="rank">9</td><td><span class="team">DEN</span></td><td class="pos-1"><div class="bar-cell"><span>18</span><span class="bar" style="width:23%"></span></div></td><td class="pos-2">27</td><td class="pos-3">30</td><td>32</td><td>24</td><td>39</td><td>27</td><td>24</td><td>11</td><td>12</td><td>6</td><td>2</td><td>0</td></tr>
+            <tr><td class="rank">10</td><td><span class="team">CAN</span></td><td class="pos-1"><div class="bar-cell"><span>18</span><span class="bar" style="width:23%"></span></div></td><td class="pos-2">26</td><td class="pos-3">23</td><td>23</td><td>32</td><td>17</td><td>22</td><td>18</td><td>17</td><td>11</td><td>12</td><td>4</td><td>1</td></tr>
+            <tr><td class="rank">11</td><td><span class="team">SUI</span></td><td class="pos-1"><div class="bar-cell"><span>11</span><span class="bar" style="width:14%"></span></div></td><td class="pos-2">11</td><td class="pos-3">7</td><td>15</td><td>19</td><td>27</td><td>32</td><td>28</td><td>29</td><td>26</td><td>11</td><td>2</td><td>0</td></tr>
+            <tr><td class="rank">12</td><td><span class="team">GER</span></td><td class="pos-1"><div class="bar-cell"><span>7</span><span class="bar" style="width:9%"></span></div></td><td class="pos-2">8</td><td class="pos-3">12</td><td>11</td><td>18</td><td>12</td><td>24</td><td>21</td><td>29</td><td>12</td><td>10</td><td>5</td><td>1</td></tr>
+            <tr><td class="rank">13</td><td><span class="team">ITA</span></td><td class="pos-1"><div class="bar-cell"><span>2</span><span class="bar" style="width:3%"></span></div></td><td class="pos-2">6</td><td class="pos-3">10</td><td>9</td><td>6</td><td>12</td><td>13</td><td>11</td><td>14</td><td>17</td><td>7</td><td>7</td><td>0</td></tr>
+            <tr><td class="rank">14</td><td><span class="team">BRA</span></td><td class="pos-1"><div class="bar-cell"><span>2</span><span class="bar" style="width:3%"></span></div></td><td class="pos-2">2</td><td class="pos-3">2</td><td>8</td><td>10</td><td>7</td><td>12</td><td>10</td><td>13</td><td>14</td><td>17</td><td>6</td><td>0</td></tr>
+            <tr><td class="rank">15</td><td><span class="team">SWE</span></td><td class="pos-1"><div class="bar-cell"><span>5</span><span class="bar" style="width:6%"></span></div></td><td class="pos-2">5</td><td class="pos-3">3</td><td>6</td><td>3</td><td>2</td><td>2</td><td>2</td><td>4</td><td>1</td><td>2</td><td>0</td><td>0</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="preview-note">Rk and Team are fixed. Swipe horizontally to view all race statistics.</p>
-      <a class="btn" href="fleet-summary.html">View Fleet Race Summary</a>
-    </div>
-    <div class="panel update-card">
-      <div class="preview-head"><h3>Latest Updates</h3><a href="#updates">›</a></div>
-      <div class="update-row"><div class="check">✓</div><div class="update-name">Fleet Summary Page Built</div><div class="update-date">Through Halifax 2026</div></div>
-      <div class="update-row"><div class="check">✓</div><div class="update-name">Championship Ranking Applied</div><div class="update-date">Current 2026 standings</div></div>
-      <div class="update-row"><div class="check">✓</div><div class="update-name">All-Time Race Database Updated</div><div class="update-date">298 fleet races</div></div>
-      <div class="update-row"><div class="check">✓</div><div class="update-name">DNS / DNF / DSQ Data Note Added</div><div class="update-date">Under verification</div></div>
-      <a class="btn" style="margin-top:22px" href="fleet-summary.html">View All Updates</a>
-    </div>
-  </section>
-</main>
+    </section>
 
-<footer class="footer">
-  <div class="logo"><span class="logo-main">SGR</span><span class="logo-sub">SAIL REFERENCE</span></div>
-  <div>This is an unofficial statistics database and is not affiliated with or endorsed by SailGP.</div>
-  <div>
-    <b>Official Links</b>
-    <a href="https://sailgp.com/general/2026/calendar/" target="_blank" rel="noopener noreferrer">Official Calendar ↗</a>
-    <a href="https://sailgp.com/results/all-seasons/" target="_blank" rel="noopener noreferrer">Official Results ↗</a>
-    <a href="https://sailgp.com/teams/" target="_blank" rel="noopener noreferrer">Official Teams ↗</a>
-  </div>
-  <div><b>Data Status</b><br>Updated through Halifax 2026</div>
-</footer>
+    <footer>Unofficial reference page. Data source: SAIL GP REFERENCE workbook.</footer>
+  </main>
 </body>
 </html>
