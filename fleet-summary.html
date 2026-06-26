@@ -1,506 +1,474 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Fleet Summary | Sail Racing Reference</title>
-<style>
-:root {
-  --bg:#050914;
-  --panel:#071022;
-  --panel2:#0c1730;
-  --line:rgba(255,255,255,.13);
-  --line2:rgba(255,255,255,.07);
-  --cyan:#21d9ff;
-  --red:#ff2f5f;
-  --gold:#f4c542;
-  --green:#39e58c;
-  --blue:#61d8ff;
-  --text:#f7fbff;
-  --muted:#9aa8bd;
-  --grid-cols: 74px 154px 86px 82px 82px 88px 88px 102px 88px 102px 104px 76px 76px 76px;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:Inter,Arial,"Helvetica Neue",sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 12% 9%,rgba(33,217,255,.23),transparent 31%),
-    radial-gradient(circle at 87% 18%,rgba(255,47,95,.18),transparent 30%),
-    linear-gradient(135deg,#050914,#071225 56%,#02040a);
-  min-height:100vh;
-}
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:
-    linear-gradient(120deg,transparent 0 42%,rgba(33,217,255,.06) 42% 43%,transparent 43%),
-    repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 86px);
-  opacity:.55;
-}
-header{
-  position:relative;
-  z-index:1;
-  padding:24px 6vw;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.logo{
-  font-weight:950;
-  letter-spacing:.13em;
-  font-size:18px;
-}
-.logo span{color:var(--cyan)}
-nav a{
-  color:var(--muted);
-  text-decoration:none;
-  margin-left:22px;
-  font-weight:850;
-}
-nav a:hover{color:#fff}
-.wrap{
-  position:relative;
-  z-index:1;
-  padding:28px 6vw 72px;
-}
-.hero{
-  display:grid;
-  grid-template-columns:1fr 520px;
-  gap:26px;
-  align-items:end;
-  margin-bottom:24px;
-}
-.badge{
-  display:inline-block;
-  border:1px solid rgba(255,255,255,.20);
-  padding:8px 13px;
-  border-radius:999px;
-  color:var(--cyan);
-  font-weight:950;
-  font-size:12px;
-  letter-spacing:.10em;
-  background:rgba(33,217,255,.05);
-}
-h1{
-  margin:16px 0 8px;
-  font-size:clamp(42px,6.2vw,84px);
-  line-height:.88;
-  letter-spacing:-.06em;
-}
-.subhead{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin:6px 0 12px;
-}
-.alltime{
-  color:#fff;
-  font-size:14px;
-  font-weight:950;
-  letter-spacing:.12em;
-}
-.updated{
-  color:var(--muted);
-  font-size:13px;
-  font-weight:850;
-}
-.lead{
-  color:var(--muted);
-  font-size:16px;
-  line-height:1.65;
-  max-width:760px;
-  margin:0;
-}
-.kpis{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-.kpi{
-  min-height:106px;
-  background:linear-gradient(145deg,rgba(11,18,36,.86),rgba(11,18,36,.56));
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:18px 18px 16px;
-  text-align:center;
-  box-shadow:0 16px 50px rgba(0,0,0,.25);
-  position:relative;
-  overflow:hidden;
-}
-.kpi:after{
-  content:"";
-  position:absolute;
-  inset:auto 12px 0 12px;
-  height:3px;
-  background:linear-gradient(90deg,var(--cyan),var(--red));
-  border-radius:999px 999px 0 0;
-  opacity:.8;
-}
-.kpi small{
-  display:block;
-  color:var(--muted);
-  font-weight:950;
-  font-size:11px;
-  letter-spacing:.12em;
-  margin-bottom:8px;
-}
-.kpi b{
-  display:block;
-  font-size:35px;
-  line-height:1;
-  letter-spacing:-.03em;
-}
-.kpi .mini{
-  display:block;
-  margin-top:7px;
-  color:var(--gold);
-  font-size:13px;
-  font-weight:950;
-  letter-spacing:.08em;
-}
-.board{
-  background:rgba(5,9,20,.74);
-  border:1px solid rgba(255,255,255,.16);
-  border-radius:26px;
-  overflow:hidden;
-  box-shadow:0 30px 90px rgba(0,0,0,.44);
-}
-.board-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-  padding:18px 22px;
-  background:linear-gradient(90deg,rgba(33,217,255,.16),rgba(255,47,95,.10));
-  border-bottom:1px solid var(--line);
-}
-.board-head h2{
-  margin:0;
-  font-size:19px;
-  letter-spacing:.07em;
-}
-.note{
-  color:var(--muted);
-  font-size:12px;
-  font-weight:850;
-  text-align:right;
-}
-.table-wrap{overflow-x:auto}
-.grid-table{
-  min-width:1420px;
-}
-.grid-row{
-  display:grid;
-  grid-template-columns:var(--grid-cols);
-  align-items:stretch;
-}
-.grid-head{
-  position:sticky;
-  top:0;
-  z-index:5;
-  background:#071226;
-  border-bottom:1px solid var(--line);
-}
-.hcell,
-.cell{
-  min-height:50px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:0 8px;
-  text-align:center;
-  white-space:nowrap;
-  border-bottom:1px solid var(--line2);
-  border-right:1px solid rgba(255,255,255,.045);
-}
-.hcell{
-  min-height:52px;
-  color:#aebbd0;
-  font-size:12px;
-  font-weight:950;
-  letter-spacing:.08em;
-  user-select:none;
-  background:#081226;
-}
-.hcell.sortable{cursor:pointer}
-.hcell.sortable:hover{
-  color:#fff;
-  background:#0c1a35;
-}
-.hcell .arrow{
-  display:inline-flex;
-  width:18px;
-  justify-content:center;
-  margin-left:4px;
-  color:rgba(33,217,255,.72);
-  font-size:11px;
-}
-.hcell.active{
-  color:#fff;
-  box-shadow:inset 0 -3px 0 var(--cyan);
-}
-.cell{
-  color:#fff;
-  font-size:14px;
-  font-weight:850;
-}
-.body-row{
-  transition:.18s;
-}
-.body-row:hover{
-  background:rgba(33,217,255,.095);
-}
-.rank{
-  font-size:18px;
-  font-weight:950;
-}
-.rank.medal1{color:var(--gold);text-shadow:0 0 18px rgba(244,197,66,.32)}
-.rank.medal2{color:#d8e1f2;text-shadow:0 0 15px rgba(216,225,242,.24)}
-.rank.medal3{color:#c98a4a;text-shadow:0 0 15px rgba(201,138,74,.24)}
-.team-cell{
-  justify-content:flex-start;
-  padding-left:14px;
-}
-.team-wrap{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-.flag{
-  font-size:34px;
-  line-height:1;
-  filter:drop-shadow(0 4px 10px rgba(0,0,0,.42));
-}
-.team-code{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:61px;
-  height:34px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.19);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  font-weight:950;
-  letter-spacing:.08em;
-}
-.team-code.active{box-shadow:inset 4px 0 0 var(--cyan)}
-.team-code.withdrawn{
-  opacity:.55;
-  box-shadow:inset 4px 0 0 #777;
-}
-.withdrawn-row .cell{
-  color:rgba(255,255,255,.68);
-}
-.cell-top{
-  color:var(--gold);
-  text-shadow:0 0 18px rgba(244,197,66,.38);
-}
-.cell-top3{
-  color:var(--green);
-  text-shadow:0 0 14px rgba(57,229,140,.28);
-}
-.cell-top5{
-  color:var(--blue);
-  text-shadow:0 0 14px rgba(97,216,255,.28);
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fleet Race Summary | Sail Racing Reference</title>
+  <style>
+    :root {
+      --bg: #03070c;
+      --panel: rgba(10, 18, 28, 0.88);
+      --panel-2: rgba(15, 26, 39, 0.96);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f5f8fb;
+      --muted: #9aa8b8;
+      --accent: #00d4ff;
+      --accent-2: #ff4d00;
+      --gold: #ffd166;
+    }
 
-.data-note{
-  margin-top:16px;
-  padding:13px 16px;
-  border:1px solid rgba(33,217,255,.18);
-  border-left:3px solid var(--cyan);
-  border-radius:14px;
-  background:rgba(7,16,34,.64);
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.55;
-}
-.data-note strong{
-  color:var(--text);
-  letter-spacing:.08em;
-  margin-right:6px;
-}
-footer{
-  position:relative;
-  z-index:1;
-  padding:24px 6vw;
-  color:var(--muted);
-  font-size:12px;
-  border-top:1px solid var(--line);
-}
-@media(max-width:1100px){
-  .hero{grid-template-columns:1fr}
-  .kpis{max-width:640px}
-}
-@media(max-width:720px){
-  header{align-items:flex-start;gap:12px}
-  nav a{margin-left:12px}
-  .kpis{grid-template-columns:1fr}
-}
-</style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(0, 212, 255, 0.22), transparent 28%),
+        radial-gradient(circle at 82% 0%, rgba(255, 77, 0, 0.20), transparent 24%),
+        linear-gradient(140deg, #020409 0%, #07111c 42%, #020409 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent 78%);
+    }
+
+    .wrap {
+      width: min(1440px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 34px 0 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .brand {
+      letter-spacing: 0.16em;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .home-link {
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      font-size: 13px;
+      transition: 0.2s ease;
+    }
+
+    .home-link:hover {
+      border-color: rgba(0, 212, 255, 0.55);
+      box-shadow: 0 0 22px rgba(0, 212, 255, 0.16);
+    }
+
+    .hero {
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025));
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 28px 80px rgba(0,0,0,0.45);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 22px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -100px;
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, rgba(0,212,255,0.25), transparent 62%);
+      pointer-events: none;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 5.5vw, 76px);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      max-width: 980px;
+    }
+
+    .sub {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      letter-spacing: 0.02em;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0 0;
+    }
+
+    .kpi {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.045);
+      border-radius: 18px;
+      padding: 16px 18px;
+    }
+
+    .kpi .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .kpi .value {
+      margin-top: 5px;
+      font-size: 28px;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+    }
+
+    .table-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: 0 26px 80px rgba(0,0,0,0.48);
+      overflow: hidden;
+    }
+
+    .table-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      padding: 20px 22px;
+      background: linear-gradient(90deg, rgba(0,212,255,0.13), rgba(255,77,0,0.09));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .table-head h2 { margin: 0; font-size: 18px; letter-spacing: 0.02em; }
+    .note { color: var(--muted); font-size: 12px; text-align: right; }
+    .scroll { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1160px; }
+    th, td { padding: 13px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: right; white-space: nowrap; }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      color: #c9d5e2;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--panel-2);
+    }
+
+    th:nth-child(1), td:nth-child(1) { text-align: center; width: 58px; color: var(--muted); }
+    th:nth-child(2), td:nth-child(2) { text-align: left; position: sticky; left: 0; z-index: 1; background: rgba(8, 15, 24, 0.98); }
+    th:nth-child(2) { z-index: 3; background: var(--panel-2); }
+    tbody tr:hover td { background-color: rgba(0,212,255,0.06); }
+
+    .team { display: inline-flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: 0.10em; }
+    .tag { display: inline-block; width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 16px currentColor; }
+    .rank-1 td:nth-child(1), .rank-1 td:nth-child(5) { color: var(--gold); font-weight: 900; }
+
+    .bar-cell { position: relative; overflow: hidden; font-weight: 850; color: #fff; }
+    .bar-cell::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 24%;
+      height: 52%;
+      width: var(--w);
+      border-radius: 0 999px 999px 0;
+      background: linear-gradient(90deg, rgba(0,212,255,0.24), rgba(255,77,0,0.22));
+      pointer-events: none;
+    }
+    .bar-cell.muted-bar::before { background: linear-gradient(90deg, rgba(255,255,255,0.11), rgba(0,212,255,0.16)); }
+    .bar-cell span { position: relative; z-index: 1; }
+
+    .footer { color: var(--muted); font-size: 12px; margin-top: 18px; text-align: right; }
+
+    @media (max-width: 900px) {
+      .wrap { width: min(100% - 24px, 1440px); padding-top: 20px; }
+      header { align-items: flex-start; flex-direction: column; }
+      .hero { padding: 22px; border-radius: 22px; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .table-head { align-items: flex-start; flex-direction: column; }
+      .note { text-align: left; }
+    }
+
+    @media (max-width: 560px) { .kpis { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
-<header>
-  <div class="logo">SAIL <span>REFERENCE</span></div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="fleet-summary.html">Fleet Summary</a>
-  </nav>
-</header>
+  <main class="wrap">
+    <header>
+      <div class="brand">Unofficial Sail Racing Reference</div>
+      <a class="home-link" href="index.html">← Back to Index</a>
+    </header>
 
-<main class="wrap">
-  <section class="hero">
-    <div>
-      <div class="badge">UNOFFICIAL DATA BOARD</div>
-      <h1>FLEET<br>SUMMARY</h1>
-      <div class="subhead">
-        <span class="alltime">ALL-TIME RECORDS</span>
-        <span class="updated">Updated through 2026 Season</span>
+    <section class="hero">
+      <h1>Fleet Race Summary</h1>
+      <p class="sub">All-time fleet race performance summary by team. Ranked by fleet race wins.</p>
+      <div class="kpis">
+        <div class="kpi"><div class="label">Fleet races</div><div class="value">298</div></div>
+        <div class="kpi"><div class="label">Most wins</div><div class="value">AUS · 80</div></div>
+        <div class="kpi"><div class="label">Best TOP3%</div><div class="value">JPN · 71.9%</div></div>
+        <div class="kpi"><div class="label">Teams listed</div><div class="value">15</div></div>
       </div>
-      <p class="lead">
-        Fleet race results summary generated from the reference workbook.
-        Rk shows current Championship Rank and stays fixed while stat columns can be sorted.
-      </p>
-    </div>
-    <div class="kpis">
-      <div class="kpi"><small>TEAMS</small><b>13</b><span class="mini">ACTIVE</span></div>
-      <div class="kpi"><small>RACES</small><b>298</b><span class="mini">DATABASE</span></div>
-      <div class="kpi"><small>WIN LEADER</small><b>🇦🇺 AUS</b><span class="mini">80 WINS</span></div>
-    </div>
-  </section>
+    </section>
 
-  <section class="board">
-    <div class="board-head">
-      <h2>FLEET RACE STATS</h2>
-      <div class="note">Click headers to sort / JPN and CHI excluded from highlight logic</div>
-    </div>
-
-    <div class="table-wrap">
-      <div class="grid-table" id="fleetTable">
-        <div class="grid-row grid-head">
-          <div class="hcell sortable" data-key="rkSort" data-type="num">Rk<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="team" data-type="text">TEAM<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="since" data-type="text">SINCE<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="app" data-type="num">APP<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="win" data-type="num">WIN<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="avg" data-type="num">AVG<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="top3" data-type="num">TOP3<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="top3pct" data-type="num">TOP3%<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="top5" data-type="num">TOP5<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="top5pct" data-type="num">TOP5%<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="streakNum" data-type="num">STREAK<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="dns" data-type="num">DNS<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="dnf" data-type="num">DNF<span class="arrow">⇅</span></div>
-          <div class="hcell sortable" data-key="dsq" data-type="num">DSQ<span class="arrow">⇅</span></div>
-        </div>
-        <div id="fleetBody"></div>
+    <section class="table-card">
+      <div class="table-head">
+        <h2>Fleet Race Summary</h2>
+        <div class="note">Rk is based on WIN. Percentages are calculated from APP.</div>
       </div>
-    </div>
-    <div class="data-note">
-      <strong>Data Note:</strong> DNS, DNF and DSQ records are currently under verification. These records will continue to be verified and updated.
-    </div>
-  </section>
-</main>
-
-<footer>
-  Unofficial reference page. Not affiliated with SailGP or any official rights holder.
-</footer>
-
-<script>
-const rows = [{"origRk": 1, "team": "AUS", "since": "S1", "app": 289, "win": 80, "avg": 0.2768166089965398, "top3": 167, "top3pct": 0.5778546712802768, "top5": 215, "top5pct": 0.7439446366782007, "streak": "4", "dns": 2, "dnf": 3, "dsq": 0, "rk": 1, "rkSort": 1, "rkDisplay": "1", "flag": "🇦🇺", "avgDisplay": ".277", "top3pctDisplay": "57.8%", "top5pctDisplay": "74.4%", "streakNum": 4, "withdrawn": false, "hlWin": true, "hlAvg": true, "hlStreak": false, "hlTop3Pct": true, "hlTop5Pct": true}, {"origRk": 2, "team": "JPN", "since": "S1", "app": 57, "win": 20, "avg": 0.3508771929824561, "top3": 41, "top3pct": 0.7192982456140351, "top5": 48, "top5pct": 0.8421052631578947, "streak": "3 (2)", "dns": 2, "dnf": 1, "dsq": 0, "rk": null, "rkSort": 999, "rkDisplay": "-", "flag": "🇯🇵", "avgDisplay": ".351", "top3pctDisplay": "71.9%", "top5pctDisplay": "84.2%", "streakNum": 3, "withdrawn": true, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 3, "team": "GBR", "since": "S1", "app": 284, "win": 37, "avg": 0.13028169014084506, "top3": 116, "top3pct": 0.4084507042253521, "top5": 185, "top5pct": 0.6514084507042254, "streak": "2 (4)", "dns": 8, "dnf": 0, "dsq": 1, "rk": 3, "rkSort": 3, "rkDisplay": "3", "flag": "🇬🇧", "avgDisplay": ".130", "top3pctDisplay": "40.8%", "top5pctDisplay": "65.1%", "streakNum": 2, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 4, "team": "FRA", "since": "S1", "app": 265, "win": 21, "avg": 0.07924528301886792, "top3": 83, "top3pct": 0.3132075471698113, "top5": 146, "top5pct": 0.5509433962264151, "streak": "4", "dns": 24, "dnf": 2, "dsq": 0, "rk": 6, "rkSort": 6, "rkDisplay": "6", "flag": "🇫🇷", "avgDisplay": ".079", "top3pctDisplay": "31.3%", "top5pctDisplay": "55.1%", "streakNum": 4, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 5, "team": "CHI", "since": "S1", "app": 25, "win": 1, "avg": 0.04, "top3": 10, "top3pct": 0.4, "top5": 18, "top5pct": 0.72, "streak": "-", "dns": 0, "dnf": 0, "dsq": 0, "rk": null, "rkSort": 999, "rkDisplay": "-", "flag": "🇨🇳", "avgDisplay": ".040", "top3pctDisplay": "40.0%", "top5pctDisplay": "72.0%", "streakNum": -1, "withdrawn": true, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 6, "team": "USA", "since": "S1", "app": 277, "win": 18, "avg": 0.06498194945848375, "top3": 70, "top3pct": 0.2527075812274368, "top5": 131, "top5pct": 0.4729241877256318, "streak": "2", "dns": 15, "dnf": 2, "dsq": 0, "rk": 4, "rkSort": 4, "rkDisplay": "4", "flag": "🇺🇸", "avgDisplay": ".065", "top3pctDisplay": "25.3%", "top5pctDisplay": "47.3%", "streakNum": 2, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 7, "team": "NZL", "since": "S2", "app": 228, "win": 34, "avg": 0.14912280701754385, "top3": 96, "top3pct": 0.42105263157894735, "top5": 159, "top5pct": 0.6973684210526315, "streak": "5", "dns": 39, "dnf": 1, "dsq": 0, "rk": 12, "rkSort": 12, "rkDisplay": "12", "flag": "🇳🇿", "avgDisplay": ".149", "top3pctDisplay": "42.1%", "top5pctDisplay": "69.7%", "streakNum": 5, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": true, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 8, "team": "ESP", "since": "S2", "app": 250, "win": 24, "avg": 0.096, "top3": 74, "top3pct": 0.296, "top5": 132, "top5pct": 0.528, "streak": "2 (2)", "dns": 17, "dnf": 2, "dsq": 1, "rk": 2, "rkSort": 2, "rkDisplay": "2", "flag": "🇪🇸", "avgDisplay": ".096", "top3pctDisplay": "29.6%", "top5pctDisplay": "52.8%", "streakNum": 2, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 9, "team": "DEN", "since": "S2", "app": 254, "win": 18, "avg": 0.07086614173228346, "top3": 75, "top3pct": 0.2952755905511811, "top5": 131, "top5pct": 0.515748031496063, "streak": "2 (3)", "dns": 13, "dnf": 2, "dsq": 0, "rk": 10, "rkSort": 10, "rkDisplay": "10", "flag": "🇩🇰", "avgDisplay": ".071", "top3pctDisplay": "29.5%", "top5pctDisplay": "51.6%", "streakNum": 2, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 10, "team": "CAN", "since": "S3", "app": 225, "win": 18, "avg": 0.08, "top3": 67, "top3pct": 0.29777777777777775, "top5": 122, "top5pct": 0.5422222222222223, "streak": "3", "dns": 2, "dnf": 1, "dsq": 0, "rk": 8, "rkSort": 8, "rkDisplay": "8", "flag": "🇨🇦", "avgDisplay": ".080", "top3pctDisplay": "29.8%", "top5pctDisplay": "54.2%", "streakNum": 3, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 11, "team": "SUI", "since": "S3", "app": 219, "win": 11, "avg": 0.0502283105022831, "top3": 29, "top3pct": 0.1324200913242009, "top5": 63, "top5pct": 0.2876712328767123, "streak": "-", "dns": 8, "dnf": 1, "dsq": 0, "rk": 11, "rkSort": 11, "rkDisplay": "11", "flag": "🇨🇭", "avgDisplay": ".050", "top3pctDisplay": "13.2%", "top5pctDisplay": "28.8%", "streakNum": -1, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 12, "team": "GER", "since": "S4", "app": 170, "win": 7, "avg": 0.041176470588235294, "top3": 27, "top3pct": 0.1588235294117647, "top5": 56, "top5pct": 0.32941176470588235, "streak": "-", "dns": 5, "dnf": 0, "dsq": 0, "rk": 7, "rkSort": 7, "rkDisplay": "7", "flag": "🇩🇪", "avgDisplay": ".041", "top3pctDisplay": "15.9%", "top5pctDisplay": "32.9%", "streakNum": -1, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 13, "team": "ITA", "since": "S5", "app": 115, "win": 2, "avg": 0.017391304347826087, "top3": 18, "top3pct": 0.1565217391304348, "top5": 33, "top5pct": 0.28695652173913044, "streak": "-", "dns": 0, "dnf": 1, "dsq": 0, "rk": 9, "rkSort": 9, "rkDisplay": "9", "flag": "🇮🇹", "avgDisplay": ".017", "top3pctDisplay": "15.7%", "top5pctDisplay": "28.7%", "streakNum": -1, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 14, "team": "BRA", "since": "S5", "app": 105, "win": 2, "avg": 0.01904761904761905, "top3": 6, "top3pct": 0.05714285714285714, "top5": 24, "top5pct": 0.22857142857142856, "streak": "-", "dns": 10, "dnf": 2, "dsq": 0, "rk": 13, "rkSort": 13, "rkDisplay": "13", "flag": "🇧🇷", "avgDisplay": ".019", "top3pctDisplay": "5.7%", "top5pctDisplay": "22.9%", "streakNum": -1, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}, {"origRk": 15, "team": "SWE", "since": "S6", "app": 35, "win": 5, "avg": 0.14285714285714285, "top3": 13, "top3pct": 0.37142857142857144, "top5": 22, "top5pct": 0.6285714285714286, "streak": "2", "dns": 4, "dnf": 0, "dsq": 0, "rk": 5, "rkSort": 5, "rkDisplay": "5", "flag": "🇸🇪", "avgDisplay": ".143", "top3pctDisplay": "37.1%", "top5pctDisplay": "62.9%", "streakNum": 2, "withdrawn": false, "hlWin": false, "hlAvg": false, "hlStreak": false, "hlTop3Pct": false, "hlTop5Pct": false}];
-let sortKey = 'rkSort';
-let sortDir = 'asc';
-const body = document.querySelector('#fleetBody');
-const sortableHeads = document.querySelectorAll('.hcell.sortable');
-
-function esc(v) {
-  return String(v).replace(/[&<>"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));
-}
-
-function rankClass(r) {
-  if (r.rk === 1) return 'medal1';
-  if (r.rk === 2) return 'medal2';
-  if (r.rk === 3) return 'medal3';
-  return '';
-}
-
-function valueForSort(row, key) {
-  if (key === 'streakNum') return row.streakNum;
-  return row[key];
-}
-
-function render() {
-  const sorted = [...rows].sort((a,b) => {
-    let av = valueForSort(a, sortKey);
-    let bv = valueForSort(b, sortKey);
-
-    if (typeof av === 'string') {
-      av = av.toLowerCase();
-      bv = String(bv).toLowerCase();
-    }
-
-    if (av < bv) return sortDir === 'asc' ? -1 : 1;
-    if (av > bv) return sortDir === 'asc' ? 1 : -1;
-    return a.rkSort - b.rkSort;
-  });
-
-  body.innerHTML = sorted.map(r => `
-    <div class="grid-row body-row ${r.withdrawn ? 'withdrawn-row' : ''}">
-      <div class="cell rank ${rankClass(r)}">${esc(r.rkDisplay)}</div>
-      <div class="cell team-cell">
-        <span class="team-wrap">
-          <span class="flag">${r.flag}</span>
-          <span class="team-code ${r.withdrawn ? 'withdrawn' : 'active'}">${esc(r.team)}</span>
-        </span>
+      <div class="scroll">
+        <table aria-label="Fleet Race Summary">
+          <thead>
+            <tr>
+              <th>Rk</th><th>Team</th><th>Since</th><th>App</th><th>Win</th><th>Avg</th><th>Top3</th><th>Top3%</th><th>Top5</th><th>Top5%</th><th>Streak</th><th>DNS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="rank-1">
+              <td>1</td>
+              <td><span class="team"><span class="tag" style="color:#ffd166"></span>AUS</span></td>
+              <td>S1</td>
+              <td>289</td>
+              <td class="bar-cell" style="--w:100.00%"><span>80</span></td>
+              <td>27.7%</td>
+              <td class="bar-cell muted-bar" style="--w:100.00%"><span>167</span></td>
+              <td>57.8%</td>
+              <td class="bar-cell muted-bar" style="--w:100.00%"><span>215</span></td>
+              <td>74.4%</td>
+              <td>4</td>
+              <td>2</td>
+            </tr>
+            <tr class="">
+              <td>2</td>
+              <td><span class="team"><span class="tag" style="color:#2b6cff"></span>GBR</span></td>
+              <td>S1</td>
+              <td>284</td>
+              <td class="bar-cell" style="--w:46.25%"><span>37</span></td>
+              <td>13.0%</td>
+              <td class="bar-cell muted-bar" style="--w:69.46%"><span>116</span></td>
+              <td>40.8%</td>
+              <td class="bar-cell muted-bar" style="--w:86.05%"><span>185</span></td>
+              <td>65.1%</td>
+              <td>2 (4)</td>
+              <td>8</td>
+            </tr>
+            <tr class="">
+              <td>3</td>
+              <td><span class="team"><span class="tag" style="color:#111111"></span>NZL</span></td>
+              <td>S2</td>
+              <td>228</td>
+              <td class="bar-cell" style="--w:42.50%"><span>34</span></td>
+              <td>14.9%</td>
+              <td class="bar-cell muted-bar" style="--w:57.49%"><span>96</span></td>
+              <td>42.1%</td>
+              <td class="bar-cell muted-bar" style="--w:73.95%"><span>159</span></td>
+              <td>69.7%</td>
+              <td>5</td>
+              <td>39</td>
+            </tr>
+            <tr class="">
+              <td>4</td>
+              <td><span class="team"><span class="tag" style="color:#f4c430"></span>ESP</span></td>
+              <td>S2</td>
+              <td>250</td>
+              <td class="bar-cell" style="--w:30.00%"><span>24</span></td>
+              <td>9.6%</td>
+              <td class="bar-cell muted-bar" style="--w:44.31%"><span>74</span></td>
+              <td>29.6%</td>
+              <td class="bar-cell muted-bar" style="--w:61.40%"><span>132</span></td>
+              <td>52.8%</td>
+              <td>2 (2)</td>
+              <td>17</td>
+            </tr>
+            <tr class="">
+              <td>5</td>
+              <td><span class="team"><span class="tag" style="color:#00a3ff"></span>FRA</span></td>
+              <td>S1</td>
+              <td>265</td>
+              <td class="bar-cell" style="--w:26.25%"><span>21</span></td>
+              <td>7.9%</td>
+              <td class="bar-cell muted-bar" style="--w:49.70%"><span>83</span></td>
+              <td>31.3%</td>
+              <td class="bar-cell muted-bar" style="--w:67.91%"><span>146</span></td>
+              <td>55.1%</td>
+              <td>4</td>
+              <td>24</td>
+            </tr>
+            <tr class="">
+              <td>6</td>
+              <td><span class="team"><span class="tag" style="color:#e53935"></span>JPN</span></td>
+              <td>S1</td>
+              <td>57</td>
+              <td class="bar-cell" style="--w:25.00%"><span>20</span></td>
+              <td>35.1%</td>
+              <td class="bar-cell muted-bar" style="--w:24.55%"><span>41</span></td>
+              <td>71.9%</td>
+              <td class="bar-cell muted-bar" style="--w:22.33%"><span>48</span></td>
+              <td>84.2%</td>
+              <td>3 (2)</td>
+              <td>2</td>
+            </tr>
+            <tr class="">
+              <td>7</td>
+              <td><span class="team"><span class="tag" style="color:#ff2d55"></span>CAN</span></td>
+              <td>S3</td>
+              <td>225</td>
+              <td class="bar-cell" style="--w:22.50%"><span>18</span></td>
+              <td>8.0%</td>
+              <td class="bar-cell muted-bar" style="--w:40.12%"><span>67</span></td>
+              <td>29.8%</td>
+              <td class="bar-cell muted-bar" style="--w:56.74%"><span>122</span></td>
+              <td>54.2%</td>
+              <td>3</td>
+              <td>2</td>
+            </tr>
+            <tr class="">
+              <td>7</td>
+              <td><span class="team"><span class="tag" style="color:#c8102e"></span>DEN</span></td>
+              <td>S2</td>
+              <td>254</td>
+              <td class="bar-cell" style="--w:22.50%"><span>18</span></td>
+              <td>7.1%</td>
+              <td class="bar-cell muted-bar" style="--w:44.91%"><span>75</span></td>
+              <td>29.5%</td>
+              <td class="bar-cell muted-bar" style="--w:60.93%"><span>131</span></td>
+              <td>51.6%</td>
+              <td>2 (3)</td>
+              <td>13</td>
+            </tr>
+            <tr class="">
+              <td>7</td>
+              <td><span class="team"><span class="tag" style="color:#ff4d00"></span>USA</span></td>
+              <td>S1</td>
+              <td>277</td>
+              <td class="bar-cell" style="--w:22.50%"><span>18</span></td>
+              <td>6.5%</td>
+              <td class="bar-cell muted-bar" style="--w:41.92%"><span>70</span></td>
+              <td>25.3%</td>
+              <td class="bar-cell muted-bar" style="--w:60.93%"><span>131</span></td>
+              <td>47.3%</td>
+              <td>2</td>
+              <td>15</td>
+            </tr>
+            <tr class="">
+              <td>10</td>
+              <td><span class="team"><span class="tag" style="color:#ff0033"></span>SUI</span></td>
+              <td>S3</td>
+              <td>219</td>
+              <td class="bar-cell" style="--w:13.75%"><span>11</span></td>
+              <td>5.0%</td>
+              <td class="bar-cell muted-bar" style="--w:17.37%"><span>29</span></td>
+              <td>13.2%</td>
+              <td class="bar-cell muted-bar" style="--w:29.30%"><span>63</span></td>
+              <td>28.8%</td>
+              <td>-</td>
+              <td>8</td>
+            </tr>
+            <tr class="">
+              <td>11</td>
+              <td><span class="team"><span class="tag" style="color:#ffcc00"></span>GER</span></td>
+              <td>S4</td>
+              <td>170</td>
+              <td class="bar-cell" style="--w:8.75%"><span>7</span></td>
+              <td>4.1%</td>
+              <td class="bar-cell muted-bar" style="--w:16.17%"><span>27</span></td>
+              <td>15.9%</td>
+              <td class="bar-cell muted-bar" style="--w:26.05%"><span>56</span></td>
+              <td>32.9%</td>
+              <td>-</td>
+              <td>5</td>
+            </tr>
+            <tr class="">
+              <td>12</td>
+              <td><span class="team"><span class="tag" style="color:#00d4ff"></span>SWE</span></td>
+              <td>S6</td>
+              <td>35</td>
+              <td class="bar-cell" style="--w:6.25%"><span>5</span></td>
+              <td>14.3%</td>
+              <td class="bar-cell muted-bar" style="--w:7.78%"><span>13</span></td>
+              <td>37.1%</td>
+              <td class="bar-cell muted-bar" style="--w:10.23%"><span>22</span></td>
+              <td>62.9%</td>
+              <td>2</td>
+              <td>4</td>
+            </tr>
+            <tr class="">
+              <td>13</td>
+              <td><span class="team"><span class="tag" style="color:#00b050"></span>BRA</span></td>
+              <td>S5</td>
+              <td>105</td>
+              <td class="bar-cell" style="--w:2.50%"><span>2</span></td>
+              <td>1.9%</td>
+              <td class="bar-cell muted-bar" style="--w:3.59%"><span>6</span></td>
+              <td>5.7%</td>
+              <td class="bar-cell muted-bar" style="--w:11.16%"><span>24</span></td>
+              <td>22.9%</td>
+              <td>-</td>
+              <td>10</td>
+            </tr>
+            <tr class="">
+              <td>13</td>
+              <td><span class="team"><span class="tag" style="color:#00c853"></span>ITA</span></td>
+              <td>S5</td>
+              <td>115</td>
+              <td class="bar-cell" style="--w:2.50%"><span>2</span></td>
+              <td>1.7%</td>
+              <td class="bar-cell muted-bar" style="--w:10.78%"><span>18</span></td>
+              <td>15.7%</td>
+              <td class="bar-cell muted-bar" style="--w:15.35%"><span>33</span></td>
+              <td>28.7%</td>
+              <td>-</td>
+              <td>0</td>
+            </tr>
+            <tr class="">
+              <td>15</td>
+              <td><span class="team"><span class="tag" style="color:#d50000"></span>CHI</span></td>
+              <td>S1</td>
+              <td>25</td>
+              <td class="bar-cell" style="--w:1.25%"><span>1</span></td>
+              <td>4.0%</td>
+              <td class="bar-cell muted-bar" style="--w:5.99%"><span>10</span></td>
+              <td>40.0%</td>
+              <td class="bar-cell muted-bar" style="--w:8.37%"><span>18</span></td>
+              <td>72.0%</td>
+              <td>-</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="cell">${esc(r.since)}</div>
-      <div class="cell">${r.app}</div>
-      <div class="cell ${r.hlWin ? 'cell-top' : ''}">${r.win}</div>
-      <div class="cell ${r.hlAvg ? 'cell-top' : ''}">${r.avgDisplay}</div>
-      <div class="cell">${r.top3}</div>
-      <div class="cell ${r.hlTop3Pct ? 'cell-top3' : ''}">${r.top3pctDisplay}</div>
-      <div class="cell">${r.top5}</div>
-      <div class="cell ${r.hlTop5Pct ? 'cell-top5' : ''}">${r.top5pctDisplay}</div>
-      <div class="cell ${r.hlStreak ? 'cell-top' : ''}">${esc(r.streak)}</div>
-      <div class="cell">${r.dns}</div>
-      <div class="cell">${r.dnf}</div>
-      <div class="cell">${r.dsq}</div>
-    </div>
-  `).join('');
+    </section>
 
-  sortableHeads.forEach(h => {
-    h.classList.remove('active');
-    h.querySelector('.arrow').textContent = '⇅';
-  });
-
-  const active = document.querySelector(`.hcell[data-key="${sortKey}"]`);
-  if (active) {
-    active.classList.add('active');
-    active.querySelector('.arrow').textContent = sortDir === 'asc' ? '▲' : '▼';
-  }
-}
-
-sortableHeads.forEach(h => {
-  h.addEventListener('click', () => {
-    const key = h.dataset.key;
-    if (sortKey === key) {
-      sortDir = sortDir === 'asc' ? 'desc' : 'asc';
-    } else {
-      sortKey = key;
-      sortDir = ['app','win','avg','top3','top3pct','top5','top5pct','streakNum','dns','dnf','dsq'].includes(key) ? 'desc' : 'asc';
-    }
-    render();
-  });
-});
-
-render();
-</script>
+    <div class="footer">Source sheet: WEB_FLEET_SUMMARY</div>
+  </main>
 </body>
 </html>
