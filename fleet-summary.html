@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fleet Summary | Sail Racing Reference</title>
+<style>
+:root {
+  --bg:#050914;
+  --panel:#0b1224;
+  --panel2:#101a33;
+  --line:rgba(255,255,255,.12);
+  --cyan:#21d9ff;
+  --red:#ff2f5f;
+  --gold:#f4c542;
+  --silver:#c8d2e3;
+  --bronze:#c98a4a;
+  --text:#f7fbff;
+  --muted:#9aa8bd;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 12% 8%,rgba(33,217,255,.22),transparent 30%),
+    radial-gradient(circle at 86% 18%,rgba(255,47,95,.18),transparent 28%),
+    linear-gradient(135deg,#050914,#071225 56%,#02040a);
+  min-height:100vh;
+}
+header{
+  padding:24px 6vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{font-weight:900;letter-spacing:.12em;font-size:18px}
+.logo span{color:var(--cyan)}
+nav a{color:var(--muted);text-decoration:none;margin-left:22px;font-weight:800}
+.wrap{padding:28px 6vw 70px}
+.hero{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  align-items:flex-end;
+  margin-bottom:22px;
+}
+.badge{
+  display:inline-block;
+  border:1px solid rgba(255,255,255,.18);
+  padding:8px 12px;
+  border-radius:999px;
+  color:var(--cyan);
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.08em;
+}
+h1{
+  margin:18px 0 8px;
+  font-size:clamp(38px,6vw,76px);
+  line-height:.92;
+  letter-spacing:-.055em;
+}
+.lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:720px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;min-width:420px}
+.kpi{
+  background:rgba(11,18,36,.72);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  text-align:right;
+}
+.kpi small{display:block;color:var(--muted);font-weight:800;font-size:11px;letter-spacing:.1em}
+.kpi b{font-size:30px;line-height:1.1}
+.board{
+  background:rgba(5,9,20,.72);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 30px 90px rgba(0,0,0,.42);
+}
+.board-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 22px;
+  background:linear-gradient(90deg,rgba(33,217,255,.16),rgba(255,47,95,.10));
+  border-bottom:1px solid var(--line);
+}
+.board-head h2{margin:0;font-size:19px;letter-spacing:.06em}
+.note{color:var(--muted);font-size:12px;font-weight:800}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1080px}
+th{
+  position:sticky;top:0;
+  padding:14px 10px;
+  background:#081226;
+  color:#aebbd0;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  letter-spacing:.08em;
+  text-align:right;
+  white-space:nowrap;
+}
+th:nth-child(2),td:nth-child(2),th:nth-child(3),td:nth-child(3){text-align:left}
+td{
+  padding:12px 10px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  text-align:right;
+  font-weight:800;
+  white-space:nowrap;
+}
+tbody tr{transition:.18s}
+tbody tr:hover{background:rgba(33,217,255,.10)}
+tbody tr.gold{background:linear-gradient(90deg,rgba(244,197,66,.18),transparent 42%)}
+tbody tr.silver{background:linear-gradient(90deg,rgba(200,210,227,.14),transparent 42%)}
+tbody tr.bronze{background:linear-gradient(90deg,rgba(201,138,74,.13),transparent 42%)}
+.rank{
+  font-size:18px;
+  color:#fff;
+}
+.team-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:58px;
+  height:32px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.aus{box-shadow:inset 4px 0 0 #1b6eff}
+.gbr{box-shadow:inset 4px 0 0 #f02f5f}
+.fra{box-shadow:inset 4px 0 0 #21d9ff}
+.jpn{box-shadow:inset 4px 0 0 #ffffff}
+.usa{box-shadow:inset 4px 0 0 #7aa7ff}
+.nzl{box-shadow:inset 4px 0 0 #111}
+.esp{box-shadow:inset 4px 0 0 #f4c542}
+.den{box-shadow:inset 4px 0 0 #ef4444}
+.can{box-shadow:inset 4px 0 0 #ef4444}
+.sui{box-shadow:inset 4px 0 0 #ef4444}
+.ger{box-shadow:inset 4px 0 0 #facc15}
+.ita{box-shadow:inset 4px 0 0 #22c55e}
+.bra{box-shadow:inset 4px 0 0 #22c55e}
+.swe{box-shadow:inset 4px 0 0 #38bdf8}
+.percent{min-width:126px}
+.percent span{display:inline-block;width:48px;text-align:right}
+.bar{
+  display:inline-block;
+  margin-left:8px;
+  width:58px;
+  height:7px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  overflow:hidden;
+  vertical-align:middle;
+}
+.bar i{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--cyan),var(--gold));
+}
+.bar.top5 i{background:linear-gradient(90deg,var(--cyan),var(--red))}
+footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+@media(max-width:980px){
+  header{align-items:flex-start;gap:12px}
+  nav a{margin-left:12px}
+  .hero{display:block}
+  .kpis{grid-template-columns:repeat(2,1fr);min-width:0;margin-top:18px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">SAIL <span>REFERENCE</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="fleet-summary.html">Fleet Summary</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="badge">UNOFFICIAL DATA BOARD</div>
+      <h1>FLEET<br>SUMMARY</h1>
+      <p class="lead">Fleet race results summary generated from the reference workbook. Percentages are shown as TOP3% and TOP5% with quick-read bars for race-day preparation.</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><small>TEAMS</small><b>15</b></div>
+      <div class="kpi"><small>TOTAL APP</small><b>2798</b></div>
+      <div class="kpi"><small>TOTAL WINS</small><b>298</b></div>
+      <div class="kpi"><small>LEADER</small><b>AUS</b></div>
+    </div>
+  </section>
+
+  <section class="board">
+    <div class="board-head">
+      <h2>FLEET RACE STATS</h2>
+      <div class="note">Source sheet: WEB_FLEET_SUMMARY</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Rk</th><th>TEAM</th><th>SINCE</th><th>APP</th><th>WIN</th><th>AVG</th><th>TOP3</th><th>TOP3%</th><th>TOP5</th><th>TOP5%</th><th>STREAK</th><th>DNS</th><th>DNF</th><th>DSQ</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+      <tr class="gold">
+        <td class="rank">1</td>
+        <td><span class="team-pill aus">AUS</span></td>
+        <td>S1</td>
+        <td>289</td>
+        <td class="num">80</td>
+        <td>0.277</td>
+        <td>167</td>
+        <td class="percent"><span>57.8%</span><div class="bar"><i style="width:77.0%"></i></div></td>
+        <td>215</td>
+        <td class="percent"><span>74.4%</span><div class="bar top5"><i style="width:87.5%"></i></div></td>
+        <td>4</td>
+        <td>2</td>
+        <td>3</td>
+        <td>0</td>
+      </tr>
+      <tr class="silver">
+        <td class="rank">2</td>
+        <td><span class="team-pill jpn">JPN</span></td>
+        <td>S1</td>
+        <td>57</td>
+        <td class="num">20</td>
+        <td>0.351</td>
+        <td>41</td>
+        <td class="percent"><span>71.9%</span><div class="bar"><i style="width:95.9%"></i></div></td>
+        <td>48</td>
+        <td class="percent"><span>84.2%</span><div class="bar top5"><i style="width:99.1%"></i></div></td>
+        <td>3 (2)</td>
+        <td>2</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr class="bronze">
+        <td class="rank">3</td>
+        <td><span class="team-pill gbr">GBR</span></td>
+        <td>S1</td>
+        <td>284</td>
+        <td class="num">37</td>
+        <td>0.130</td>
+        <td>116</td>
+        <td class="percent"><span>40.8%</span><div class="bar"><i style="width:54.5%"></i></div></td>
+        <td>185</td>
+        <td class="percent"><span>65.1%</span><div class="bar top5"><i style="width:76.6%"></i></div></td>
+        <td>2 (4)</td>
+        <td>8</td>
+        <td>0</td>
+        <td>1</td>
+      </tr>
+      <tr class="">
+        <td class="rank">4</td>
+        <td><span class="team-pill fra">FRA</span></td>
+        <td>S1</td>
+        <td>265</td>
+        <td class="num">21</td>
+        <td>0.079</td>
+        <td>83</td>
+        <td class="percent"><span>31.3%</span><div class="bar"><i style="width:41.8%"></i></div></td>
+        <td>146</td>
+        <td class="percent"><span>55.1%</span><div class="bar top5"><i style="width:64.8%"></i></div></td>
+        <td>4</td>
+        <td>24</td>
+        <td>2</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">5</td>
+        <td><span class="team-pill chi">CHI</span></td>
+        <td>S1</td>
+        <td>25</td>
+        <td class="num">1</td>
+        <td>0.040</td>
+        <td>10</td>
+        <td class="percent"><span>40.0%</span><div class="bar"><i style="width:53.3%"></i></div></td>
+        <td>18</td>
+        <td class="percent"><span>72.0%</span><div class="bar top5"><i style="width:84.7%"></i></div></td>
+        <td>-</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">6</td>
+        <td><span class="team-pill usa">USA</span></td>
+        <td>S1</td>
+        <td>277</td>
+        <td class="num">18</td>
+        <td>0.065</td>
+        <td>70</td>
+        <td class="percent"><span>25.3%</span><div class="bar"><i style="width:33.7%"></i></div></td>
+        <td>131</td>
+        <td class="percent"><span>47.3%</span><div class="bar top5"><i style="width:55.6%"></i></div></td>
+        <td>2</td>
+        <td>15</td>
+        <td>2</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">7</td>
+        <td><span class="team-pill nzl">NZL</span></td>
+        <td>S2</td>
+        <td>228</td>
+        <td class="num">34</td>
+        <td>0.149</td>
+        <td>96</td>
+        <td class="percent"><span>42.1%</span><div class="bar"><i style="width:56.1%"></i></div></td>
+        <td>159</td>
+        <td class="percent"><span>69.7%</span><div class="bar top5"><i style="width:82.0%"></i></div></td>
+        <td>5</td>
+        <td>39</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">8</td>
+        <td><span class="team-pill esp">ESP</span></td>
+        <td>S2</td>
+        <td>250</td>
+        <td class="num">24</td>
+        <td>0.096</td>
+        <td>74</td>
+        <td class="percent"><span>29.6%</span><div class="bar"><i style="width:39.5%"></i></div></td>
+        <td>132</td>
+        <td class="percent"><span>52.8%</span><div class="bar top5"><i style="width:62.1%"></i></div></td>
+        <td>2 (2)</td>
+        <td>17</td>
+        <td>2</td>
+        <td>1</td>
+      </tr>
+      <tr class="">
+        <td class="rank">9</td>
+        <td><span class="team-pill den">DEN</span></td>
+        <td>S2</td>
+        <td>254</td>
+        <td class="num">18</td>
+        <td>0.071</td>
+        <td>75</td>
+        <td class="percent"><span>29.5%</span><div class="bar"><i style="width:39.4%"></i></div></td>
+        <td>131</td>
+        <td class="percent"><span>51.6%</span><div class="bar top5"><i style="width:60.7%"></i></div></td>
+        <td>2 (3)</td>
+        <td>13</td>
+        <td>2</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">10</td>
+        <td><span class="team-pill can">CAN</span></td>
+        <td>S3</td>
+        <td>225</td>
+        <td class="num">18</td>
+        <td>0.080</td>
+        <td>67</td>
+        <td class="percent"><span>29.8%</span><div class="bar"><i style="width:39.7%"></i></div></td>
+        <td>122</td>
+        <td class="percent"><span>54.2%</span><div class="bar top5"><i style="width:63.8%"></i></div></td>
+        <td>3</td>
+        <td>2</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">11</td>
+        <td><span class="team-pill sui">SUI</span></td>
+        <td>S3</td>
+        <td>219</td>
+        <td class="num">11</td>
+        <td>0.050</td>
+        <td>29</td>
+        <td class="percent"><span>13.2%</span><div class="bar"><i style="width:17.7%"></i></div></td>
+        <td>63</td>
+        <td class="percent"><span>28.8%</span><div class="bar top5"><i style="width:33.8%"></i></div></td>
+        <td>-</td>
+        <td>8</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">12</td>
+        <td><span class="team-pill ger">GER</span></td>
+        <td>S4</td>
+        <td>170</td>
+        <td class="num">7</td>
+        <td>0.041</td>
+        <td>27</td>
+        <td class="percent"><span>15.9%</span><div class="bar"><i style="width:21.2%"></i></div></td>
+        <td>56</td>
+        <td class="percent"><span>32.9%</span><div class="bar top5"><i style="width:38.8%"></i></div></td>
+        <td>-</td>
+        <td>5</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">13</td>
+        <td><span class="team-pill ita">ITA</span></td>
+        <td>S5</td>
+        <td>115</td>
+        <td class="num">2</td>
+        <td>0.017</td>
+        <td>18</td>
+        <td class="percent"><span>15.7%</span><div class="bar"><i style="width:20.9%"></i></div></td>
+        <td>33</td>
+        <td class="percent"><span>28.7%</span><div class="bar top5"><i style="width:33.8%"></i></div></td>
+        <td>-</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">14</td>
+        <td><span class="team-pill bra">BRA</span></td>
+        <td>S5</td>
+        <td>105</td>
+        <td class="num">2</td>
+        <td>0.019</td>
+        <td>6</td>
+        <td class="percent"><span>5.7%</span><div class="bar"><i style="width:7.6%"></i></div></td>
+        <td>24</td>
+        <td class="percent"><span>22.9%</span><div class="bar top5"><i style="width:26.9%"></i></div></td>
+        <td>-</td>
+        <td>10</td>
+        <td>2</td>
+        <td>0</td>
+      </tr>
+      <tr class="">
+        <td class="rank">15</td>
+        <td><span class="team-pill swe">SWE</span></td>
+        <td>S6</td>
+        <td>35</td>
+        <td class="num">5</td>
+        <td>0.143</td>
+        <td>13</td>
+        <td class="percent"><span>37.1%</span><div class="bar"><i style="width:49.5%"></i></div></td>
+        <td>22</td>
+        <td class="percent"><span>62.9%</span><div class="bar top5"><i style="width:73.9%"></i></div></td>
+        <td>2</td>
+        <td>4</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Unofficial reference page. Not affiliated with SailGP or any official rights holder.
+</footer>
+</body>
+</html>
