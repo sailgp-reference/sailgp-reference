@@ -100,17 +100,20 @@ th{
   border-bottom:1px solid var(--line);
   font-size:12px;
   letter-spacing:.08em;
-  text-align:right;
+  text-align:center;
   white-space:nowrap;
 }
-th:nth-child(2),td:nth-child(2),th:nth-child(3),td:nth-child(3){text-align:left}
 td{
   padding:12px 10px;
   border-bottom:1px solid rgba(255,255,255,.07);
-  text-align:right;
+  text-align:center;
   font-weight:800;
   white-space:nowrap;
 }
+td.stat-win{color:var(--gold)}
+td.stat-avg{color:var(--cyan)}
+td.stat-top3{color:#22c55e}
+td.stat-top5{color:#38bdf8}
 tbody tr{transition:.18s}
 tbody tr:hover{background:rgba(33,217,255,.10)}
 tbody tr.gold{background:linear-gradient(90deg,rgba(244,197,66,.18),transparent 42%)}
@@ -147,8 +150,9 @@ tbody tr.bronze{background:linear-gradient(90deg,rgba(201,138,74,.13),transparen
 .ita{box-shadow:inset 4px 0 0 #22c55e}
 .bra{box-shadow:inset 4px 0 0 #22c55e}
 .swe{box-shadow:inset 4px 0 0 #38bdf8}
+.chi{box-shadow:inset 4px 0 0 #ef4444}
 .percent{min-width:126px}
-.percent span{display:inline-block;width:48px;text-align:right}
+.percent span{display:inline-block;width:48px;text-align:center}
 .bar{
   display:inline-block;
   margin-left:8px;
@@ -165,7 +169,8 @@ tbody tr.bronze{background:linear-gradient(90deg,rgba(201,138,74,.13),transparen
   border-radius:999px;
   background:linear-gradient(90deg,var(--cyan),var(--gold));
 }
-.bar.top5 i{background:linear-gradient(90deg,var(--cyan),var(--red))}
+.bar.top3 i{background:linear-gradient(90deg,#16a34a,#86efac)}
+.bar.top5 i{background:linear-gradient(90deg,#0284c7,#7dd3fc)}
 footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
 @media(max-width:980px){
   header{align-items:flex-start;gap:12px}
@@ -218,60 +223,60 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill aus">AUS</span></td>
         <td>S1</td>
         <td>289</td>
-        <td class="num">80</td>
-        <td>0.277</td>
+        <td class="num stat-win">80</td>
+        <td class="stat-avg">.277</td>
         <td>167</td>
-        <td class="percent"><span>57.8%</span><div class="bar"><i style="width:77.0%"></i></div></td>
+        <td class="percent stat-top3"><span>57.8%</span><div class="bar top3"><i style="width:77.0%"></i></div></td>
         <td>215</td>
-        <td class="percent"><span>74.4%</span><div class="bar top5"><i style="width:87.5%"></i></div></td>
+        <td class="percent stat-top5"><span>74.4%</span><div class="bar top5"><i style="width:87.5%"></i></div></td>
         <td>4</td>
         <td>2</td>
         <td>3</td>
         <td>0</td>
       </tr>
-      <tr class="silver">
+      <tr class="">
         <td class="rank">2</td>
         <td><span class="team-pill jpn">JPN</span></td>
         <td>S1</td>
         <td>57</td>
-        <td class="num">20</td>
-        <td>0.351</td>
+        <td class="num stat-win">20</td>
+        <td class="stat-avg">.351</td>
         <td>41</td>
-        <td class="percent"><span>71.9%</span><div class="bar"><i style="width:95.9%"></i></div></td>
+        <td class="percent stat-top3"><span>71.9%</span><div class="bar top3"><i style="width:95.9%"></i></div></td>
         <td>48</td>
-        <td class="percent"><span>84.2%</span><div class="bar top5"><i style="width:99.1%"></i></div></td>
+        <td class="percent stat-top5"><span>84.2%</span><div class="bar top5"><i style="width:99.1%"></i></div></td>
         <td>3 (2)</td>
         <td>2</td>
         <td>1</td>
         <td>0</td>
       </tr>
-      <tr class="bronze">
+      <tr class="silver">
         <td class="rank">3</td>
         <td><span class="team-pill gbr">GBR</span></td>
         <td>S1</td>
         <td>284</td>
-        <td class="num">37</td>
-        <td>0.130</td>
+        <td class="num stat-win">37</td>
+        <td class="stat-avg">.130</td>
         <td>116</td>
-        <td class="percent"><span>40.8%</span><div class="bar"><i style="width:54.5%"></i></div></td>
+        <td class="percent stat-top3"><span>40.8%</span><div class="bar top3"><i style="width:54.5%"></i></div></td>
         <td>185</td>
-        <td class="percent"><span>65.1%</span><div class="bar top5"><i style="width:76.6%"></i></div></td>
+        <td class="percent stat-top5"><span>65.1%</span><div class="bar top5"><i style="width:76.6%"></i></div></td>
         <td>2 (4)</td>
         <td>8</td>
         <td>0</td>
         <td>1</td>
       </tr>
-      <tr class="">
+      <tr class="bronze">
         <td class="rank">4</td>
         <td><span class="team-pill fra">FRA</span></td>
         <td>S1</td>
         <td>265</td>
-        <td class="num">21</td>
-        <td>0.079</td>
+        <td class="num stat-win">21</td>
+        <td class="stat-avg">.079</td>
         <td>83</td>
-        <td class="percent"><span>31.3%</span><div class="bar"><i style="width:41.8%"></i></div></td>
+        <td class="percent stat-top3"><span>31.3%</span><div class="bar top3"><i style="width:41.8%"></i></div></td>
         <td>146</td>
-        <td class="percent"><span>55.1%</span><div class="bar top5"><i style="width:64.8%"></i></div></td>
+        <td class="percent stat-top5"><span>55.1%</span><div class="bar top5"><i style="width:64.8%"></i></div></td>
         <td>4</td>
         <td>24</td>
         <td>2</td>
@@ -282,12 +287,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill chi">CHI</span></td>
         <td>S1</td>
         <td>25</td>
-        <td class="num">1</td>
-        <td>0.040</td>
+        <td class="num stat-win">1</td>
+        <td class="stat-avg">.040</td>
         <td>10</td>
-        <td class="percent"><span>40.0%</span><div class="bar"><i style="width:53.3%"></i></div></td>
+        <td class="percent stat-top3"><span>40.0%</span><div class="bar top3"><i style="width:53.3%"></i></div></td>
         <td>18</td>
-        <td class="percent"><span>72.0%</span><div class="bar top5"><i style="width:84.7%"></i></div></td>
+        <td class="percent stat-top5"><span>72.0%</span><div class="bar top5"><i style="width:84.7%"></i></div></td>
         <td>-</td>
         <td>0</td>
         <td>0</td>
@@ -298,12 +303,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill usa">USA</span></td>
         <td>S1</td>
         <td>277</td>
-        <td class="num">18</td>
-        <td>0.065</td>
+        <td class="num stat-win">18</td>
+        <td class="stat-avg">.065</td>
         <td>70</td>
-        <td class="percent"><span>25.3%</span><div class="bar"><i style="width:33.7%"></i></div></td>
+        <td class="percent stat-top3"><span>25.3%</span><div class="bar top3"><i style="width:33.7%"></i></div></td>
         <td>131</td>
-        <td class="percent"><span>47.3%</span><div class="bar top5"><i style="width:55.6%"></i></div></td>
+        <td class="percent stat-top5"><span>47.3%</span><div class="bar top5"><i style="width:55.6%"></i></div></td>
         <td>2</td>
         <td>15</td>
         <td>2</td>
@@ -314,12 +319,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill nzl">NZL</span></td>
         <td>S2</td>
         <td>228</td>
-        <td class="num">34</td>
-        <td>0.149</td>
+        <td class="num stat-win">34</td>
+        <td class="stat-avg">.149</td>
         <td>96</td>
-        <td class="percent"><span>42.1%</span><div class="bar"><i style="width:56.1%"></i></div></td>
+        <td class="percent stat-top3"><span>42.1%</span><div class="bar top3"><i style="width:56.1%"></i></div></td>
         <td>159</td>
-        <td class="percent"><span>69.7%</span><div class="bar top5"><i style="width:82.0%"></i></div></td>
+        <td class="percent stat-top5"><span>69.7%</span><div class="bar top5"><i style="width:82.0%"></i></div></td>
         <td>5</td>
         <td>39</td>
         <td>1</td>
@@ -330,12 +335,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill esp">ESP</span></td>
         <td>S2</td>
         <td>250</td>
-        <td class="num">24</td>
-        <td>0.096</td>
+        <td class="num stat-win">24</td>
+        <td class="stat-avg">.096</td>
         <td>74</td>
-        <td class="percent"><span>29.6%</span><div class="bar"><i style="width:39.5%"></i></div></td>
+        <td class="percent stat-top3"><span>29.6%</span><div class="bar top3"><i style="width:39.5%"></i></div></td>
         <td>132</td>
-        <td class="percent"><span>52.8%</span><div class="bar top5"><i style="width:62.1%"></i></div></td>
+        <td class="percent stat-top5"><span>52.8%</span><div class="bar top5"><i style="width:62.1%"></i></div></td>
         <td>2 (2)</td>
         <td>17</td>
         <td>2</td>
@@ -346,12 +351,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill den">DEN</span></td>
         <td>S2</td>
         <td>254</td>
-        <td class="num">18</td>
-        <td>0.071</td>
+        <td class="num stat-win">18</td>
+        <td class="stat-avg">.071</td>
         <td>75</td>
-        <td class="percent"><span>29.5%</span><div class="bar"><i style="width:39.4%"></i></div></td>
+        <td class="percent stat-top3"><span>29.5%</span><div class="bar top3"><i style="width:39.4%"></i></div></td>
         <td>131</td>
-        <td class="percent"><span>51.6%</span><div class="bar top5"><i style="width:60.7%"></i></div></td>
+        <td class="percent stat-top5"><span>51.6%</span><div class="bar top5"><i style="width:60.7%"></i></div></td>
         <td>2 (3)</td>
         <td>13</td>
         <td>2</td>
@@ -362,12 +367,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill can">CAN</span></td>
         <td>S3</td>
         <td>225</td>
-        <td class="num">18</td>
-        <td>0.080</td>
+        <td class="num stat-win">18</td>
+        <td class="stat-avg">.080</td>
         <td>67</td>
-        <td class="percent"><span>29.8%</span><div class="bar"><i style="width:39.7%"></i></div></td>
+        <td class="percent stat-top3"><span>29.8%</span><div class="bar top3"><i style="width:39.7%"></i></div></td>
         <td>122</td>
-        <td class="percent"><span>54.2%</span><div class="bar top5"><i style="width:63.8%"></i></div></td>
+        <td class="percent stat-top5"><span>54.2%</span><div class="bar top5"><i style="width:63.8%"></i></div></td>
         <td>3</td>
         <td>2</td>
         <td>1</td>
@@ -378,12 +383,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill sui">SUI</span></td>
         <td>S3</td>
         <td>219</td>
-        <td class="num">11</td>
-        <td>0.050</td>
+        <td class="num stat-win">11</td>
+        <td class="stat-avg">.050</td>
         <td>29</td>
-        <td class="percent"><span>13.2%</span><div class="bar"><i style="width:17.7%"></i></div></td>
+        <td class="percent stat-top3"><span>13.2%</span><div class="bar top3"><i style="width:17.7%"></i></div></td>
         <td>63</td>
-        <td class="percent"><span>28.8%</span><div class="bar top5"><i style="width:33.8%"></i></div></td>
+        <td class="percent stat-top5"><span>28.8%</span><div class="bar top5"><i style="width:33.8%"></i></div></td>
         <td>-</td>
         <td>8</td>
         <td>1</td>
@@ -394,12 +399,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill ger">GER</span></td>
         <td>S4</td>
         <td>170</td>
-        <td class="num">7</td>
-        <td>0.041</td>
+        <td class="num stat-win">7</td>
+        <td class="stat-avg">.041</td>
         <td>27</td>
-        <td class="percent"><span>15.9%</span><div class="bar"><i style="width:21.2%"></i></div></td>
+        <td class="percent stat-top3"><span>15.9%</span><div class="bar top3"><i style="width:21.2%"></i></div></td>
         <td>56</td>
-        <td class="percent"><span>32.9%</span><div class="bar top5"><i style="width:38.8%"></i></div></td>
+        <td class="percent stat-top5"><span>32.9%</span><div class="bar top5"><i style="width:38.8%"></i></div></td>
         <td>-</td>
         <td>5</td>
         <td>0</td>
@@ -410,12 +415,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill ita">ITA</span></td>
         <td>S5</td>
         <td>115</td>
-        <td class="num">2</td>
-        <td>0.017</td>
+        <td class="num stat-win">2</td>
+        <td class="stat-avg">.017</td>
         <td>18</td>
-        <td class="percent"><span>15.7%</span><div class="bar"><i style="width:20.9%"></i></div></td>
+        <td class="percent stat-top3"><span>15.7%</span><div class="bar top3"><i style="width:20.9%"></i></div></td>
         <td>33</td>
-        <td class="percent"><span>28.7%</span><div class="bar top5"><i style="width:33.8%"></i></div></td>
+        <td class="percent stat-top5"><span>28.7%</span><div class="bar top5"><i style="width:33.8%"></i></div></td>
         <td>-</td>
         <td>0</td>
         <td>1</td>
@@ -426,12 +431,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill bra">BRA</span></td>
         <td>S5</td>
         <td>105</td>
-        <td class="num">2</td>
-        <td>0.019</td>
+        <td class="num stat-win">2</td>
+        <td class="stat-avg">.019</td>
         <td>6</td>
-        <td class="percent"><span>5.7%</span><div class="bar"><i style="width:7.6%"></i></div></td>
+        <td class="percent stat-top3"><span>5.7%</span><div class="bar top3"><i style="width:7.6%"></i></div></td>
         <td>24</td>
-        <td class="percent"><span>22.9%</span><div class="bar top5"><i style="width:26.9%"></i></div></td>
+        <td class="percent stat-top5"><span>22.9%</span><div class="bar top5"><i style="width:26.9%"></i></div></td>
         <td>-</td>
         <td>10</td>
         <td>2</td>
@@ -442,12 +447,12 @@ footer{padding:24px 6vw;color:var(--muted);font-size:12px;border-top:1px solid v
         <td><span class="team-pill swe">SWE</span></td>
         <td>S6</td>
         <td>35</td>
-        <td class="num">5</td>
-        <td>0.143</td>
+        <td class="num stat-win">5</td>
+        <td class="stat-avg">.143</td>
         <td>13</td>
-        <td class="percent"><span>37.1%</span><div class="bar"><i style="width:49.5%"></i></div></td>
+        <td class="percent stat-top3"><span>37.1%</span><div class="bar top3"><i style="width:49.5%"></i></div></td>
         <td>22</td>
-        <td class="percent"><span>62.9%</span><div class="bar top5"><i style="width:73.9%"></i></div></td>
+        <td class="percent stat-top5"><span>62.9%</span><div class="bar top5"><i style="width:73.9%"></i></div></td>
         <td>2</td>
         <td>4</td>
         <td>0</td>
