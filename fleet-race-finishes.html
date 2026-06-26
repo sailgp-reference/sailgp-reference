@@ -1,308 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fleet Race Finishes by Position | Sail Racing Reference</title>
-  <style>
-    :root {
-      --bg: #03070c;
-      --panel: rgba(10, 18, 28, 0.88);
-      --panel-2: rgba(15, 26, 39, 0.96);
-      --line: rgba(255, 255, 255, 0.12);
-      --text: #f5f8fb;
-      --muted: #9aa8b8;
-      --accent: #00d4ff;
-      --accent-2: #ff4d00;
-      --gold: #ffd166;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-      background:
-        radial-gradient(circle at 18% 10%, rgba(0, 212, 255, 0.22), transparent 28%),
-        radial-gradient(circle at 82% 0%, rgba(255, 77, 0, 0.20), transparent 24%),
-        linear-gradient(140deg, #020409 0%, #07111c 42%, #020409 100%);
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent 78%);
-    }
-
-    .wrap {
-      width: min(1440px, calc(100% - 42px));
-      margin: 0 auto;
-      padding: 34px 0 56px;
-      position: relative;
-      z-index: 1;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 26px;
-    }
-
-    .brand {
-      letter-spacing: 0.16em;
-      font-size: 13px;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    .home-link {
-      color: var(--text);
-      text-decoration: none;
-      border: 1px solid var(--line);
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      font-size: 13px;
-      transition: 0.2s ease;
-    }
-
-    .home-link:hover {
-      border-color: rgba(0, 212, 255, 0.55);
-      box-shadow: 0 0 22px rgba(0, 212, 255, 0.16);
-    }
-
-    .hero {
-      border: 1px solid var(--line);
-      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025));
-      border-radius: 28px;
-      padding: 28px;
-      box-shadow: 0 28px 80px rgba(0,0,0,0.45);
-      overflow: hidden;
-      position: relative;
-      margin-bottom: 22px;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      right: -90px;
-      top: -100px;
-      width: 360px;
-      height: 360px;
-      background: radial-gradient(circle, rgba(0,212,255,0.25), transparent 62%);
-      pointer-events: none;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(34px, 5vw, 70px);
-      line-height: 0.92;
-      letter-spacing: -0.06em;
-      text-transform: uppercase;
-      max-width: 980px;
-    }
-
-    .sub {
-      margin: 16px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      letter-spacing: 0.02em;
-    }
-
-    .kpis {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin: 22px 0;
-    }
-
-    .kpi {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.045);
-      border-radius: 18px;
-      padding: 16px 18px;
-    }
-
-    .kpi .label {
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    .kpi .value {
-      margin-top: 5px;
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-    }
-
-    .table-card {
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: var(--panel);
-      box-shadow: 0 26px 80px rgba(0,0,0,0.48);
-      overflow: hidden;
-    }
-
-    .table-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 18px;
-      padding: 20px 22px;
-      background: linear-gradient(90deg, rgba(0,212,255,0.13), rgba(255,77,0,0.09));
-      border-bottom: 1px solid var(--line);
-    }
-
-    .table-head h2 {
-      margin: 0;
-      font-size: 18px;
-      letter-spacing: 0.02em;
-    }
-
-    .note {
-      color: var(--muted);
-      font-size: 12px;
-      text-align: right;
-    }
-
-    .scroll {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      min-width: 1120px;
-    }
-
-    th, td {
-      padding: 13px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      color: #c9d5e2;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: var(--panel-2);
-    }
-
-    th:nth-child(1), td:nth-child(1) { text-align: center; width: 58px; color: var(--muted); }
-    th:nth-child(2), td:nth-child(2) { text-align: left; position: sticky; left: 0; z-index: 1; background: rgba(8, 15, 24, 0.98); }
-    th:nth-child(2) { z-index: 3; background: var(--panel-2); }
-
-    tbody tr:hover td {
-      background-color: rgba(0,212,255,0.06);
-    }
-
-    .team {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 900;
-      letter-spacing: 0.10em;
-    }
-
-    .tag {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      box-shadow: 0 0 16px currentColor;
-    }
-
-    .rank-1 td:nth-child(1), .rank-1 td:nth-child(3) { color: var(--gold); font-weight: 900; }
-    td:nth-child(3) { font-weight: 800; color: #ffffff; }
-    td:nth-child(4), td:nth-child(5) { color: #dcecff; }
-
-    .footer {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 18px;
-      text-align: right;
-    }
-
-    @media (max-width: 760px) {
-      .wrap { width: min(100% - 24px, 1440px); padding-top: 20px; }
-      header { align-items: flex-start; flex-direction: column; }
-      .hero { padding: 22px; border-radius: 22px; }
-      .kpis { grid-template-columns: 1fr; }
-      .table-head { align-items: flex-start; flex-direction: column; }
-      .note { text-align: left; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAIL REFERENCE | Fleet Race Finishes by Position</title>
+<style>
+:root {
+  --bg:#050914; --panel:#0b1220; --panel2:#101a2c; --line:rgba(255,255,255,.15);
+  --text:#f7fbff; --muted:#a9b8c9; --cyan:#29dfff; --pink:#ff2f75;
+  --gold:#ffd646; --silver:#cfd6df; --bronze:#ff9652; --green:#83ff6e; --blue:#39e4ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;}
+body{min-height:100vh;background:
+  radial-gradient(circle at 12% 10%, rgba(41,223,255,.24), transparent 28%),
+  radial-gradient(circle at 90% 20%, rgba(255,47,117,.18), transparent 28%),
+  linear-gradient(135deg,#050914 0%,#071225 55%,#02040a 100%);
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px),
+  linear-gradient(0deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:95px 95px;mask-image:linear-gradient(to bottom,black,transparent 85%);}
+.wrap{width:min(1500px,calc(100% - 46px));margin:0 auto;padding:28px 0 34px;}
+header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;}
+.logo{font-weight:900;letter-spacing:.16em;font-size:22px;line-height:1.05;}
+.logo span{color:var(--cyan)}
+.sublogo{font-size:12px;color:var(--muted);letter-spacing:.25em;margin-top:6px;font-weight:800}
+nav a{color:var(--muted);text-decoration:none;font-weight:900;margin-left:32px;letter-spacing:.05em}
+nav a.active{color:var(--cyan);border-bottom:3px solid var(--cyan);padding-bottom:20px}
+.hero{border:1px solid var(--line);border-radius:10px;padding:38px 36px 18px;background:linear-gradient(115deg,rgba(18,54,70,.72),rgba(13,18,31,.68),rgba(63,26,43,.44));box-shadow:0 20px 70px rgba(0,0,0,.32);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:40px;top:-80px;width:360px;height:420px;background:radial-gradient(circle,rgba(41,223,255,.18),transparent 62%);filter:blur(8px)}
+h1{margin:0;font-size:clamp(42px,5.4vw,72px);letter-spacing:-.06em;line-height:.88;font-weight:1000}
+.lead{margin:16px 0 14px;color:#d9e2ee;font-size:16px;line-height:1.55}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:18px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:18px 18px;background:rgba(7,14,27,.58)}
+.kpi .label{color:var(--muted);font-size:12px;letter-spacing:.18em;font-weight:900}
+.kpi .value{font-size:30px;font-weight:1000;margin-top:8px}
+.gold{color:var(--gold)} .cyan{color:#5eeaff} .bronze{color:var(--bronze)}
+.table-card{margin-top:14px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:rgba(6,13,25,.86);box-shadow:0 24px 80px rgba(0,0,0,.42)}
+.table-head{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:18px 28px;border-bottom:1px solid var(--line);background:linear-gradient(100deg,rgba(41,223,255,.17),rgba(255,47,117,.09));}
+.table-title{font-size:20px;font-weight:1000;color:#5df3ff;letter-spacing:.03em}
+.notes{font-size:12px;color:#c7d3e4;text-align:right;line-height:1.6}
+.notes b{color:var(--gold)}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:1260px}
+th,td{padding:12px 12px;border-bottom:1px solid rgba(255,255,255,.10);text-align:right;font-weight:800;white-space:nowrap}
+th{font-size:12px;letter-spacing:.13em;color:#c7d3e4;background:rgba(12,22,37,.88);cursor:pointer;user-select:none;text-transform:uppercase}
+th:hover{color:var(--cyan)}
+th.sort-asc::after{content:" ▲";color:var(--cyan)}
+th.sort-desc::after{content:" ▼";color:var(--cyan)}
+th:first-child,td:first-child{text-align:center;width:58px}
+th:nth-child(2),td:nth-child(2){text-align:left;min-width:130px}
+td{font-size:17px;color:#f5f7fb}
+.rank{color:#d5deea}
+.team{display:flex;align-items:center;gap:12px;justify-content:flex-start;font-weight:1000;letter-spacing:.08em}
+.flag{font-size:26px;line-height:1;filter:drop-shadow(0 0 6px rgba(255,255,255,.15))}
+.code{font-size:17px}
+.excluded td{color:#b9c1cd}
+.excluded .code{color:#b9c1cd}
+.excluded .flag{opacity:.86}
+.num-top1{color:var(--gold);font-weight:1000;text-shadow:0 0 12px rgba(255,214,70,.22)}
+.num-top2{color:var(--silver);font-weight:1000}
+.num-top3{color:var(--bronze);font-weight:1000}
+.footer-note{padding:13px 22px;color:#b9c6d6;font-size:13px;border-top:1px solid rgba(255,255,255,.1);line-height:1.7}
+.footer-note strong{color:#fff}
+.review-note{margin-top:8px;color:#ffcf6a;font-weight:800}
+@media(max-width:780px){.wrap{width:100%;padding:18px 0 24px}header{padding:0 18px}nav a{margin-left:16px;font-size:13px}.hero{border-radius:0;border-left:0;border-right:0;padding:28px 20px}.kpis{grid-template-columns:1fr 1fr;gap:10px}.table-card{border-radius:0;border-left:0;border-right:0}.table-head{align-items:flex-start;flex-direction:column;padding:16px 20px}.notes{text-align:left}h1{font-size:46px}}
+</style>
 </head>
 <body>
-  <main class="wrap">
-    <header>
-      <div class="brand">Unofficial Sail Racing Reference</div>
-      <a class="home-link" href="index.html">← Back to Index</a>
-    </header>
-
-    <section class="hero">
-      <h1>Fleet Race Finishes by Position</h1>
-      <p class="sub">Historical fleet race finishing counts by team and position.</p>
-      <div class="kpis">
-        <div class="kpi"><div class="label">Leader in 1st-place finishes</div><div class="value">AUS · 80</div></div>
-        <div class="kpi"><div class="label">Teams listed</div><div class="value">15</div></div>
-        <div class="kpi"><div class="label">Positions tracked</div><div class="value">1st–13th</div></div>
-      </div>
-    </section>
-
-    <section class="table-card">
-      <div class="table-head">
-        <h2>Fleet Race Finishes by Position</h2>
-        <div class="note">Excluding DNS, DNF and DSQ</div>
-      </div>
-      <div class="scroll">
-        <table aria-label="Fleet Race Finishes by Position">
-          <thead>
-            <tr>
-              <th>Rk</th><th>Team</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th>7th</th><th>8th</th><th>9th</th><th>10th</th><th>11th</th><th>12th</th><th>13th</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="rank-1"><td>1</td><td><span class="team"><span class="tag" style="color:#ffd166"></span>AUS</span></td><td>80</td><td>49</td><td>38</td><td>22</td><td>26</td><td>19</td><td>11</td><td>20</td><td>9</td><td>9</td><td>3</td><td>0</td><td>0</td></tr>
-            <tr><td>2</td><td><span class="team"><span class="tag" style="color:#e53935"></span>JPN</span></td><td>20</td><td>13</td><td>8</td><td>3</td><td>4</td><td>3</td><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>3</td><td><span class="team"><span class="tag" style="color:#2b6cff"></span>GBR</span></td><td>37</td><td>44</td><td>35</td><td>33</td><td>36</td><td>34</td><td>24</td><td>15</td><td>8</td><td>7</td><td>8</td><td>2</td><td>0</td></tr>
-            <tr><td>4</td><td><span class="team"><span class="tag" style="color:#00a3ff"></span>FRA</span></td><td>21</td><td>29</td><td>33</td><td>36</td><td>27</td><td>38</td><td>20</td><td>25</td><td>22</td><td>6</td><td>5</td><td>1</td><td>0</td></tr>
-            <tr><td>5</td><td><span class="team"><span class="tag" style="color:#d50000"></span>CHI</span></td><td>1</td><td>4</td><td>5</td><td>2</td><td>6</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>6</td><td><span class="team"><span class="tag" style="color:#ff4d00"></span>USA</span></td><td>18</td><td>16</td><td>36</td><td>32</td><td>29</td><td>24</td><td>29</td><td>22</td><td>28</td><td>23</td><td>8</td><td>10</td><td>0</td></tr>
-            <tr><td>7</td><td><span class="team"><span class="tag" style="color:#111111"></span>NZL</span></td><td>34</td><td>35</td><td>27</td><td>31</td><td>32</td><td>23</td><td>12</td><td>19</td><td>3</td><td>4</td><td>7</td><td>0</td><td>0</td></tr>
-            <tr><td>8</td><td><span class="team"><span class="tag" style="color:#f4c430"></span>ESP</span></td><td>24</td><td>22</td><td>28</td><td>33</td><td>25</td><td>25</td><td>27</td><td>27</td><td>23</td><td>6</td><td>4</td><td>3</td><td>0</td></tr>
-            <tr><td>9</td><td><span class="team"><span class="tag" style="color:#c8102e"></span>DEN</span></td><td>18</td><td>27</td><td>30</td><td>32</td><td>24</td><td>39</td><td>27</td><td>24</td><td>11</td><td>12</td><td>6</td><td>2</td><td>0</td></tr>
-            <tr><td>10</td><td><span class="team"><span class="tag" style="color:#ff2d55"></span>CAN</span></td><td>18</td><td>26</td><td>23</td><td>23</td><td>32</td><td>17</td><td>22</td><td>18</td><td>17</td><td>11</td><td>12</td><td>4</td><td>1</td></tr>
-            <tr><td>11</td><td><span class="team"><span class="tag" style="color:#ff0033"></span>SUI</span></td><td>11</td><td>11</td><td>7</td><td>15</td><td>19</td><td>27</td><td>32</td><td>28</td><td>29</td><td>26</td><td>11</td><td>2</td><td>0</td></tr>
-            <tr><td>12</td><td><span class="team"><span class="tag" style="color:#ffcc00"></span>GER</span></td><td>7</td><td>8</td><td>12</td><td>11</td><td>18</td><td>12</td><td>24</td><td>21</td><td>29</td><td>12</td><td>10</td><td>5</td><td>1</td></tr>
-            <tr><td>13</td><td><span class="team"><span class="tag" style="color:#00c853"></span>ITA</span></td><td>2</td><td>6</td><td>10</td><td>9</td><td>6</td><td>12</td><td>13</td><td>11</td><td>14</td><td>17</td><td>7</td><td>7</td><td>0</td></tr>
-            <tr><td>14</td><td><span class="team"><span class="tag" style="color:#00b050"></span>BRA</span></td><td>2</td><td>2</td><td>2</td><td>8</td><td>10</td><td>7</td><td>12</td><td>10</td><td>13</td><td>14</td><td>17</td><td>6</td><td>0</td></tr>
-            <tr><td>15</td><td><span class="team"><span class="tag" style="color:#00d4ff"></span>SWE</span></td><td>5</td><td>5</td><td>3</td><td>6</td><td>3</td><td>2</td><td>2</td><td>2</td><td>4</td><td>1</td><td>2</td><td>0</td><td>0</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <div class="footer">Source sheet: WEB_Fleet Race Finishes by Posi</div>
-  </main>
+<div class="wrap">
+<header>
+  <div><div class="logo">SAIL <span>REFERENCE</span></div><div class="sublogo">UNOFFICIAL DATA BOARD</div></div>
+  <nav><a href="index.html">HOME</a><a href="fleet-summary.html">FLEET SUMMARY</a><a href="fleet-race-finishes.html" class="active">FINISHES</a></nav>
+</header>
+<section class="hero">
+  <h1>FLEET RACE<br>FINISHES</h1>
+  <p class="lead">Fleet race finish counts by position. DNS, DNF and DSQ are excluded from this position table.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="label">FLEET RACES</div><div class="value cyan">298</div></div>
+    <div class="kpi"><div class="label">MOST 1ST</div><div class="value gold">AUS · 80</div></div>
+    <div class="kpi"><div class="label">MOST 2ND</div><div class="value cyan">AUS · 49</div></div>
+    <div class="kpi"><div class="label">TEAMS LISTED</div><div class="value">14</div></div>
+  </div>
+</section>
+<section class="table-card">
+  <div class="table-head">
+    <div class="table-title">FLEET RACE FINISHES BY POSITION</div>
+    <div class="notes">Click column headers to sort &nbsp;&nbsp; | &nbsp;&nbsp; Rk is based on <b>1st-place finishes</b>.</div>
+  </div>
+  <div class="table-wrap">
+    <table id="finishesTable">
+      <thead><tr>
+        <th data-key="Rk" data-type="num">Rk</th><th data-key="TEAM" data-type="text">Team</th>
+        <th data-key="1st" data-type="num">1st</th><th data-key="2nd" data-type="num">2nd</th><th data-key="3rd" data-type="num">3rd</th><th data-key="4th" data-type="num">4th</th><th data-key="5th" data-type="num">5th</th><th data-key="6th" data-type="num">6th</th><th data-key="7th" data-type="num">7th</th><th data-key="8th" data-type="num">8th</th><th data-key="9th" data-type="num">9th</th><th data-key="10th" data-type="num">10th</th><th data-key="11th" data-type="num">11th</th><th data-key="12th" data-type="num">12th</th><th data-key="13th" data-type="num">13th</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="footer-note">
+    <strong>Position counts</strong> show completed fleet race finishes only. DNS, DNF and DSQ are excluded from this table.<br>
+    JPN and CHI are displayed for historical reference only and are excluded from leaderboard highlights.
+    <div class="review-note">DNS, DNF and DSQ statistics are currently under review and will be updated as verification progresses.</div>
+  </div>
+</section>
+</div>
+<script>
+const rows = [{"Rk": 1, "TEAM": "AUS", "1st": 80, "2nd": 49, "3rd": 38, "4th": 22, "5th": 26, "6th": 19, "7th": 11, "8th": 20, "9th": 9, "10th": 9, "11th": 3, "12th": 0, "13th": 0, "FLAG": "🇦🇺"}, {"Rk": 2, "TEAM": "GBR", "1st": 37, "2nd": 44, "3rd": 35, "4th": 33, "5th": 36, "6th": 34, "7th": 24, "8th": 15, "9th": 8, "10th": 7, "11th": 8, "12th": 2, "13th": 0, "FLAG": "🇬🇧"}, {"Rk": 3, "TEAM": "NZL", "1st": 34, "2nd": 35, "3rd": 27, "4th": 31, "5th": 32, "6th": 23, "7th": 12, "8th": 19, "9th": 3, "10th": 4, "11th": 7, "12th": 0, "13th": 0, "FLAG": "🇳🇿"}, {"Rk": 4, "TEAM": "ESP", "1st": 24, "2nd": 22, "3rd": 28, "4th": 33, "5th": 25, "6th": 25, "7th": 27, "8th": 27, "9th": 23, "10th": 6, "11th": 4, "12th": 3, "13th": 0, "FLAG": "🇪🇸"}, {"Rk": 5, "TEAM": "FRA", "1st": 21, "2nd": 29, "3rd": 33, "4th": 36, "5th": 27, "6th": 38, "7th": 20, "8th": 25, "9th": 22, "10th": 6, "11th": 5, "12th": 1, "13th": 0, "FLAG": "🇫🇷"}, {"Rk": 6, "TEAM": "JPN", "1st": 20, "2nd": 13, "3rd": 8, "4th": 3, "5th": 4, "6th": 3, "7th": 4, "8th": 1, "9th": 0, "10th": 0, "11th": 0, "12th": 0, "13th": 0, "FLAG": "🇯🇵"}, {"Rk": 7, "TEAM": "USA", "1st": 18, "2nd": 16, "3rd": 36, "4th": 32, "5th": 29, "6th": 24, "7th": 29, "8th": 22, "9th": 28, "10th": 23, "11th": 8, "12th": 10, "13th": 0, "FLAG": "🇺🇸"}, {"Rk": 7, "TEAM": "DEN", "1st": 18, "2nd": 27, "3rd": 30, "4th": 32, "5th": 24, "6th": 39, "7th": 27, "8th": 24, "9th": 11, "10th": 12, "11th": 6, "12th": 2, "13th": 0, "FLAG": "🇩🇰"}, {"Rk": 7, "TEAM": "CAN", "1st": 18, "2nd": 26, "3rd": 23, "4th": 23, "5th": 32, "6th": 17, "7th": 22, "8th": 18, "9th": 17, "10th": 11, "11th": 12, "12th": 4, "13th": 1, "FLAG": "🇨🇦"}, {"Rk": 10, "TEAM": "SUI", "1st": 11, "2nd": 11, "3rd": 7, "4th": 15, "5th": 19, "6th": 27, "7th": 32, "8th": 28, "9th": 29, "10th": 26, "11th": 11, "12th": 2, "13th": 0, "FLAG": "🇨🇭"}, {"Rk": 11, "TEAM": "GER", "1st": 7, "2nd": 8, "3rd": 12, "4th": 11, "5th": 18, "6th": 12, "7th": 24, "8th": 21, "9th": 29, "10th": 12, "11th": 10, "12th": 5, "13th": 1, "FLAG": "🇩🇪"}, {"Rk": 13, "TEAM": "ITA", "1st": 2, "2nd": 6, "3rd": 10, "4th": 9, "5th": 6, "6th": 12, "7th": 13, "8th": 11, "9th": 14, "10th": 17, "11th": 7, "12th": 7, "13th": 0, "FLAG": "🇮🇹"}, {"Rk": 13, "TEAM": "BRA", "1st": 2, "2nd": 2, "3rd": 2, "4th": 8, "5th": 10, "6th": 7, "7th": 12, "8th": 10, "9th": 13, "10th": 14, "11th": 17, "12th": 6, "13th": 0, "FLAG": "🇧🇷"}, {"Rk": 15, "TEAM": "CHI", "1st": 1, "2nd": 4, "3rd": 5, "4th": 2, "5th": 6, "6th": 7, "7th": 0, "8th": 0, "9th": 0, "10th": 0, "11th": 0, "12th": 0, "13th": 0, "FLAG": "🇨🇳"}];
+const positionKeys = ['1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','11th','12th','13th'];
+const highlightTeams = rows.filter(r => !['JPN','CHI'].includes(r.TEAM));
+function uniqueSorted(key, desc=true) {
+  const vals = [...new Set(highlightTeams.map(r => Number(r[key])).filter(v => !Number.isNaN(v)))];
+  vals.sort((a,b)=>desc ? b-a : a-b);
+  return vals.slice(0,3);
+}
+const topMap = Object.fromEntries(positionKeys.map(k => [k, uniqueSorted(k, true)]));
+function cls(key, row) {
+  if (['JPN','CHI'].includes(row.TEAM)) return '';
+  if (!topMap[key]) return '';
+  const i = topMap[key].indexOf(Number(row[key]));
+  if (i === 0) return 'num-top1';
+  if (i === 1) return 'num-top2';
+  if (i === 2) return 'num-top3';
+  return '';
+}
+let sortKey='Rk', sortDir='asc';
+function sortRows(data) {
+  const th = document.querySelector(`th[data-key="${sortKey}"]`);
+  const type = th?.dataset.type || 'text';
+  return [...data].sort((a,b)=>{
+    let av=a[sortKey], bv=b[sortKey];
+    if(type==='num') { av=Number(av); bv=Number(bv); if(Number.isNaN(av)) av=999999; if(Number.isNaN(bv)) bv=999999; }
+    else { av=String(av); bv=String(bv); }
+    if(av<bv) return sortDir==='asc' ? -1 : 1;
+    if(av>bv) return sortDir==='asc' ? 1 : -1;
+    return Number(b['1st'])-Number(a['1st']);
+  });
+}
+function render() {
+  document.querySelectorAll('th').forEach(th=>th.classList.remove('sort-asc','sort-desc'));
+  const active = document.querySelector(`th[data-key="${sortKey}"]`);
+  if(active) active.classList.add(sortDir==='asc'?'sort-asc':'sort-desc');
+  const tbody=document.querySelector('#finishesTable tbody');
+  tbody.innerHTML='';
+  sortRows(rows).forEach(r=>{
+    const tr=document.createElement('tr');
+    if(['JPN','CHI'].includes(r.TEAM)) tr.className='excluded';
+    const cells = positionKeys.map(k => `<td class="${cls(k,r)}">${r[k]}</td>`).join('');
+    tr.innerHTML = `
+      <td class="rank">${r.Rk}</td>
+      <td><div class="team"><span class="flag">${r.FLAG}</span><span class="code">${r.TEAM}</span></div></td>
+      ${cells}`;
+    tbody.appendChild(tr);
+  });
+}
+document.querySelectorAll('th').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const key=th.dataset.key;
+    if(sortKey===key) sortDir=sortDir==='asc'?'desc':'asc';
+    else { sortKey=key; sortDir=th.dataset.type==='num'?'desc':'asc'; if(key==='Rk') sortDir='asc'; }
+    render();
+  });
+});
+render();
+</script>
 </body>
 </html>
