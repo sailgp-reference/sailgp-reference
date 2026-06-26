@@ -3,272 +3,712 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sail Racing Reference</title>
+<title>SGR | Sail Reference</title>
 <style>
 :root{
-  --bg:#050914;
-  --panel:#0b1224;
-  --panel2:#101a33;
-  --cyan:#21d9ff;
-  --red:#ff2f5f;
-  --gold:#f4c542;
-  --text:#f7fbff;
-  --muted:#9aa8bd;
+  --bg:#02050a;
+  --bg2:#07111d;
+  --cyan:#18d9ff;
+  --cyan2:#00a6ff;
+  --red:#ff3048;
+  --gold:#ffd15c;
+  --text:#f4f8ff;
+  --muted:#a9b4c5;
+  --line:rgba(255,255,255,.16);
+  --panel:rgba(4,11,22,.74);
+  --panel2:rgba(9,18,34,.88);
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
   margin:0;
-  font-family:Inter,Arial,sans-serif;
+  font-family:Inter,Arial,Helvetica,sans-serif;
   color:var(--text);
-  background:
-    radial-gradient(circle at 15% 10%,rgba(33,217,255,.25),transparent 28%),
-    radial-gradient(circle at 85% 20%,rgba(255,47,95,.22),transparent 30%),
-    linear-gradient(135deg,#050914,#071225 55%,#02040a);
-  min-height:100vh;
+  background:#02050a;
+  overflow-x:hidden;
 }
-header{
-  padding:26px 7vw;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-3;
+  background:
+    radial-gradient(circle at 14% 12%, rgba(0,216,255,.25), transparent 30%),
+    radial-gradient(circle at 86% 20%, rgba(255,48,72,.18), transparent 32%),
+    linear-gradient(180deg,#02050a 0%,#07111d 52%,#02050a 100%);
+}
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:94px;
+  z-index:50;
   display:flex;
+  align-items:center;
   justify-content:space-between;
+  padding:0 44px;
+  background:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.55));
+  border-bottom:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(14px);
+}
+.brand{
+  display:flex;
+  flex-direction:column;
+  line-height:1;
+}
+.brand-mark{
+  font-size:44px;
+  font-weight:1000;
+  letter-spacing:-.08em;
+  transform:skewX(-12deg);
+  background:linear-gradient(90deg,#fff 0%,#dce8f6 18%,var(--cyan) 42%,#0869a6 64%,#fff 100%);
+  -webkit-background-clip:text;
+  color:transparent;
+  text-shadow:0 0 26px rgba(24,217,255,.45);
+}
+.brand-sub{
+  margin-top:5px;
+  font-size:12px;
+  letter-spacing:.42em;
+  color:#d8e4f2;
+  font-weight:800;
+}
+nav{
+  display:flex;
+  gap:34px;
   align-items:center;
 }
-.logo{
-  font-weight:900;
-  letter-spacing:.12em;
-  font-size:20px;
-}
-.logo span{color:var(--cyan)}
 nav a{
-  color:var(--muted);
+  color:#dce4ef;
   text-decoration:none;
-  margin-left:24px;
-  font-weight:700;
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  opacity:.78;
+  position:relative;
+}
+nav a:hover,nav a.active{color:var(--cyan);opacity:1}
+nav a.active:after,nav a:hover:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-19px;
+  height:2px;
+  background:var(--cyan);
+  box-shadow:0 0 18px var(--cyan);
 }
 .hero{
-  padding:70px 7vw 50px;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:36px;
-  align-items:center;
-}
-.badge{
-  display:inline-block;
-  border:1px solid rgba(255,255,255,.18);
-  padding:8px 12px;
-  border-radius:999px;
-  color:var(--cyan);
-  font-weight:800;
-  font-size:13px;
-}
-h1{
-  font-size:clamp(46px,7vw,92px);
-  line-height:.92;
-  margin:22px 0;
-  letter-spacing:-.06em;
-}
-h1 em{
-  color:transparent;
-  -webkit-text-stroke:1px var(--cyan);
-  font-style:normal;
-}
-.lead{
-  color:var(--muted);
-  font-size:18px;
-  line-height:1.7;
-  max-width:620px;
-}
-.actions{margin-top:32px}
-.btn{
-  display:inline-block;
-  padding:15px 20px;
-  border-radius:14px;
-  margin-right:12px;
-  text-decoration:none;
-  font-weight:900;
-}
-.primary{
-  background:linear-gradient(90deg,var(--cyan),var(--red));
-  color:white;
-}
-.secondary{
-  border:1px solid rgba(255,255,255,.22);
-  color:white;
-}
-.visual{
   position:relative;
-  min-height:420px;
-  border-radius:28px;
-  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.03));
-  border:1px solid rgba(255,255,255,.15);
+  min-height:100vh;
+  padding:150px 44px 42px;
+  display:flex;
+  align-items:center;
   overflow:hidden;
-  box-shadow:0 30px 90px rgba(0,0,0,.45);
 }
-.visual:before{
+.hero:before{
   content:"";
   position:absolute;
   inset:0;
+  z-index:-2;
   background:
-    linear-gradient(110deg,transparent 0 40%,rgba(33,217,255,.18) 40% 43%,transparent 43%),
-    repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,transparent 1px 70px);
+    linear-gradient(90deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.62) 36%,rgba(0,0,0,.20) 68%,rgba(0,0,0,.66) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.12) 0%,rgba(0,0,0,.15) 54%,#02050a 100%);
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:
+    radial-gradient(ellipse at 70% 48%, rgba(24,217,255,.12), transparent 32%),
+    repeating-linear-gradient(112deg, rgba(255,255,255,.045) 0 1px, transparent 1px 70px);
+  opacity:.7;
+}
+.scene{
+  position:absolute;
+  inset:92px 0 0 0;
+  z-index:-3;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 62% 25%,rgba(255,255,255,.20),transparent 9%),
+    linear-gradient(170deg,#0a1726 0%,#07111e 35%,#03070d 70%);
+}
+.clouds{
+  position:absolute;
+  inset:0;
+  opacity:.86;
+  background:
+    radial-gradient(ellipse at 58% 12%, rgba(255,255,255,.34), transparent 17%),
+    radial-gradient(ellipse at 72% 18%, rgba(255,255,255,.22), transparent 14%),
+    radial-gradient(ellipse at 48% 20%, rgba(255,255,255,.18), transparent 15%),
+    radial-gradient(ellipse at 86% 18%, rgba(255,255,255,.15), transparent 16%);
+  filter:blur(2px);
+}
+.city{
+  position:absolute;
+  left:42%;
+  right:0;
+  bottom:20%;
+  height:32%;
+  opacity:.28;
+  background:
+    linear-gradient(90deg,transparent 0 3%,rgba(255,255,255,.6) 3% 4%,transparent 4% 7%,rgba(255,255,255,.45) 7% 9%,transparent 9% 12%,rgba(255,255,255,.55) 12% 13%,transparent 13% 18%,rgba(255,255,255,.38) 18% 20%,transparent 20% 25%,rgba(255,255,255,.48) 25% 27%,transparent 27% 100%);
+  clip-path:polygon(0 55%,8% 45%,8% 20%,12% 20%,12% 45%,16% 42%,16% 8%,19% 8%,19% 40%,23% 36%,23% 24%,27% 24%,27% 41%,32% 35%,32% 0,36% 0,36% 38%,42% 28%,42% 15%,46% 15%,46% 34%,53% 30%,53% 8%,58% 8%,58% 33%,66% 42%,66% 26%,70% 26%,70% 46%,76% 38%,76% 18%,82% 18%,82% 45%,100% 55%,100% 100%,0 100%);
+}
+.water{
+  position:absolute;
+  left:0;right:0;bottom:0;height:32%;
+  background:
+    radial-gradient(ellipse at 78% 0%,rgba(255,255,255,.38),transparent 18%),
+    repeating-linear-gradient(178deg,rgba(24,217,255,.22) 0 2px,transparent 2px 28px),
+    linear-gradient(180deg,rgba(14,63,79,.54),rgba(3,9,15,.98));
+  transform:skewY(-2deg);
+  transform-origin:bottom right;
+}
+.spray{
+  position:absolute;
+  right:-8%;
+  bottom:16%;
+  width:58%;
+  height:18%;
+  background:radial-gradient(ellipse at center, rgba(255,255,255,.55), transparent 62%);
+  filter:blur(10px);
+  transform:rotate(-4deg);
 }
 .boat{
   position:absolute;
-  left:12%;
-  right:10%;
-  top:35%;
-  height:70px;
-  transform:skewX(-18deg);
-  background:linear-gradient(90deg,var(--red),var(--cyan));
-  border-radius:10px 40px 40px 10px;
-  box-shadow:0 0 50px rgba(33,217,255,.45);
+  right:-6%;
+  bottom:30%;
+  width:58vw;
+  max-width:860px;
+  height:210px;
+  transform:skewX(-17deg) rotate(-3deg);
+  filter:drop-shadow(0 30px 35px rgba(0,0,0,.72));
 }
-.wing{
+.boat .hull{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:82px;
+  border-radius:18px 90px 32px 22px;
+  background:
+    linear-gradient(100deg,rgba(0,0,0,.35),transparent 35%),
+    linear-gradient(90deg,#190d14 0%,#c60f24 42%,#4b0812 66%,#05070b 100%);
+  border-top:2px solid rgba(255,255,255,.24);
+  box-shadow:0 0 40px rgba(255,48,72,.35);
+}
+.boat .foil{
+  position:absolute;
+  right:12%;
+  bottom:-46px;
+  width:34%;
+  height:24px;
+  background:linear-gradient(90deg,transparent,#e8f7ff 20%,#2ee4ff 55%,transparent);
+  transform:skewX(28deg);
+  opacity:.75;
+}
+.boat .wing-main{
   position:absolute;
   left:35%;
-  top:13%;
-  width:90px;
-  height:260px;
-  transform:skewX(-12deg);
-  background:linear-gradient(180deg,#fff,var(--cyan),#13203c);
-  clip-path:polygon(35% 0,100% 100%,0 100%);
+  bottom:64px;
+  width:125px;
+  height:560px;
+  transform:skewX(-9deg);
+  transform-origin:bottom;
+  clip-path:polygon(18% 0,100% 100%,0 100%);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.25) 12%,rgba(22,38,60,.85) 34%,rgba(255,48,72,.85) 72%,#0b0f18 100%);
+  border-left:1px solid rgba(255,255,255,.28);
 }
-.speed{
+.boat .wing-back{
   position:absolute;
-  right:28px;
-  bottom:26px;
-  font-size:54px;
+  left:10%;
+  bottom:45px;
+  width:92px;
+  height:400px;
+  transform:skewX(-9deg) scale(.85);
+  transform-origin:bottom;
+  clip-path:polygon(25% 0,100% 100%,0 100%);
+  background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(11,64,78,.9),#04070c);
+  opacity:.55;
+}
+.boat .wing-back.two{
+  left:-8%;
+  height:330px;
+  opacity:.42;
+  background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,212,50,.7),#03060b);
+}
+.hero-copy{
+  width:min(720px,58vw);
+  margin-top:34px;
+}
+.kicker{
+  display:inline-block;
+  color:var(--cyan);
   font-weight:900;
+  letter-spacing:.38em;
+  font-size:14px;
+  transform:skewX(-10deg);
+  text-transform:uppercase;
+  text-shadow:0 0 18px rgba(24,217,255,.58);
 }
-.speed span{
+h1{
+  margin:16px 0 22px;
+  font-size:clamp(62px,9vw,126px);
+  line-height:.88;
+  letter-spacing:-.065em;
+  font-weight:1000;
+  text-transform:uppercase;
+  font-style:italic;
+  text-shadow:0 7px 0 rgba(255,255,255,.08),0 25px 48px rgba(0,0,0,.7);
+}
+h1 span{
   display:block;
-  color:var(--muted);
+  background:linear-gradient(180deg,#fff 0%,#f8fbff 35%,#aab5c3 100%);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.rule{
+  width:360px;
+  height:2px;
+  background:linear-gradient(90deg,var(--cyan),transparent);
+  box-shadow:0 0 18px rgba(24,217,255,.65);
+  margin:0 0 24px;
+}
+.lead{
+  font-size:23px;
+  line-height:1.5;
+  max-width:620px;
+  font-weight:700;
+  color:#f6f8fb;
+  text-shadow:0 4px 18px rgba(0,0,0,.7);
+}
+.lead strong{color:var(--cyan)}
+.sublead{
+  color:#d5deea;
+  max-width:590px;
+  line-height:1.75;
+  font-weight:600;
+  margin-top:10px;
+}
+.cta-row{
+  display:flex;
+  gap:14px;
+  margin-top:34px;
+  flex-wrap:wrap;
+}
+.btn{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:18px;
+  height:50px;
+  padding:0 22px;
+  border-radius:10px;
+  border:1px solid rgba(24,217,255,.62);
+  color:#fff;
+  text-decoration:none;
+  text-transform:uppercase;
+  letter-spacing:.08em;
   font-size:13px;
-  letter-spacing:.18em;
+  font-weight:1000;
+  background:rgba(0,15,28,.66);
+  box-shadow:0 0 26px rgba(24,217,255,.20);
+  overflow:hidden;
 }
-.section{
-  padding:40px 7vw 80px;
+.btn:after{
+  content:"→";
+  font-size:24px;
+  color:var(--cyan);
 }
-.grid{
+.btn:hover{
+  background:rgba(24,217,255,.14);
+  box-shadow:0 0 36px rgba(24,217,255,.42);
+}
+.meta-strip{
+  display:flex;
+  gap:34px;
+  margin-top:38px;
+  color:#e5ecf6;
+}
+.meta-item{
+  position:relative;
+  padding-left:20px;
+  padding-right:28px;
+  border-right:1px solid rgba(255,255,255,.18);
+}
+.meta-item:last-child{border-right:0}
+.meta-item:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:5px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 16px var(--cyan);
+}
+.meta-label{
+  color:var(--cyan);
+  text-transform:uppercase;
+  font-size:12px;
+  letter-spacing:.08em;
+  font-weight:1000;
+}
+.meta-value{
+  margin-top:8px;
+  color:#fff;
+  font-size:14px;
+  font-weight:800;
+}
+.stats-band{
+  position:relative;
+  margin:0 44px 44px;
+  transform:translateY(-28px);
+  z-index:5;
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:18px;
+  border:1px solid rgba(24,217,255,.35);
+  border-radius:12px;
+  background:linear-gradient(180deg,rgba(6,20,34,.84),rgba(2,7,13,.90));
+  box-shadow:0 0 44px rgba(24,217,255,.13), inset 0 0 60px rgba(24,217,255,.05);
+  overflow:hidden;
 }
-.card{
-  background:rgba(11,18,36,.78);
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:22px;
-  padding:24px;
-  min-height:180px;
-  transition:.25s;
+.stat{
+  min-height:142px;
+  display:grid;
+  grid-template-columns:74px 1fr;
+  align-items:center;
+  gap:14px;
+  padding:28px;
+  border-right:1px solid rgba(255,255,255,.13);
 }
-.card:hover{
-  transform:translateY(-6px);
-  border-color:var(--cyan);
-  box-shadow:0 18px 50px rgba(33,217,255,.16);
+.stat:last-child{border-right:0}
+.icon{
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  color:var(--cyan);
+  filter:drop-shadow(0 0 12px rgba(24,217,255,.68));
 }
-.card h2{
-  margin:0 0 12px;
-  font-size:22px;
+.icon svg{width:48px;height:48px;fill:currentColor}
+.stat-num{
+  font-size:48px;
+  font-weight:1000;
+  letter-spacing:-.04em;
+  font-style:italic;
 }
-.card p{
-  color:var(--muted);
-  line-height:1.6;
-}
-.card a{
-  color:white;
-  text-decoration:none;
-  font-weight:900;
-}
-.num{
-  color:var(--gold);
-  font-size:42px;
-  font-weight:900;
-}
-footer{
-  border-top:1px solid rgba(255,255,255,.12);
-  padding:24px 7vw;
-  color:var(--muted);
+.stat-title{
+  text-transform:uppercase;
+  font-weight:1000;
+  letter-spacing:.06em;
   font-size:13px;
 }
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr}
-  .grid{grid-template-columns:1fr}
+.stat-sub{
+  color:var(--muted);
+  margin-top:7px;
+  text-transform:uppercase;
+  font-size:12px;
+  letter-spacing:.06em;
+}
+.section{
+  padding:34px 44px 60px;
+}
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+  margin-bottom:24px;
+}
+.section-title:before,.section-title:after{
+  content:"";
+  width:190px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan));
+  box-shadow:0 0 18px rgba(24,217,255,.55);
+}
+.section-title:after{background:linear-gradient(90deg,var(--cyan),transparent)}
+.section-title h2{
+  margin:0;
+  font-size:20px;
+  letter-spacing:.48em;
+  text-transform:uppercase;
+  transform:skewX(-10deg);
+}
+.cards{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:26px;
+}
+.update-card,.next-card{
+  min-height:250px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:12px;
+  background:linear-gradient(180deg,rgba(7,16,29,.88),rgba(3,8,14,.88));
+  box-shadow:inset 0 0 50px rgba(24,217,255,.04);
+  overflow:hidden;
+}
+.update-row{
+  display:grid;
+  grid-template-columns:32px 1fr 190px;
+  gap:16px;
+  align-items:center;
+  padding:17px 26px;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+.check{
+  width:24px;height:24px;border-radius:50%;
+  border:1px solid var(--cyan);
+  display:grid;place-items:center;color:var(--cyan);
+  box-shadow:0 0 16px rgba(24,217,255,.28);
+}
+.update-name{font-weight:900}
+.update-date{color:var(--muted);font-weight:800;font-size:13px}
+.next-card{
+  position:relative;
+  padding:34px;
+  border-color:rgba(255,48,72,.32);
+  background:
+    radial-gradient(circle at 76% 48%,rgba(255,48,72,.20),transparent 21%),
+    linear-gradient(180deg,rgba(25,10,17,.84),rgba(3,8,14,.88));
+}
+.next-label{
+  color:var(--red);
+  text-transform:uppercase;
+  font-weight:1000;
+  letter-spacing:.12em;
+}
+.next-title{
+  margin:18px 0 0;
+  font-size:46px;
+  line-height:.9;
+  text-transform:uppercase;
+  font-weight:1000;
+  font-style:italic;
+}
+.next-title span{color:var(--red);display:block;font-size:24px;margin-top:10px}
+.next-date{margin-top:22px;font-weight:900}
+.map{
+  position:absolute;
+  right:36px;
+  top:46px;
+  width:220px;
+  height:145px;
+  opacity:.92;
+  border:1px solid rgba(255,48,72,.55);
+  clip-path:polygon(2% 48%,12% 28%,21% 34%,34% 25%,48% 33%,61% 25%,82% 28%,96% 45%,83% 54%,76% 78%,55% 69%,35% 80%,22% 65%,6% 70%);
+  background:radial-gradient(circle at 78% 46%,rgba(255,48,72,.8),transparent 16%),rgba(255,48,72,.08);
+  box-shadow:0 0 32px rgba(255,48,72,.38);
+}
+.footer{
+  display:grid;
+  grid-template-columns:180px 1fr 220px 170px;
+  gap:32px;
+  align-items:center;
+  padding:28px 44px;
+  border-top:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.72);
+  color:var(--muted);
+  font-size:12px;
+}
+.footer .brand-mark{font-size:34px}
+.footer .brand-sub{font-size:10px}
+.footer b{color:#dce7f4}
+@media(max-width:1050px){
   nav{display:none}
+  .hero-copy{width:100%}
+  .boat{opacity:.48;width:82vw}
+  .stats-band{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .topbar{height:78px;padding:0 20px}
+  .brand-mark{font-size:34px}
+  .brand-sub{font-size:9px}
+  .hero{padding:116px 22px 40px}
+  h1{font-size:58px}
+  .lead{font-size:19px}
+  .meta-strip{flex-direction:column;gap:14px}
+  .stats-band{margin:0 22px 34px;grid-template-columns:1fr;transform:translateY(0)}
+  .stat{min-height:120px}
+  .section{padding:34px 22px 50px}
+  .update-row{grid-template-columns:28px 1fr;gap:12px}
+  .update-date{grid-column:2}
+  .map{display:none}
+  .footer{grid-template-columns:1fr;padding:28px 22px}
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">SAIL <span>REFERENCE</span></div>
+<header class="topbar">
+  <a class="brand" href="index.html" aria-label="Home">
+    <span class="brand-mark">SGR</span>
+    <span class="brand-sub">SAIL REFERENCE</span>
+  </a>
   <nav>
-    <a href="#summary">Summary</a>
-    <a href="#stats">Stats</a>
-    <a href="#data">Data</a>
+    <a class="active" href="fleet-summary.html">Fleet Race</a>
+    <a href="#">Event Results</a>
+    <a href="#">Championship</a>
+    <a href="#">Team Stats</a>
+    <a href="#">Records</a>
+    <a href="#">Analysis</a>
+    <a href="#">About</a>
   </nav>
 </header>
 
-<section class="hero">
-  <div>
-    <div class="badge">UNOFFICIAL RACING DATA HUB</div>
-    <h1>SAIL RACING<br><em>REFERENCE</em></h1>
-    <p class="lead">
-      Race results, fleet summaries, final appearances and team trends.
-      Built as a sharp reference page for broadcast preparation and racing analysis.
-    </p>
-    <div class="actions">
-      <a class="btn primary" href="fleet-summary.html">Open Summary</a>
-      <a class="btn secondary" href="reference.csv">View Data</a>
+<main>
+  <section class="hero">
+    <div class="scene" aria-hidden="true">
+      <div class="clouds"></div>
+      <div class="city"></div>
+      <div class="water"></div>
+      <div class="spray"></div>
+      <div class="boat">
+        <div class="wing-back two"></div>
+        <div class="wing-back"></div>
+        <div class="wing-main"></div>
+        <div class="hull"></div>
+        <div class="foil"></div>
+      </div>
     </div>
+
+    <div class="hero-copy">
+      <div class="kicker">Unofficial Statistics Database</div>
+      <h1><span>Sailing</span><span>Reference</span></h1>
+      <div class="rule"></div>
+      <p class="lead">
+        The complete unofficial database for <strong>high-speed foiling racing</strong>.
+      </p>
+      <p class="sublead">
+        Race results, championship standings, team statistics, historical records and
+        analysis built for fast reference.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn" href="fleet-summary.html">Explore Data</a>
+      </div>
+
+      <div class="meta-strip">
+        <div class="meta-item">
+          <div class="meta-label">Data Updated</div>
+          <div class="meta-value">Through Halifax 2026</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Next Event</div>
+          <div class="meta-value">Portsmouth · Jul 25–26, 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-band" aria-label="Database overview">
+    <div class="stat">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M4 3v18H2V3h2Zm2 0h10l-1 4 1 4H6V3Zm11 0h5l-1 4 1 4h-5l-1-4 1-4ZM6 13h10l-1 4 1 4H6v-8Zm11 0h5l-1 4 1 4h-5l-1-4 1-4Z"/></svg>
+      </div>
+      <div>
+        <div class="stat-num">298</div>
+        <div class="stat-title">Fleet Races</div>
+        <div class="stat-sub">Completed</div>
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.57 3-3.5S17.66 4 16 4s-3 1.57-3 3.5 1.34 3.5 3 3.5ZM8 11c1.66 0 3-1.57 3-3.5S9.66 4 8 4 5 5.57 5 7.5 6.34 11 8 11Zm8 2c-2.33 0-7 1.17-7 3.5V20h14v-3.5c0-2.33-4.67-3.5-7-3.5ZM8 13c-.34 0-.73.02-1.15.07C4.61 13.36 1 14.39 1 16.5V20h6v-3.5c0-1.37.74-2.46 1.92-3.3A8.74 8.74 0 0 0 8 13Z"/></svg>
+      </div>
+      <div>
+        <div class="stat-num">13</div>
+        <div class="stat-title">Teams</div>
+        <div class="stat-sub">Competing</div>
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M18 2H6v3H2v3c0 3.31 2.69 6 6 6h.35A6.98 6.98 0 0 0 11 15.9V19H7v3h10v-3h-4v-3.1A6.98 6.98 0 0 0 15.65 14H16c3.31 0 6-2.69 6-6V5h-4V2ZM4 8V7h2v4.46A4 4 0 0 1 4 8Zm16 0a4 4 0 0 1-2 3.46V7h2v1Z"/></svg>
+      </div>
+      <div>
+        <div class="stat-num">6</div>
+        <div class="stat-title">Seasons</div>
+        <div class="stat-sub">2019–20 → 2026</div>
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M12 3C7.03 3 3 4.34 3 6v12c0 1.66 4.03 3 9 3s9-1.34 9-3V6c0-1.66-4.03-3-9-3Zm0 2c4.42 0 7 .98 7 1s-2.58 1-7 1-7-.98-7-1 2.58-1 7-1Zm0 5c2.76 0 5.2-.43 7-1.14V11c0 .02-2.58 1-7 1s-7-.98-7-1V8.86C6.8 9.57 9.24 10 12 10Zm0 5c2.76 0 5.2-.43 7-1.14V16c0 .02-2.58 1-7 1s-7-.98-7-1v-2.14C6.8 14.57 9.24 15 12 15Z"/></svg>
+      </div>
+      <div>
+        <div class="stat-num">80</div>
+        <div class="stat-title">Win Leader</div>
+        <div class="stat-sub">AUS All-Time Wins</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><h2>Latest Update</h2></div>
+
+    <div class="cards">
+      <div class="update-card">
+        <div class="update-row">
+          <div class="check">✓</div>
+          <div class="update-name">Fleet Summary Page Built</div>
+          <div class="update-date">Updated through Halifax 2026</div>
+        </div>
+        <div class="update-row">
+          <div class="check">✓</div>
+          <div class="update-name">Championship Ranking Applied</div>
+          <div class="update-date">Current 2026 standings</div>
+        </div>
+        <div class="update-row">
+          <div class="check">✓</div>
+          <div class="update-name">All-Time Race Database Updated</div>
+          <div class="update-date">298 fleet races</div>
+        </div>
+        <div class="update-row">
+          <div class="check">✓</div>
+          <div class="update-name">Inactive Teams Marked</div>
+          <div class="update-date">JPN / CHI archived</div>
+        </div>
+        <div class="update-row">
+          <div class="check">✓</div>
+          <div class="update-name">DNS / DNF / DSQ Data Note Added</div>
+          <div class="update-date">Under verification</div>
+        </div>
+      </div>
+
+      <div class="next-card">
+        <div class="next-label">Next Event</div>
+        <div class="next-title">Portsmouth <span>Great Britain</span></div>
+        <div class="next-date">Jul 25–26, 2026</div>
+        <div class="cta-row">
+          <a class="btn" href="fleet-summary.html">Open Fleet Summary</a>
+        </div>
+        <div class="map" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="brand">
+    <span class="brand-mark">SGR</span>
+    <span class="brand-sub">SAIL REFERENCE</span>
   </div>
-
-  <div class="visual">
-    <div class="wing"></div>
-    <div class="boat"></div>
-    <div class="speed"><span>TOP SPEED</span>99 KM/H</div>
-  </div>
-</section>
-
-<section class="section" id="summary">
-  <div class="grid">
-    <div class="card">
-      <div class="num">01</div>
-      <h2><a href="fleet_summary.png">Fleet Summary</a></h2>
-      <p>Overall fleet reference for quick race-day checking.</p>
-    </div>
-
-    <div class="card">
-      <div class="num">02</div>
-      <h2><a href="fleet_race.png">Fleet Race</a></h2>
-      <p>Race-by-race finishing data and team comparison.</p>
-    </div>
-
-    <div class="card">
-      <div class="num">03</div>
-      <h2><a href="fleet_finishes.png">Finishes</a></h2>
-      <p>Finishing trends, top results and consistency checks.</p>
-    </div>
-
-    <div class="card">
-      <div class="num">04</div>
-      <h2><a href="fleet_lastwin.png">Last Win</a></h2>
-      <p>Last event wins and drought-style reference information.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="stats">
-  <div class="card">
-    <h2>Broadcast Reference Style</h2>
-    <p>
-      Dark, high-contrast and fast to read. This page avoids official team logos
-      and uses an original text identity for an unofficial reference site.
-    </p>
-  </div>
-</section>
-
-<footer>
-  Unofficial reference page. Not affiliated with SailGP or any official rights holder.
+  <div>This is an unofficial statistics database and is not affiliated with or endorsed by any official rights holder.</div>
+  <div><b>Data Status</b><br>Updated through Halifax 2026</div>
+  <div>© SGR</div>
 </footer>
 
 </body>
