@@ -310,6 +310,23 @@ h1{
   color:var(--blue);
   text-shadow:0 0 14px rgba(97,216,255,.28);
 }
+
+.data-note{
+  margin-top:16px;
+  padding:13px 16px;
+  border:1px solid rgba(33,217,255,.18);
+  border-left:3px solid var(--cyan);
+  border-radius:14px;
+  background:rgba(7,16,34,.64);
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.55;
+}
+.data-note strong{
+  color:var(--text);
+  letter-spacing:.08em;
+  margin-right:6px;
+}
 footer{
   position:relative;
   z-index:1;
@@ -385,6 +402,9 @@ footer{
         </div>
         <div id="fleetBody"></div>
       </div>
+    </div>
+    <div class="data-note">
+      <strong>Data Note:</strong> DNS, DNF and DSQ records are currently under verification. These records will continue to be verified and updated.
     </div>
   </section>
 </main>
