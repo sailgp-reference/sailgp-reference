@@ -54,17 +54,18 @@ h1 span{display:block;}
 .stat-num.gold{color:var(--gold);text-shadow:0 0 18px rgba(255,216,74,.35)}
 .stat-title{margin-top:2px;font-size:13px;line-height:1.05;font-weight:1000;letter-spacing:.08em;text-transform:uppercase;}
 .stat-sub{margin-top:8px;font-size:13px;color:var(--muted);font-weight:900;letter-spacing:.06em;text-transform:uppercase;}
-.content{display:grid;grid-template-columns:1.08fr .92fr;gap:28px;padding:0 42px 32px;}
+.content{display:grid;grid-template-columns:minmax(420px,.95fr) minmax(390px,.82fr) minmax(240px,.48fr);gap:22px;padding:0 42px 32px;align-items:start;}
 .panel{background:linear-gradient(180deg,rgba(5,20,30,.86),rgba(1,8,12,.88));border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:24px;box-shadow:inset 0 0 40px rgba(0,216,255,.03);}
 .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
 .panel h2{margin:0;font-size:23px;font-weight:1000;letter-spacing:.10em;text-transform:uppercase;}
-.panel-arrow{color:var(--cyan);font-size:28px;font-weight:900;}
-.standings{width:100%;border-collapse:collapse;overflow:hidden;border-radius:9px;}
-.standings th,.standings td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.10);font-size:15px;}
+.panel-arrow{color:var(--cyan);font-size:26px;font-weight:1000;text-shadow:0 0 16px rgba(0,216,255,.65);transition:transform .16s ease,color .16s ease;}
+.panel-arrow:hover{transform:translateX(4px);color:#fff;}
+.standings{width:100%;max-width:560px;border-collapse:collapse;overflow:hidden;border-radius:9px;}
+.standings th,.standings td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.10);font-size:15px;}
 .standings th{text-align:left;color:#b8c4d2;font-size:12px;letter-spacing:.10em;text-transform:uppercase;background:rgba(255,255,255,.04);}
 .standings td{font-weight:900;}
-.standings td:first-child{width:60px;text-align:center;font-size:17px;}
-.standings td:last-child{text-align:right;font-size:18px;}
+.standings td:first-child{width:54px;text-align:center;font-size:17px;}
+.standings td:last-child{width:70px;text-align:right;font-size:18px;}
 .standings tr{transition:background .15s ease,box-shadow .15s ease;}
 .standings tbody tr:hover{background:linear-gradient(90deg,rgba(255,216,74,.24),rgba(255,216,74,.06));box-shadow:inset 4px 0 0 var(--cyan),0 0 22px rgba(255,216,74,.18);}
 .flag{font-size:18px;margin-right:8px;}
@@ -73,11 +74,19 @@ h1 span{display:block;}
 .check{width:24px;height:24px;border:1px solid var(--cyan);border-radius:50%;display:grid;place-items:center;color:var(--cyan);box-shadow:0 0 14px rgba(0,216,255,.42);font-weight:1000;}
 .update-name{font-size:16px;font-weight:1000;}
 .update-date{font-size:13px;color:#b8c4d2;font-weight:900;}
+.ad-card{min-height:100%;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
+.ad-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 10%,rgba(0,216,255,.16),transparent 34%),radial-gradient(circle at 0% 88%,rgba(255,23,68,.12),transparent 30%);pointer-events:none;}
+.ad-kicker{position:relative;color:var(--cyan);font-size:12px;font-weight:1000;letter-spacing:.18em;text-transform:uppercase;}
+.ad-title{position:relative;margin-top:12px;font-size:26px;line-height:1.05;font-weight:1000;letter-spacing:.04em;text-transform:uppercase;}
+.ad-copy{position:relative;margin-top:12px;color:#b8c4d2;font-size:13px;line-height:1.55;font-weight:800;}
+.ad-space{position:relative;margin-top:22px;border:1px dashed rgba(0,216,255,.38);border-radius:12px;min-height:170px;display:grid;place-items:center;color:#7f91a3;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,216,255,.035);}
+
 .footer{display:grid;grid-template-columns:170px 1fr 220px 220px;gap:28px;align-items:start;padding:30px 42px 38px;border-top:1px solid rgba(255,255,255,.12);background:#02050a;color:#c6d1dd;font-size:12px;}
 .footer-logo strong{display:block;font-size:38px;font-style:italic;color:#d7faff;line-height:.9;text-shadow:0 0 16px rgba(0,216,255,.5);}
 .footer-logo span{display:block;margin-top:8px;font-size:11px;font-weight:900;letter-spacing:.40em;color:#dce9f4;}
 .footer b{color:#fff}
 .footer a{display:block;margin-top:9px;color:#d7e4ee;}
+@media(max-width:1180px){.content{grid-template-columns:1fr 1fr}.ad-card{grid-column:1/-1;min-height:230px}}
 @media(max-width:980px){.header{padding:0 18px}.nav{display:none}.hero{min-height:660px}.hero-inner{padding:44px 22px}.event-card{display:none}.stats{grid-template-columns:1fr;margin:-60px 22px 28px}.stat{border-right:0;border-bottom:1px solid rgba(255,255,255,.13)}.content{grid-template-columns:1fr;padding:0 22px 28px}.footer{grid-template-columns:1fr;padding:28px 22px}}
 </style>
 </head>
@@ -134,6 +143,14 @@ h1 span{display:block;}
     <div class="update-row"><div class="check">✓</div><div class="update-name">DNS / DNF / DSQ Data Note Added</div><div class="update-date">Under verification</div></div>
     <p><a class="btn" href="#updates" style="margin-top:22px">View All Updates <span>→</span></a></p>
   </section>
+  <aside class="panel ad-card" aria-label="Advertising space">
+    <div>
+      <div class="ad-kicker">Partner Space</div>
+      <div class="ad-title">Future<br>Ad Slot</div>
+      <div class="ad-copy">Reserved area for sponsor placement, featured analysis, or event promotion.</div>
+    </div>
+    <div class="ad-space">Ad / Feature</div>
+  </aside>
 </main>
 <footer class="footer">
   <div class="footer-logo"><strong>SGR</strong><span>SAIL REFERENCE</span></div>
