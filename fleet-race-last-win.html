@@ -1,65 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Sail Reference | Fleet Race Last Win</title>
 <style>
 :root{
   --bg:#02050a;
-  --panel:rgba(2,12,18,.84);
-  --panel2:rgba(4,16,22,.93);
-  --line:rgba(255,255,255,.15);
+  --line:rgba(255,255,255,.16);
   --text:#f7fbff;
   --muted:#a9b6c6;
   --cyan:#00d8ff;
   --cyan2:#33f1ff;
   --gold:#ffdf3a;
-  --red:#ff2438;
-  --greenHead:#a8e7dc;
-  --dark:#031017;
+  --silver:#d8dde3;
+  --red:#ff2448;
+  --greenTop:#145a51;
+  --greenBottom:#073a34;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Meiryo,Arial,sans-serif;overflow-x:hidden}
+html,body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Meiryo,Arial,sans-serif;
+}
 a{color:inherit;text-decoration:none}
-body{min-height:100vh;background:#02050a}
-.site-header{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:rgba(0,0,0,.76);border-bottom:1px solid rgba(255,255,255,.12);position:sticky;top:0;z-index:50;backdrop-filter:blur(14px)}
-.logo{line-height:1;letter-spacing:.15em;font-weight:950;font-size:26px;white-space:nowrap}
+body{
+  min-height:100vh;
+  background:#02050a;
+  overflow-x:hidden;
+}
+.site-header{
+  height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 26px;
+  background:rgba(0,0,0,.78);
+  border-bottom:1px solid rgba(255,255,255,.12);
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter:blur(14px);
+}
+.logo{
+  line-height:1;
+  letter-spacing:.15em;
+  font-weight:950;
+  font-size:26px;
+}
 .logo span{color:var(--cyan)}
-.logo small{display:block;margin-top:7px;font-size:12px;letter-spacing:.34em;font-weight:800;color:#f0f5fa}
-.nav{display:flex;gap:27px;align-items:center;font-size:14px;font-weight:900;letter-spacing:.055em;white-space:nowrap}
-.nav a{opacity:.88;position:relative;padding:29px 0 25px}
+.logo small{
+  display:block;
+  margin-top:7px;
+  font-size:12px;
+  letter-spacing:.34em;
+  font-weight:800;
+  color:#f0f5fa;
+}
+.nav{
+  display:flex;
+  gap:27px;
+  align-items:center;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.055em;
+  white-space:nowrap;
+}
+.nav a{
+  opacity:.88;
+  position:relative;
+  padding:29px 0 25px;
+}
 .nav a:hover,.nav a.active{color:var(--cyan);opacity:1}
-.nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--cyan);box-shadow:0 0 18px rgba(0,216,255,.7)}
-.page{position:relative;min-height:calc(100vh - 74px);background-image:linear-gradient(90deg,rgba(2,5,10,.36) 0%,rgba(2,5,10,.70) 40%,rgba(2,5,10,.94) 68%,#02050a 100%),linear-gradient(180deg,rgba(2,5,10,.02) 0%,rgba(2,5,10,.70) 100%),url('fleet_last_win.png');background-size:cover;background-position:left center;background-repeat:no-repeat;display:grid;grid-template-columns:minmax(440px,41vw) minmax(560px,660px);gap:26px;align-items:start;padding:44px 42px 28px}
-.page::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 17% 10%,rgba(0,216,255,.11),transparent 31%),radial-gradient(circle at 78% 8%,rgba(0,216,255,.06),transparent 28%);pointer-events:none}
-.intro,.data-area{position:relative;z-index:2}
-.intro{min-height:calc(100vh - 146px);display:flex;flex-direction:column;justify-content:flex-start;padding-top:8px}
-.eyebrow{display:inline-flex;align-items:center;gap:12px;color:var(--cyan);font-weight:950;letter-spacing:.18em;font-size:14px;text-transform:uppercase;margin:0 0 18px}
-.eyebrow::before,.eyebrow::after{content:"";width:38px;height:2px;background:var(--cyan);box-shadow:0 0 14px rgba(0,216,255,.9)}
-h1{margin:0;color:#f4f7fb;font-size:clamp(58px,5.35vw,92px);line-height:.92;letter-spacing:-.035em;text-transform:uppercase;font-style:italic;font-weight:950;text-shadow:0 2px 0 rgba(255,255,255,.16),0 0 26px rgba(0,216,255,.22),0 14px 32px rgba(0,0,0,.76)}
-.lead{margin:20px 0 0;max-width:520px;color:#eef5fa;font-size:18px;font-weight:650;line-height:1.45;text-shadow:0 2px 12px rgba(0,0,0,.74)}
-.legend{display:grid;gap:10px;margin-top:22px;max-width:360px}
-.legend span{display:inline-flex;align-items:center;gap:8px;width:max-content;max-width:100%;border:1px solid rgba(255,255,255,.22);background:rgba(0,7,12,.58);border-radius:8px;padding:10px 14px;color:#f7fbff;font-size:14px;font-weight:720;box-shadow:0 12px 30px rgba(0,0,0,.20)}
-.legend b{font-weight:950}.legend .latest b{color:var(--gold)}.legend .ago b{color:var(--cyan)}
-.note{margin-top:auto;width:min(420px,92%);border:1px solid rgba(0,216,255,.34);border-radius:12px;background:rgba(0,12,18,.68);padding:15px 18px 14px;box-shadow:0 18px 40px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(8px)}
-.note-title{display:flex;align-items:center;gap:10px;margin-bottom:8px;color:var(--cyan);font-size:15px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
-.note-title::before{content:"ⓘ";font-size:18px;letter-spacing:0}.note ul{margin:0 0 8px 20px;padding:0}.note li{margin:6px 0;color:#f3f7fb;font-size:14px;line-height:1.35}.note p{margin:8px 0 0;color:#c5ced8;font-size:13px;font-style:italic;line-height:1.35}
-.data-area{justify-self:start;width:100%;max-width:650px;padding-top:18px}
-.table-card{width:100%;background:linear-gradient(180deg,rgba(3,15,21,.89),rgba(2,10,16,.91));border:1px solid rgba(255,255,255,.20);border-radius:12px;box-shadow:0 22px 70px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.08);overflow:hidden;backdrop-filter:blur(6px)}
-table{width:100%;border-collapse:collapse;table-layout:fixed}
-col.team-col{width:36%}col.win-col{width:43%}col.ago-col{width:21%}
-th{height:48px;padding:0 16px;background:linear-gradient(180deg,rgba(180,239,228,.96),rgba(145,219,208,.93));color:#06141a;border-bottom:1px solid rgba(255,255,255,.28);font-size:14px;letter-spacing:.10em;text-transform:uppercase;font-weight:950;text-align:left;white-space:nowrap}
-th.ago-head{text-align:center}
-td{height:42px;padding:0 16px;border-bottom:1px solid rgba(255,255,255,.105);font-size:18px;line-height:1;white-space:nowrap;color:#f7fbff;text-shadow:0 1px 10px rgba(0,0,0,.28)}
+.nav a.active::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:3px;
+  background:var(--cyan);
+  box-shadow:0 0 18px rgba(0,216,255,.7);
+}
+.page{
+  position:relative;
+  min-height:calc(100vh - 74px);
+  background-image:
+    linear-gradient(90deg,rgba(0,0,0,.58) 0%,rgba(0,0,0,.40) 37%,rgba(0,0,0,.70) 72%,rgba(0,0,0,.86) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.10) 0%,rgba(2,5,10,.28) 48%,#02050a 100%),
+    url('fleet_last_win.png');
+  background-size:cover;
+  background-position:center 46%;
+  overflow:hidden;
+}
+.page::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 8% 12%,rgba(0,216,255,.12),transparent 30%),
+    radial-gradient(circle at 76% 20%,rgba(0,0,0,.35),transparent 42%);
+  pointer-events:none;
+}
+.layout{
+  position:relative;
+  z-index:2;
+  width:min(1600px,calc(100% - 72px));
+  min-height:calc(100vh - 74px);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:minmax(520px,1fr) 690px;
+  gap:74px;
+  align-items:start;
+  padding:66px 0 48px;
+}
+.left-panel{
+  min-height:calc(100vh - 188px);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding-bottom:10px;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color:var(--cyan);
+  font-weight:950;
+  letter-spacing:.20em;
+  font-size:13px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.eyebrow::before,.eyebrow::after{
+  content:"";
+  width:34px;
+  height:2px;
+  background:var(--cyan);
+  box-shadow:0 0 14px rgba(0,216,255,.9);
+}
+h1{
+  margin:0;
+  color:var(--silver);
+  font-size:clamp(54px,6.2vw,96px);
+  line-height:.92;
+  letter-spacing:-.035em;
+  text-transform:uppercase;
+  font-style:italic;
+  text-shadow:0 2px 0 rgba(255,255,255,.16),0 0 24px rgba(0,216,255,.22),0 12px 30px rgba(0,0,0,.80);
+}
+.lead{
+  margin:22px 0 0;
+  max-width:620px;
+  color:#eaf3f8;
+  font-size:18px;
+  line-height:1.55;
+  font-weight:650;
+  text-shadow:0 2px 12px rgba(0,0,0,.75);
+}
+.legend{
+  margin-top:22px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  max-width:370px;
+}
+.legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  width:max-content;
+  max-width:100%;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,7,12,.62);
+  border-radius:8px;
+  padding:10px 14px;
+  color:#eef7fb;
+  font-size:14px;
+  font-weight:650;
+  box-shadow:0 12px 24px rgba(0,0,0,.28);
+}
+.legend b{color:var(--cyan);letter-spacing:.04em}
+.legend .latest b{color:var(--gold)}
+.note{
+  width:420px;
+  max-width:100%;
+  border:1px solid rgba(0,216,255,.50);
+  background:linear-gradient(180deg,rgba(2,17,24,.86),rgba(1,7,12,.80));
+  border-radius:12px;
+  padding:15px 18px 16px;
+  box-shadow:0 16px 36px rgba(0,0,0,.38);
+}
+.note-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--cyan);
+  font-weight:900;
+  letter-spacing:.12em;
+  font-size:15px;
+  margin-bottom:9px;
+}
+.note-title::before{
+  content:"i";
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:2px solid var(--cyan);
+  font-size:12px;
+  font-weight:900;
+}
+.note ul{
+  margin:0;
+  padding-left:22px;
+  color:#f2f6f9;
+  font-size:14px;
+  line-height:1.75;
+  font-weight:560;
+}
+.note em{
+  display:block;
+  margin-top:8px;
+  color:#c0c9d2;
+  font-size:13px;
+  line-height:1.35;
+}
+.table-area{
+  justify-self:end;
+  width:690px;
+  padding-top:48px;
+}
+.data-card{
+  width:100%;
+  background:linear-gradient(180deg,rgba(2,13,18,.88),rgba(1,7,12,.91));
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 28px 90px rgba(0,0,0,.50),inset 0 1px 0 rgba(255,255,255,.06);
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+th,td{
+  white-space:nowrap;
+}
+th{
+  height:52px;
+  background:linear-gradient(180deg,var(--greenTop),var(--greenBottom));
+  color:#edf8f4;
+  font-size:13px;
+  letter-spacing:.105em;
+  text-transform:uppercase;
+  font-weight:760;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  text-align:left;
+}
+th.team-head{padding-left:40px;width:35%}
+th.event-head{width:45%;padding-left:10px}
+th.ago-head{width:20%;text-align:center;padding-right:16px}
+td{
+  height:43px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  color:#f5f8fb;
+  font-size:16px;
+  font-weight:560;
+  text-shadow:0 1px 10px rgba(0,0,0,.45);
+}
 tbody tr:last-child td{border-bottom:none}
-td.team{font-weight:950;letter-spacing:.04em;text-align:left}
-td.team .flag{display:inline-block;width:31px;margin-right:13px;font-size:22px;vertical-align:-3px;text-align:center;text-shadow:none}
-td.event{font-weight:720;letter-spacing:.015em;text-align:left}
-td.ago{font-weight:950;text-align:center;font-size:18px;letter-spacing:.02em}.ago-latest{color:var(--gold);text-shadow:0 0 14px rgba(255,223,58,.26)}.ago-worst{color:var(--red);text-shadow:0 0 10px rgba(255,36,56,.16)}.ago-withdrawn{color:#8f98a3}.divider td{border-top:1px solid rgba(0,216,255,.58)}.withdrawn td.team,.withdrawn td.event{color:rgba(255,255,255,.62)}
-.footer-note{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:12px;color:var(--muted);font-size:13px}.back-link{display:inline-flex;align-items:center;gap:12px;margin:0;color:var(--cyan);font-weight:950;letter-spacing:.08em;text-transform:uppercase;font-size:13px;white-space:nowrap}.back-link .arrow{font-size:25px;line-height:1;text-shadow:0 0 18px rgba(0,216,255,.7)}
-@media(max-width:1180px){.site-header{height:auto;align-items:flex-start;gap:14px;flex-direction:column;padding:16px 20px}.nav{flex-wrap:wrap;gap:16px;font-size:12px}.nav a{padding:4px 0 8px}.page{min-height:auto;grid-template-columns:1fr;padding:34px 22px 30px;background-position:center center}.intro{min-height:620px}.data-area{max-width:none;padding-top:0}.note{margin-top:28px}.footer-note{padding-bottom:10px}}
-@media(max-width:720px){h1{font-size:54px}.lead{font-size:16px}.page{padding:28px 16px}.table-card{overflow-x:auto}table{min-width:620px}.footer-note{align-items:flex-start;flex-direction:column}.logo{font-size:23px}}
+td.team{
+  padding-left:28px;
+  letter-spacing:.035em;
+  font-weight:700;
+}
+.flag{
+  display:inline-block;
+  width:30px;
+  margin-right:13px;
+  font-size:20px;
+  vertical-align:-2px;
+  text-align:center;
+}
+td.event{
+  padding-left:10px;
+  letter-spacing:.025em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+td.ago{
+  text-align:center;
+  padding-right:16px;
+  font-weight:720;
+  letter-spacing:.02em;
+}
+.latest{color:var(--gold);font-weight:800;text-shadow:0 0 14px rgba(255,223,58,.22)}
+.short{color:var(--cyan);font-weight:760}
+.worst{color:var(--red);font-weight:780;text-shadow:none}
+.retired td{color:rgba(238,244,249,.58)}
+.retired td.ago{color:#a7adb2}
+.retired .flag{opacity:.78}
+.separator td{border-top:2px solid rgba(0,216,255,.72)}
+.table-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  margin-top:14px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.35;
+}
+.back-link{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color:var(--cyan);
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:13px;
+  white-space:nowrap;
+}
+.back-link .arrow{
+  font-size:24px;
+  line-height:1;
+  text-shadow:0 0 18px rgba(0,216,255,.7);
+}
+@media(max-width:1160px){
+  .site-header{height:auto;align-items:flex-start;gap:14px;flex-direction:column;padding:16px 18px}
+  .nav{flex-wrap:wrap;gap:16px;font-size:12px}
+  .nav a{padding:4px 0 8px}
+  .layout{display:block;width:min(760px,calc(100% - 36px));padding:42px 0 40px}
+  .left-panel{min-height:auto;display:block}
+  .note{margin-top:26px}
+  .table-area{width:100%;padding-top:30px}
+  .data-card{overflow-x:auto}
+  table{min-width:660px}
+}
 </style>
 </head>
 <body>
@@ -75,64 +358,61 @@ td.ago{font-weight:950;text-align:center;font-size:18px;letter-spacing:.02em}.ag
   </nav>
 </header>
 <main class="page">
-  <section class="intro" aria-label="Fleet race last win overview">
-    <div>
-      <div class="eyebrow">Fleet Race Record</div>
-      <h1>Fleet Race<br>Last Win</h1>
-      <p class="lead">Most recent fleet race victory by team, based on the WEB_Fleet Race Last Win sheet.</p>
-      <div class="legend" aria-label="Legend">
-        <span class="latest"><b>LATEST</b> = won at the latest listed fleet race.</span>
-        <span class="ago"><b>AGO</b> = fleet races since the last win.</span>
+  <div class="layout">
+    <section class="left-panel">
+      <div>
+        <div class="eyebrow">Fleet Race Record</div>
+        <h1>Fleet Race<br/>Last Win</h1>
+        <p class="lead">Most recent fleet race victory by team, based on the WEB_Fleet Race Last Win sheet.</p>
+        <div class="legend">
+          <span class="latest"><b>LATEST</b> = won at the latest listed fleet race.</span>
+          <span><b>AGO</b> = fleet races since the last win.</span>
+        </div>
       </div>
-    </div>
-    <aside class="note">
-      <div class="note-title">Note</div>
-      <ul>
-        <li>CHI (China) withdrew during Season 1.</li>
-        <li>JPN (Japan) withdrew during Season 2.</li>
-      </ul>
-      <p>Withdrawn teams are fixed at the bottom of the table.</p>
-    </aside>
-  </section>
-  <section class="data-area" aria-label="Fleet race last win table">
-    <div class="table-card">
-      <table>
-        <colgroup>
-          <col class="team-col">
-          <col class="win-col">
-          <col class="ago-col">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Team</th>
-            <th>Last Fleet Win</th>
-            <th class="ago-head">Ago</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td class="team"><span class="flag">🇦🇺</span>AUS</td><td class="event">S6 E7 HALIFAX R4A</td><td class="ago ago-latest">LATEST</td></tr>
-          <tr><td class="team"><span class="flag">🇬🇧</span>GBR</td><td class="event">S6 E6 NEW YORK R1</td><td class="ago">6</td></tr>
-          <tr><td class="team"><span class="flag">🇫🇷</span>FRA</td><td class="event">S6 E1 PERTH R2</td><td class="ago ago-worst">36</td></tr>
-          <tr><td class="team"><span class="flag">🇺🇸</span>USA</td><td class="event">S6 E7 HALIFAX R4B</td><td class="ago ago-latest">LATEST</td></tr>
-          <tr><td class="team"><span class="flag">🇳🇿</span>NZL</td><td class="event">S6 E2 AUCKLAND R2</td><td class="ago ago-worst">30</td></tr>
-          <tr><td class="team"><span class="flag">🇪🇸</span>ESP</td><td class="event">S6 E7 HALIFAX R3A</td><td class="ago">1</td></tr>
-          <tr><td class="team"><span class="flag">🇩🇰</span>DEN</td><td class="event">S6 E3 SYDNEY R7</td><td class="ago">21</td></tr>
-          <tr><td class="team"><span class="flag">🇨🇦</span>CAN</td><td class="event">S6 E6 NEW YORK R3</td><td class="ago">4</td></tr>
-          <tr><td class="team"><span class="flag">🇨🇭</span>SUI</td><td class="event">S6 E7 HALIFAX R1B</td><td class="ago">3</td></tr>
-          <tr><td class="team"><span class="flag">🇩🇪</span>GER</td><td class="event">S6 E5 BERMUDA R7</td><td class="ago">7</td></tr>
-          <tr><td class="team"><span class="flag">🇮🇹</span>ITA</td><td class="event">S6 E4 RIO DE JANEIRO R3</td><td class="ago">18</td></tr>
-          <tr><td class="team"><span class="flag">🇧🇷</span>BRA</td><td class="event">S5 E11 CADIZ R7</td><td class="ago ago-worst">45</td></tr>
-          <tr><td class="team"><span class="flag">🇸🇪</span>SWE</td><td class="event">S6 E7 HALIFAX R3B</td><td class="ago">1</td></tr>
-          <tr class="divider withdrawn"><td class="team"><span class="flag">🇨🇳</span>CHI</td><td class="event">S1 E5 MARSEILLE R5</td><td class="ago ago-withdrawn">2</td></tr>
-          <tr class="withdrawn"><td class="team"><span class="flag">🇯🇵</span>JPN</td><td class="event">S2 E8 SAN FRANCISCO R3</td><td class="ago ago-withdrawn">2</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="footer-note">
-      <span>Source: WEB_Fleet Race Last Win sheet / Updated through Halifax 2026.</span>
-      <a class="back-link" href="fleet-race-finishes.html">View Fleet Race Finishes <span class="arrow">→</span></a>
-    </div>
-  </section>
+      <div class="note">
+        <div class="note-title">NOTE</div>
+        <ul>
+          <li>CHI (China) withdrew during Season 1.</li>
+          <li>JPN (Japan) withdrew during Season 2.</li>
+        </ul>
+        <em>Withdrawn teams are fixed at the bottom of the table.</em>
+      </div>
+    </section>
+    <section class="table-area">
+      <div class="data-card">
+        <table>
+          <thead>
+            <tr>
+              <th class="team-head">TEAM</th>
+              <th class="event-head">LAST FLEET WIN</th>
+              <th class="ago-head">AGO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="team"><span class="flag">🇦🇺</span>AUS</td><td class="event">S6 E7 HALIFAX R4A</td><td class="ago latest">LATEST</td></tr>
+            <tr><td class="team"><span class="flag">🇬🇧</span>GBR</td><td class="event">S6 E6 NEW YORK R1</td><td class="ago">6</td></tr>
+            <tr><td class="team"><span class="flag">🇺🇸</span>USA</td><td class="event">S6 E7 HALIFAX R4B</td><td class="ago latest">LATEST</td></tr>
+            <tr><td class="team"><span class="flag">🇫🇷</span>FRA</td><td class="event">S6 E1 PERTH R2</td><td class="ago worst">36</td></tr>
+            <tr><td class="team"><span class="flag">🇳🇿</span>NZL</td><td class="event">S6 E2 AUCKLAND R2</td><td class="ago worst">30</td></tr>
+            <tr><td class="team"><span class="flag">🇪🇸</span>ESP</td><td class="event">S6 E7 HALIFAX R3A</td><td class="ago">1</td></tr>
+            <tr><td class="team"><span class="flag">🇩🇰</span>DEN</td><td class="event">S6 E3 SYDNEY R7</td><td class="ago">21</td></tr>
+            <tr><td class="team"><span class="flag">🇨🇦</span>CAN</td><td class="event">S6 E6 NEW YORK R3</td><td class="ago">4</td></tr>
+            <tr><td class="team"><span class="flag">🇨🇭</span>SUI</td><td class="event">S6 E7 HALIFAX R1B</td><td class="ago short">3</td></tr>
+            <tr><td class="team"><span class="flag">🇩🇪</span>GER</td><td class="event">S6 E5 BERMUDA R7</td><td class="ago">7</td></tr>
+            <tr><td class="team"><span class="flag">🇮🇹</span>ITA</td><td class="event">S6 E4 RIO DE JANEIRO R3</td><td class="ago">18</td></tr>
+            <tr><td class="team"><span class="flag">🇧🇷</span>BRA</td><td class="event">S5 E11 CADIZ R7</td><td class="ago worst">45</td></tr>
+            <tr><td class="team"><span class="flag">🇸🇪</span>SWE</td><td class="event">S6 E7 HALIFAX R3B</td><td class="ago">1</td></tr>
+            <tr class="retired separator"><td class="team"><span class="flag">🇨🇳</span>CHI</td><td class="event">S1 E5 MARSEILLE R5</td><td class="ago">2</td></tr>
+            <tr class="retired"><td class="team"><span class="flag">🇯🇵</span>JPN</td><td class="event">S2 E8 SAN FRANCISCO R3</td><td class="ago">2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <span>Source: WEB_Fleet Race Last Win sheet / Updated through Halifax 2026.</span>
+        <a class="back-link" href="fleet-race-finishes.html">View Fleet Race Finishes <span class="arrow">→</span></a>
+      </div>
+    </section>
+  </div>
 </main>
 </body>
 </html>
