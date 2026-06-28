@@ -1,22 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sail Reference | Fleet Race Last Win</title>
 <style>
 :root{
-  --bg:#02050a;--panel:rgba(2,12,18,.82);--panel2:rgba(5,16,22,.92);--line:rgba(255,255,255,.16);
-  --text:#f7fbff;--muted:#a9b6c6;--cyan:#00d8ff;--cyan2:#33f1ff;--gold:#ffdf3a;--silver:#d8dde3;
-  --blue:#43b9ff;--hover:rgba(255,220,0,.20);--hoverLine:rgba(255,220,0,.78);
+  --bg:#02050a;
+  --panel:rgba(2,12,18,.84);
+  --panel2:rgba(4,16,22,.93);
+  --line:rgba(255,255,255,.15);
+  --text:#f7fbff;
+  --muted:#a9b6c6;
+  --cyan:#00d8ff;
+  --cyan2:#33f1ff;
+  --gold:#ffdf3a;
+  --red:#ff2438;
+  --greenHead:#a8e7dc;
+  --dark:#031017;
 }
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Meiryo,Arial,sans-serif}a{color:inherit;text-decoration:none}body{min-height:100vh;background:radial-gradient(circle at 15% 3%,rgba(0,216,255,.18),transparent 28%),radial-gradient(circle at 80% 8%,rgba(255,223,58,.12),transparent 28%),linear-gradient(180deg,#02050a 0%,#031017 100%)}
-.site-header{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:rgba(0,0,0,.72);border-bottom:1px solid rgba(255,255,255,.12);position:sticky;top:0;z-index:50;backdrop-filter:blur(14px)}
-.logo{line-height:1;letter-spacing:.15em;font-weight:950;font-size:26px}.logo span{color:var(--cyan)}.logo small{display:block;margin-top:7px;font-size:12px;letter-spacing:.34em;font-weight:800;color:#f0f5fa}.nav{display:flex;gap:27px;align-items:center;font-size:14px;font-weight:900;letter-spacing:.055em;white-space:nowrap}.nav a{opacity:.88;position:relative;padding:29px 0 25px}.nav a:hover,.nav a.active{color:var(--cyan);opacity:1}.nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--cyan);box-shadow:0 0 18px rgba(0,216,255,.7)}
-.hero{position:relative;min-height:430px;background-image:linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.53) 30%,rgba(0,0,0,.18) 58%,rgba(0,0,0,.36) 100%),linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(2,7,11,.20) 60%,#02050a 100%),url('fleet_last_win.png');background-size:cover;background-position:center 42%;display:flex;align-items:flex-end;overflow:hidden}.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,216,255,.05),transparent 36%,rgba(255,223,58,.04));mix-blend-mode:screen}.hero-content{position:relative;z-index:2;width:min(1220px,calc(100% - 48px));margin:0 auto;padding:72px 0 60px}.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--cyan);font-weight:950;letter-spacing:.20em;font-size:13px;text-transform:uppercase;margin-bottom:14px}.eyebrow::before{content:"";width:34px;height:2px;background:var(--cyan);box-shadow:0 0 14px rgba(0,216,255,.9)}h1{margin:0;color:var(--silver);font-size:clamp(48px,7.2vw,102px);line-height:.9;letter-spacing:-.03em;text-transform:uppercase;font-style:italic;text-shadow:0 2px 0 rgba(255,255,255,.18),0 0 26px rgba(0,216,255,.26),0 12px 30px rgba(0,0,0,.8)}.lead{margin:20px 0 0;max-width:690px;color:#e4eef5;font-size:19px;line-height:1.55;text-shadow:0 2px 12px rgba(0,0,0,.68)}
-.table-section{width:min(1220px,calc(100% - 34px));margin:-22px auto 56px;position:relative;z-index:5}.table-card{background:linear-gradient(180deg,rgba(7,22,30,.92),rgba(1,7,12,.94));border:1px solid var(--line);border-radius:24px;box-shadow:0 24px 90px rgba(0,0,0,.44),inset 0 1px 0 rgba(255,255,255,.08);overflow:hidden}.card-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:24px 28px 20px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(0,216,255,.12),rgba(255,255,255,.025))}.card-head h2{margin:0;font-size:30px;letter-spacing:.09em;text-transform:uppercase;color:#eef7fb}.note-inline{display:flex;flex-wrap:wrap;gap:12px;color:var(--muted);font-size:13px;text-align:right;justify-content:flex-end}.note-inline span{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.045);border-radius:999px;padding:7px 11px}.table-wrap{overflow:auto;max-height:68vh}table{width:100%;border-collapse:separate;border-spacing:0;min-width:880px}th,td{padding:15px 18px;border-bottom:1px solid rgba(255,255,255,.095);text-align:right;white-space:nowrap}th{position:sticky;top:0;z-index:4;background:rgba(3,12,18,.98);color:#bcd0df;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:950;cursor:pointer;user-select:none}th:hover{color:var(--cyan)}th.sorted-asc,th.sorted-desc{color:var(--cyan)}th .sort{display:inline-block;margin-left:7px;color:rgba(0,216,255,.55)}th .sort::after{content:"↕";font-size:11px}th.sorted-asc .sort::after{content:"▲"}th.sorted-desc .sort::after{content:"▼"}td{font-size:17px;font-weight:760;color:#f7fbff}td.idx,th:nth-child(1){text-align:center;width:72px;color:#dbe8ef}td.team,th:nth-child(2){text-align:left;position:sticky;left:0;z-index:3;background:rgba(3,12,18,.97)}th:nth-child(2){z-index:5}td.team{font-weight:950;letter-spacing:.08em}td.team .flag{font-size:22px;margin-right:10px;vertical-align:-2px}td.team small{display:inline-block;margin-left:10px;color:var(--muted);font-size:11px;letter-spacing:.08em;font-weight:800;text-transform:uppercase;opacity:.66}td.event{text-align:left;font-size:16px;letter-spacing:.03em;color:#eef7ff}.ago{font-size:15px;font-weight:950;letter-spacing:.08em}.ago-latest{color:var(--gold);text-shadow:0 0 16px rgba(255,223,58,.32)}.ago-hot{color:var(--cyan);text-shadow:0 0 16px rgba(0,216,255,.26)}.ago-mid{color:#ffffff}.ago-cold{color:#9fb0bf}.sortable tbody tr:hover td{background:var(--hover)!important;box-shadow:inset 0 1px 0 var(--hoverLine),inset 0 -1px 0 var(--hoverLine)}.sortable tbody tr:hover td:first-child{box-shadow:inset 4px 0 0 var(--hoverLine),inset 0 1px 0 var(--hoverLine),inset 0 -1px 0 var(--hoverLine)}
-.footer-note{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:18px 26px 24px;color:var(--muted);font-size:13px}.back-link{display:inline-flex;align-items:center;gap:10px;margin:0;color:var(--cyan);font-weight:950;letter-spacing:.08em;text-transform:uppercase;font-size:13px}.back-link .arrow{font-size:24px;line-height:1;text-shadow:0 0 18px rgba(0,216,255,.7)}
-@media(max-width:880px){.site-header{height:auto;align-items:flex-start;gap:14px;flex-direction:column;padding:16px 18px}.nav{flex-wrap:wrap;gap:16px;font-size:12px}.nav a{padding:4px 0 8px}.hero{min-height:360px;background-position:center center}.hero-content{padding:58px 0 48px}.card-head{align-items:flex-start;flex-direction:column}.note-inline{text-align:left;justify-content:flex-start}th,td{padding:13px 12px}td.team small{display:none}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Meiryo,Arial,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+body{min-height:100vh;background:#02050a}
+.site-header{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:rgba(0,0,0,.76);border-bottom:1px solid rgba(255,255,255,.12);position:sticky;top:0;z-index:50;backdrop-filter:blur(14px)}
+.logo{line-height:1;letter-spacing:.15em;font-weight:950;font-size:26px;white-space:nowrap}
+.logo span{color:var(--cyan)}
+.logo small{display:block;margin-top:7px;font-size:12px;letter-spacing:.34em;font-weight:800;color:#f0f5fa}
+.nav{display:flex;gap:27px;align-items:center;font-size:14px;font-weight:900;letter-spacing:.055em;white-space:nowrap}
+.nav a{opacity:.88;position:relative;padding:29px 0 25px}
+.nav a:hover,.nav a.active{color:var(--cyan);opacity:1}
+.nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--cyan);box-shadow:0 0 18px rgba(0,216,255,.7)}
+.page{position:relative;min-height:calc(100vh - 74px);background-image:linear-gradient(90deg,rgba(2,5,10,.36) 0%,rgba(2,5,10,.70) 40%,rgba(2,5,10,.94) 68%,#02050a 100%),linear-gradient(180deg,rgba(2,5,10,.02) 0%,rgba(2,5,10,.70) 100%),url('fleet_last_win.png');background-size:cover;background-position:left center;background-repeat:no-repeat;display:grid;grid-template-columns:minmax(440px,41vw) minmax(560px,660px);gap:26px;align-items:start;padding:44px 42px 28px}
+.page::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 17% 10%,rgba(0,216,255,.11),transparent 31%),radial-gradient(circle at 78% 8%,rgba(0,216,255,.06),transparent 28%);pointer-events:none}
+.intro,.data-area{position:relative;z-index:2}
+.intro{min-height:calc(100vh - 146px);display:flex;flex-direction:column;justify-content:flex-start;padding-top:8px}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;color:var(--cyan);font-weight:950;letter-spacing:.18em;font-size:14px;text-transform:uppercase;margin:0 0 18px}
+.eyebrow::before,.eyebrow::after{content:"";width:38px;height:2px;background:var(--cyan);box-shadow:0 0 14px rgba(0,216,255,.9)}
+h1{margin:0;color:#f4f7fb;font-size:clamp(58px,5.35vw,92px);line-height:.92;letter-spacing:-.035em;text-transform:uppercase;font-style:italic;font-weight:950;text-shadow:0 2px 0 rgba(255,255,255,.16),0 0 26px rgba(0,216,255,.22),0 14px 32px rgba(0,0,0,.76)}
+.lead{margin:20px 0 0;max-width:520px;color:#eef5fa;font-size:18px;font-weight:650;line-height:1.45;text-shadow:0 2px 12px rgba(0,0,0,.74)}
+.legend{display:grid;gap:10px;margin-top:22px;max-width:360px}
+.legend span{display:inline-flex;align-items:center;gap:8px;width:max-content;max-width:100%;border:1px solid rgba(255,255,255,.22);background:rgba(0,7,12,.58);border-radius:8px;padding:10px 14px;color:#f7fbff;font-size:14px;font-weight:720;box-shadow:0 12px 30px rgba(0,0,0,.20)}
+.legend b{font-weight:950}.legend .latest b{color:var(--gold)}.legend .ago b{color:var(--cyan)}
+.note{margin-top:auto;width:min(420px,92%);border:1px solid rgba(0,216,255,.34);border-radius:12px;background:rgba(0,12,18,.68);padding:15px 18px 14px;box-shadow:0 18px 40px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(8px)}
+.note-title{display:flex;align-items:center;gap:10px;margin-bottom:8px;color:var(--cyan);font-size:15px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
+.note-title::before{content:"ⓘ";font-size:18px;letter-spacing:0}.note ul{margin:0 0 8px 20px;padding:0}.note li{margin:6px 0;color:#f3f7fb;font-size:14px;line-height:1.35}.note p{margin:8px 0 0;color:#c5ced8;font-size:13px;font-style:italic;line-height:1.35}
+.data-area{justify-self:start;width:100%;max-width:650px;padding-top:18px}
+.table-card{width:100%;background:linear-gradient(180deg,rgba(3,15,21,.89),rgba(2,10,16,.91));border:1px solid rgba(255,255,255,.20);border-radius:12px;box-shadow:0 22px 70px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.08);overflow:hidden;backdrop-filter:blur(6px)}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+col.team-col{width:36%}col.win-col{width:43%}col.ago-col{width:21%}
+th{height:48px;padding:0 16px;background:linear-gradient(180deg,rgba(180,239,228,.96),rgba(145,219,208,.93));color:#06141a;border-bottom:1px solid rgba(255,255,255,.28);font-size:14px;letter-spacing:.10em;text-transform:uppercase;font-weight:950;text-align:left;white-space:nowrap}
+th.ago-head{text-align:center}
+td{height:42px;padding:0 16px;border-bottom:1px solid rgba(255,255,255,.105);font-size:18px;line-height:1;white-space:nowrap;color:#f7fbff;text-shadow:0 1px 10px rgba(0,0,0,.28)}
+tbody tr:last-child td{border-bottom:none}
+td.team{font-weight:950;letter-spacing:.04em;text-align:left}
+td.team .flag{display:inline-block;width:31px;margin-right:13px;font-size:22px;vertical-align:-3px;text-align:center;text-shadow:none}
+td.event{font-weight:720;letter-spacing:.015em;text-align:left}
+td.ago{font-weight:950;text-align:center;font-size:18px;letter-spacing:.02em}.ago-latest{color:var(--gold);text-shadow:0 0 14px rgba(255,223,58,.26)}.ago-worst{color:var(--red);text-shadow:0 0 10px rgba(255,36,56,.16)}.ago-withdrawn{color:#8f98a3}.divider td{border-top:1px solid rgba(0,216,255,.58)}.withdrawn td.team,.withdrawn td.event{color:rgba(255,255,255,.62)}
+.footer-note{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:12px;color:var(--muted);font-size:13px}.back-link{display:inline-flex;align-items:center;gap:12px;margin:0;color:var(--cyan);font-weight:950;letter-spacing:.08em;text-transform:uppercase;font-size:13px;white-space:nowrap}.back-link .arrow{font-size:25px;line-height:1;text-shadow:0 0 18px rgba(0,216,255,.7)}
+@media(max-width:1180px){.site-header{height:auto;align-items:flex-start;gap:14px;flex-direction:column;padding:16px 20px}.nav{flex-wrap:wrap;gap:16px;font-size:12px}.nav a{padding:4px 0 8px}.page{min-height:auto;grid-template-columns:1fr;padding:34px 22px 30px;background-position:center center}.intro{min-height:620px}.data-area{max-width:none;padding-top:0}.note{margin-top:28px}.footer-note{padding-bottom:10px}}
+@media(max-width:720px){h1{font-size:54px}.lead{font-size:16px}.page{padding:28px 16px}.table-card{overflow-x:auto}table{min-width:620px}.footer-note{align-items:flex-start;flex-direction:column}.logo{font-size:23px}}
 </style>
 </head>
 <body>
@@ -31,158 +74,65 @@
     <a href="season-standings.html">SEASON STANDINGS</a>
   </nav>
 </header>
-<main>
-  <section class="hero">
-    <div class="hero-content">
+<main class="page">
+  <section class="intro" aria-label="Fleet race last win overview">
+    <div>
       <div class="eyebrow">Fleet Race Record</div>
-      <h1>Fleet Race<br/>Last Win</h1>
+      <h1>Fleet Race<br>Last Win</h1>
       <p class="lead">Most recent fleet race victory by team, based on the WEB_Fleet Race Last Win sheet.</p>
+      <div class="legend" aria-label="Legend">
+        <span class="latest"><b>LATEST</b> = won at the latest listed fleet race.</span>
+        <span class="ago"><b>AGO</b> = fleet races since the last win.</span>
+      </div>
     </div>
+    <aside class="note">
+      <div class="note-title">Note</div>
+      <ul>
+        <li>CHI (China) withdrew during Season 1.</li>
+        <li>JPN (Japan) withdrew during Season 2.</li>
+      </ul>
+      <p>Withdrawn teams are fixed at the bottom of the table.</p>
+    </aside>
   </section>
-  <section class="table-section">
+  <section class="data-area" aria-label="Fleet race last win table">
     <div class="table-card">
-      <div class="card-head">
-        <h2>Fleet Race Last Win</h2>
-        <div class="note-inline">
-          <span><b>LATEST</b> = won at the latest listed fleet race.</span>
-          <span>AGO = fleet races since the last win.</span>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table class="sortable">
-          <thead>
-            <tr>
-              <th>#<span class="sort"></span></th>
-              <th>TEAM<span class="sort"></span></th>
-              <th>LAST FLEET WIN<span class="sort"></span></th>
-              <th>AGO<span class="sort"></span></th>
-            </tr>
-          </thead>
-          <tbody>
-<tr>
-  <td class="idx" data-value="1">1</td>
-  <td class="team" data-value="AUS"><span class="flag">🇦🇺</span><span>AUS</span><small>Australia</small></td>
-  <td class="event" data-value="S6 E7 HALIFAX R4A">S6 E7 HALIFAX R4A</td>
-  <td class="ago ago-latest" data-value="0">LATEST</td>
-</tr>
-<tr>
-  <td class="idx" data-value="2">2</td>
-  <td class="team" data-value="JPN"><span class="flag">🇯🇵</span><span>JPN</span><small>Japan</small></td>
-  <td class="event" data-value="S2 E8 SAN FRANCISCO R3">S2 E8 SAN FRANCISCO R3</td>
-  <td class="ago ago-hot" data-value="2">2 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="3">3</td>
-  <td class="team" data-value="GBR"><span class="flag">🇬🇧</span><span>GBR</span><small>Great Britain</small></td>
-  <td class="event" data-value="S6 E6 NEW YORK R1">S6 E6 NEW YORK R1</td>
-  <td class="ago ago-mid" data-value="6">6 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="4">4</td>
-  <td class="team" data-value="FRA"><span class="flag">🇫🇷</span><span>FRA</span><small>France</small></td>
-  <td class="event" data-value="S6 E1 PERTH R2">S6 E1 PERTH R2</td>
-  <td class="ago ago-cold" data-value="36">36 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="5">5</td>
-  <td class="team" data-value="CHI"><span class="flag">🇨🇳</span><span>CHI</span><small>China</small></td>
-  <td class="event" data-value="S1 E5 MARSEILLE R5">S1 E5 MARSEILLE R5</td>
-  <td class="ago ago-hot" data-value="2">2 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="6">6</td>
-  <td class="team" data-value="USA"><span class="flag">🇺🇸</span><span>USA</span><small>United States</small></td>
-  <td class="event" data-value="S6 E7 HALIFAX R4B">S6 E7 HALIFAX R4B</td>
-  <td class="ago ago-latest" data-value="0">LATEST</td>
-</tr>
-<tr>
-  <td class="idx" data-value="7">7</td>
-  <td class="team" data-value="NZL"><span class="flag">🇳🇿</span><span>NZL</span><small>New Zealand</small></td>
-  <td class="event" data-value="S6 E2 AUCKLAND R2">S6 E2 AUCKLAND R2</td>
-  <td class="ago ago-cold" data-value="30">30 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="8">8</td>
-  <td class="team" data-value="ESP"><span class="flag">🇪🇸</span><span>ESP</span><small>Spain</small></td>
-  <td class="event" data-value="S6 E7 HALIFAX R3A">S6 E7 HALIFAX R3A</td>
-  <td class="ago ago-hot" data-value="1">1 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="9">9</td>
-  <td class="team" data-value="DEN"><span class="flag">🇩🇰</span><span>DEN</span><small>Denmark</small></td>
-  <td class="event" data-value="S6 E3 SYDNEY R7">S6 E3 SYDNEY R7</td>
-  <td class="ago ago-cold" data-value="21">21 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="10">10</td>
-  <td class="team" data-value="CAN"><span class="flag">🇨🇦</span><span>CAN</span><small>Canada</small></td>
-  <td class="event" data-value="S6 E6 NEW YORK R3">S6 E6 NEW YORK R3</td>
-  <td class="ago ago-mid" data-value="4">4 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="11">11</td>
-  <td class="team" data-value="SUI"><span class="flag">🇨🇭</span><span>SUI</span><small>Switzerland</small></td>
-  <td class="event" data-value="S6 E7 HALIFAX R1B">S6 E7 HALIFAX R1B</td>
-  <td class="ago ago-hot" data-value="3">3 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="12">12</td>
-  <td class="team" data-value="GER"><span class="flag">🇩🇪</span><span>GER</span><small>Germany</small></td>
-  <td class="event" data-value="S6 E5 BERMUDA R7">S6 E5 BERMUDA R7</td>
-  <td class="ago ago-mid" data-value="7">7 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="13">13</td>
-  <td class="team" data-value="ITA"><span class="flag">🇮🇹</span><span>ITA</span><small>Italy</small></td>
-  <td class="event" data-value="S6 E4 RIO DE JANEIRO R3">S6 E4 RIO DE JANEIRO R3</td>
-  <td class="ago ago-cold" data-value="18">18 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="14">14</td>
-  <td class="team" data-value="BRA"><span class="flag">🇧🇷</span><span>BRA</span><small>Brazil</small></td>
-  <td class="event" data-value="S5 E11 CADIZ R7">S5 E11 CADIZ R7</td>
-  <td class="ago ago-cold" data-value="45">45 AGO</td>
-</tr>
-<tr>
-  <td class="idx" data-value="15">15</td>
-  <td class="team" data-value="SWE"><span class="flag">🇸🇪</span><span>SWE</span><small>Sweden</small></td>
-  <td class="event" data-value="S6 E7 HALIFAX R3B">S6 E7 HALIFAX R3B</td>
-  <td class="ago ago-hot" data-value="1">1 AGO</td>
-</tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="footer-note">
-        <span>Source: WEB_Fleet Race Last Win sheet / Updated through Halifax 2026.</span>
-        <a class="back-link" href="fleet-race-finishes.html">View Fleet Race Finishes <span class="arrow">→</span></a>
-      </div>
+      <table>
+        <colgroup>
+          <col class="team-col">
+          <col class="win-col">
+          <col class="ago-col">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Team</th>
+            <th>Last Fleet Win</th>
+            <th class="ago-head">Ago</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="team"><span class="flag">🇦🇺</span>AUS</td><td class="event">S6 E7 HALIFAX R4A</td><td class="ago ago-latest">LATEST</td></tr>
+          <tr><td class="team"><span class="flag">🇬🇧</span>GBR</td><td class="event">S6 E6 NEW YORK R1</td><td class="ago">6</td></tr>
+          <tr><td class="team"><span class="flag">🇫🇷</span>FRA</td><td class="event">S6 E1 PERTH R2</td><td class="ago ago-worst">36</td></tr>
+          <tr><td class="team"><span class="flag">🇺🇸</span>USA</td><td class="event">S6 E7 HALIFAX R4B</td><td class="ago ago-latest">LATEST</td></tr>
+          <tr><td class="team"><span class="flag">🇳🇿</span>NZL</td><td class="event">S6 E2 AUCKLAND R2</td><td class="ago ago-worst">30</td></tr>
+          <tr><td class="team"><span class="flag">🇪🇸</span>ESP</td><td class="event">S6 E7 HALIFAX R3A</td><td class="ago">1</td></tr>
+          <tr><td class="team"><span class="flag">🇩🇰</span>DEN</td><td class="event">S6 E3 SYDNEY R7</td><td class="ago">21</td></tr>
+          <tr><td class="team"><span class="flag">🇨🇦</span>CAN</td><td class="event">S6 E6 NEW YORK R3</td><td class="ago">4</td></tr>
+          <tr><td class="team"><span class="flag">🇨🇭</span>SUI</td><td class="event">S6 E7 HALIFAX R1B</td><td class="ago">3</td></tr>
+          <tr><td class="team"><span class="flag">🇩🇪</span>GER</td><td class="event">S6 E5 BERMUDA R7</td><td class="ago">7</td></tr>
+          <tr><td class="team"><span class="flag">🇮🇹</span>ITA</td><td class="event">S6 E4 RIO DE JANEIRO R3</td><td class="ago">18</td></tr>
+          <tr><td class="team"><span class="flag">🇧🇷</span>BRA</td><td class="event">S5 E11 CADIZ R7</td><td class="ago ago-worst">45</td></tr>
+          <tr><td class="team"><span class="flag">🇸🇪</span>SWE</td><td class="event">S6 E7 HALIFAX R3B</td><td class="ago">1</td></tr>
+          <tr class="divider withdrawn"><td class="team"><span class="flag">🇨🇳</span>CHI</td><td class="event">S1 E5 MARSEILLE R5</td><td class="ago ago-withdrawn">2</td></tr>
+          <tr class="withdrawn"><td class="team"><span class="flag">🇯🇵</span>JPN</td><td class="event">S2 E8 SAN FRANCISCO R3</td><td class="ago ago-withdrawn">2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer-note">
+      <span>Source: WEB_Fleet Race Last Win sheet / Updated through Halifax 2026.</span>
+      <a class="back-link" href="fleet-race-finishes.html">View Fleet Race Finishes <span class="arrow">→</span></a>
     </div>
   </section>
 </main>
-
-<script>
-document.querySelectorAll('table.sortable').forEach(table=>{
-  const tbody=table.querySelector('tbody');
-  const ths=[...table.querySelectorAll('th')];
-  ths.forEach((th,i)=>{
-    th.addEventListener('click',()=>{
-      const prev=th.classList.contains('sorted-asc')?'asc':th.classList.contains('sorted-desc')?'desc':null;
-      ths.forEach(x=>x.classList.remove('sorted-asc','sorted-desc'));
-      const dir=prev==='asc'?'desc':'asc';
-      th.classList.add(dir==='asc'?'sorted-asc':'sorted-desc');
-      const rows=[...tbody.querySelectorAll('tr')];
-      rows.sort((a,b)=>{
-        const av=a.children[i].dataset.value ?? a.children[i].innerText;
-        const bv=b.children[i].dataset.value ?? b.children[i].innerText;
-        const an=parseFloat(av), bn=parseFloat(bv);
-        let cmp=(!Number.isNaN(an)&&!Number.isNaN(bn)) ? an-bn : String(av).localeCompare(String(bv),'en',{numeric:true,sensitivity:'base'});
-        return dir==='asc'?cmp:-cmp;
-      });
-      rows.forEach(r=>tbody.appendChild(r));
-    });
-  });
-});
-</script>
-
 </body>
 </html>
