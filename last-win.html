@@ -39,7 +39,9 @@ h1{margin:0;color:transparent;font-size:clamp(64px,7.4vw,118px);line-height:.78;
   .flag{width:16px;font-size:13px}
   .event{padding-left:2px}
   .ago{font-weight:850}
-  .final .ago{transform:translateX(-14px)}
+  .final .ago{transform:none}
+  .final .data-head > .ago:nth-child(6),
+  .final .data-row > .ago:nth-child(6){transform:translateX(-10px)}
 
   .fleet .data-head,.fleet .data-row{grid-template-columns:66px minmax(0,1fr) 28px}
   .final .data-head,.final .data-row{grid-template-columns:56px 132px 18px minmax(8px,1fr) 132px 18px}
