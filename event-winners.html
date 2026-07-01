@@ -1,539 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Championship Records | Sail Reference</title>
-  <style>
-    :root {
-      --bg:#03070b;
-      --panel:#061219;
-      --panel2:#071b22;
-      --line:rgba(0,229,255,.34);
-      --line-soft:rgba(255,255,255,.09);
-      --text:#f4f7fb;
-      --muted:#a7b7c5;
-      --cyan:#00e5ff;
-      --cyan2:#00b9d1;
-      --gold:#f6c44f;
-      --gold2:#fff0a8;
-      --bronze:#d88742;
-    }
-    *{box-sizing:border-box}
-    body {
-      margin:0;
-      min-height:100vh;
-      color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Arial,sans-serif;
-      background:
-        radial-gradient(circle at 12% 22%, rgba(0,229,255,.18), transparent 26%),
-        radial-gradient(circle at 82% 22%, rgba(0,229,255,.12), transparent 30%),
-        linear-gradient(180deg,#03070b 0%,#051018 45%,#020409 100%);
-      letter-spacing:.02em;
-      overflow-x:hidden;
-    }
-    body::before {
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.018) 1px, transparent 1px);
-      background-size:48px 48px;
-      mask-image:linear-gradient(to bottom,rgba(0,0,0,.8),transparent 75%);
-    }
-    a{color:inherit;text-decoration:none}
-    header {
-      position:sticky;
-      top:0;
-      z-index:20;
-      background:rgba(2,5,8,.92);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(255,255,255,.11);
-    }
-    .nav {
-      max-width:1480px;
-      margin:0 auto;
-      padding:18px 26px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:24px;
-    }
-    .brand {
-      line-height:1;
-      font-weight:950;
-      letter-spacing:.2em;
-      font-size:25px;
-      white-space:nowrap;
-    }
-    .brand span{color:var(--cyan)}
-    .tagline {
-      margin-top:8px;
-      color:#fff;
-      font-size:11px;
-      letter-spacing:.42em;
-      font-weight:850;
-      opacity:.9;
-    }
-    .menu {
-      display:flex;
-      align-items:center;
-      gap:28px;
-      font-size:13px;
-      font-weight:900;
-      letter-spacing:.05em;
-      white-space:nowrap;
-    }
-    .menu a {
-      color:#fff;
-      opacity:.92;
-      padding:18px 0;
-      border-bottom:4px solid transparent;
-    }
-    .menu a.active {
-      color:var(--cyan);
-      border-color:var(--cyan);
-      text-shadow:0 0 16px rgba(0,229,255,.65);
-    }
-    .official {
-      border:1px solid rgba(255,255,255,.35)!important;
-      border-radius:8px;
-      padding:11px 16px!important;
-      border-bottom:1px solid rgba(255,255,255,.35)!important;
-    }
-    main {
-      max-width:1320px;
-      margin:0 auto;
-      padding:34px 28px 70px;
-      position:relative;
-    }
-    .hero {
-      position:relative;
-      min-height:270px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:26px 0 22px;
-    }
-    .hero::after {
-      content:"🏆";
-      position:absolute;
-      right:-20px;
-      top:8px;
-      font-size:260px;
-      line-height:1;
-      opacity:.13;
-      filter:drop-shadow(0 0 28px rgba(0,229,255,.24));
-      transform:rotate(-8deg);
-      z-index:-1;
-    }
-    .crown {
-      color:var(--gold);
-      font-size:46px;
-      line-height:1;
-      text-shadow:0 0 18px rgba(246,196,79,.5);
-      margin-bottom:10px;
-    }
-    h1 {
-      margin:0;
-      font-size:clamp(54px,7.4vw,92px);
-      line-height:.9;
-      letter-spacing:-.045em;
-      font-style:italic;
-      text-transform:uppercase;
-      font-weight:1000;
-      color:var(--gold);
-      background:linear-gradient(180deg,#fff4ae 0%,#f7c84d 46%,#9d6315 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      filter:drop-shadow(0 8px 0 rgba(0,0,0,.24)) drop-shadow(0 0 24px rgba(246,196,79,.18));
-    }
-    .subtitle {
-      color:var(--cyan);
-      margin-top:18px;
-      font-size:24px;
-      font-weight:950;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      text-shadow:0 0 18px rgba(0,229,255,.45);
-    }
-    .desc {
-      margin-top:14px;
-      color:#fff;
-      line-height:1.55;
-      font-size:17px;
-      max-width:640px;
-    }
-    .records {
-      width:min(1060px,100%);
-      margin:12px auto 0;
-      border:1px solid var(--line);
-      border-radius:12px;
-      overflow:hidden;
-      background:linear-gradient(180deg,rgba(0,229,255,.08),rgba(2,7,11,.9) 12%,rgba(2,7,11,.94));
-      box-shadow:
-        0 30px 80px rgba(0,0,0,.45),
-        0 0 0 1px rgba(255,255,255,.03) inset,
-        0 0 42px rgba(0,229,255,.08);
-    }
-    table {
-      width:100%;
-      border-collapse:collapse;
-      table-layout:fixed;
-    }
-    thead th {
-      height:54px;
-      color:var(--cyan);
-      text-align:left;
-      font-size:15px;
-      font-weight:950;
-      letter-spacing:.13em;
-      text-transform:uppercase;
-      background:linear-gradient(90deg,rgba(0,229,255,.13),rgba(0,229,255,.05));
-      border-bottom:1px solid var(--line-soft);
-    }
-    thead th:nth-child(1){width:140px;text-align:center}
-    thead th:nth-child(2){width:300px;padding-left:42px}
-    thead th:nth-child(3){padding-left:36px}
-    tbody tr {
-      border-bottom:1px solid rgba(0,229,255,.16);
-      background:rgba(0,0,0,.13);
-    }
-    tbody tr:last-child{border-bottom:0}
-    tbody tr:hover{background:rgba(0,229,255,.055)}
-    td {
-      height:78px;
-      vertical-align:middle;
-    }
-    .season-cell {
-      width:140px;
-      text-align:center;
-      border-right:1px solid rgba(0,229,255,.2);
-      position:relative;
-      overflow:hidden;
-    }
-    .season-cell::after {
-      content:"";
-      position:absolute;
-      right:18px;
-      top:10px;
-      width:2px;
-      height:64px;
-      background:linear-gradient(180deg,transparent,var(--gold),transparent);
-      transform:skewX(-22deg);
-      opacity:.75;
-    }
-    .season-cell span {
-      display:inline-block;
-      font-size:38px;
-      font-weight:1000;
-      font-style:italic;
-      letter-spacing:-.05em;
-      text-shadow:0 4px 10px #000;
-    }
-    .location-cell {
-      padding-left:42px;
-      border-right:1px solid rgba(0,229,255,.16);
-    }
-    .location-main {
-      display:flex;
-      align-items:center;
-      gap:13px;
-      font-size:23px;
-      font-weight:950;
-      line-height:1;
-    }
-    .loc-pin {
-      width:13px;height:13px;border-radius:50%;
-      display:inline-block;color:transparent;
-      background:var(--cyan);
-      box-shadow:0 0 14px rgba(0,229,255,.7);
-      flex:none;
-    }
-    .loc-flag{font-size:30px;line-height:1}
-    .location-sub {
-      margin-left:56px;
-      margin-top:6px;
-      color:#bdd0dc;
-      font-size:15px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-    .podium-cell {padding:0 26px 0 36px}
-    .podium {
-      display:grid;
-      grid-template-columns:minmax(220px,1.18fr) 1px minmax(150px,.82fr) 1px minmax(150px,.82fr);
-      align-items:center;
-      gap:18px;
-      min-height:78px;
-    }
-    .podium.pending {
-      display:flex;
-      justify-content:center;
-      color:var(--muted);
-      font-weight:950;
-      letter-spacing:.18em;
-    }
-    .divider {
-      width:1px;
-      height:40px;
-      background:rgba(255,255,255,.28);
-      display:block;
-    }
-    .podium-team {
-      display:flex;
-      align-items:center;
-      gap:11px;
-      min-width:0;
-      white-space:nowrap;
-    }
-    .podium-team.first {
-      gap:14px;
-    }
-    .place {
-      font-weight:1000;
-      font-size:15px;
-      color:#e5edf4;
-      opacity:.9;
-      letter-spacing:.03em;
-    }
-    .first .place {
-      color:var(--gold);
-      font-size:20px;
-      text-shadow:0 0 12px rgba(246,196,79,.3);
-    }
-    .minor:nth-of-type(3) .place, .podium-team .place:last-child{}
-    .podium-team:nth-child(5) .place{color:var(--bronze)}
-    .team-flag {
-      font-size:30px;
-      line-height:1;
-      filter:drop-shadow(0 2px 2px rgba(0,0,0,.5));
-    }
-    .first .team-flag {
-      font-size:42px;
-    }
-    .team-code {
-      font-size:21px;
-      font-weight:950;
-      letter-spacing:.01em;
-    }
-    .first .team-code {
-      font-size:36px;
-      color:var(--gold);
-      background:linear-gradient(180deg,#fff5ae,#f2bf3e 60%,#b76f17);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      text-shadow:none;
-      filter:drop-shadow(0 0 10px rgba(246,196,79,.22));
-    }
-    .upcoming {
-      opacity:.72;
-    }
-    .tbd {
-      border:1px dashed rgba(255,255,255,.28);
-      border-radius:999px;
-      padding:8px 18px;
-      color:#90a2b0;
-    }
-    .foot {
-      width:min(1060px,100%);
-      margin:18px auto 0;
-      color:#8ea0ac;
-      font-size:11px;
-      line-height:1.7;
-    }
-    .foot b{color:#fff}
-    @media(max-width:980px){
-      .nav{align-items:flex-start;flex-direction:column}
-      .menu{gap:15px;flex-wrap:wrap}
-      .records{overflow-x:auto}
-      table{min-width:980px}
-      .hero::after{font-size:190px;right:-40px;top:50px}
-    }
-    @media(max-width:620px){
-      .brand{font-size:20px}
-      .tagline{font-size:9px}
-      main{padding:24px 14px 50px}
-      h1{font-size:46px}
-      .subtitle{font-size:17px}
-      .desc{font-size:14px}
-      .hero{min-height:230px}
-      .hero::after{opacity:.08}
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Championship Records | Sail Reference</title>
+<style>
+:root{--bg:#03070b;--panel:#061219;--line:rgba(0,229,255,.36);--lineSoft:rgba(255,255,255,.10);--text:#f4f7fb;--muted:#a7b7c5;--cyan:#00e5ff;--cyan2:#33f1ff;--gold:#f6c44f;--gold2:#fff0a8;--bronze:#d88742;}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Meiryo,Arial,sans-serif;}
+a{color:inherit;text-decoration:none}
+body{min-height:100vh;overflow-x:hidden;background:radial-gradient(circle at 12% 22%,rgba(0,229,255,.18),transparent 28%),radial-gradient(circle at 86% 18%,rgba(246,196,79,.14),transparent 30%),linear-gradient(180deg,#03070b 0%,#051018 45%,#020409 100%);}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:52px 52px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.82),transparent 78%);}
+.site-header{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:rgba(0,0,0,.78);border-bottom:1px solid rgba(255,255,255,.12);position:sticky;top:0;z-index:50;backdrop-filter:blur(14px)}
+.logo{line-height:1;letter-spacing:.15em;font-weight:950;font-size:26px;white-space:nowrap}.logo span{color:var(--cyan)}.logo small{display:block;margin-top:7px;font-size:12px;letter-spacing:.34em;font-weight:800;color:#f0f5fa}
+.nav{display:flex;gap:27px;align-items:center;font-size:14px;font-weight:900;letter-spacing:.055em;white-space:nowrap}.nav a{opacity:.88;position:relative;padding:29px 0 25px}.nav a:hover,.nav a.active{color:var(--cyan);opacity:1}.nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--cyan);box-shadow:0 0 18px rgba(0,216,255,.7)}.official{border:1px solid rgba(255,255,255,.45);border-radius:7px;padding:11px 16px!important;margin-left:4px}
+.page{position:relative;min-height:calc(100vh - 74px);padding:38px 28px 64px;}
+.page::after{content:"🏆";position:absolute;right:4vw;top:42px;font-size:min(30vw,420px);line-height:1;opacity:.10;filter:drop-shadow(0 0 34px rgba(0,229,255,.25));transform:rotate(-8deg);z-index:0;pointer-events:none;}
+.wrap{position:relative;z-index:1;width:min(1180px,100%);margin:0 auto;}
+.hero{text-align:center;padding:20px 0 22px;}
+.hero-mark{display:flex;align-items:center;justify-content:center;gap:28px;margin-bottom:14px;color:var(--gold)}.hero-mark::before,.hero-mark::after{content:"";width:150px;max-width:18vw;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 0 12px rgba(246,196,79,.35)}.hero-mark span{font-size:34px;line-height:1;text-shadow:0 0 18px rgba(246,196,79,.45)}
+h1{margin:0;font-size:clamp(56px,6.4vw,92px);line-height:.9;letter-spacing:-.045em;font-style:italic;text-transform:uppercase;font-weight:1000;background:linear-gradient(180deg,#fff4ae 0%,#f7c84d 48%,#9d6315 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 8px 0 rgba(0,0,0,.24)) drop-shadow(0 0 24px rgba(246,196,79,.18));}
+.subtitle{color:var(--cyan);margin-top:18px;font-size:24px;font-weight:950;letter-spacing:.22em;text-transform:uppercase;text-shadow:0 0 18px rgba(0,229,255,.45)}
+.desc{margin-top:12px;color:#fff;line-height:1.5;font-size:17px;}
+.records{width:min(1040px,100%);margin:16px auto 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(180deg,rgba(0,229,255,.10),rgba(2,7,11,.88) 11%,rgba(2,7,11,.94));box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.03) inset,0 0 42px rgba(0,229,255,.08);}
+table{width:100%;border-collapse:collapse;table-layout:fixed;}thead th{height:54px;color:var(--cyan);text-align:left;font-size:15px;font-weight:950;letter-spacing:.13em;text-transform:uppercase;background:linear-gradient(90deg,rgba(0,229,255,.13),rgba(0,229,255,.05));border-bottom:1px solid var(--lineSoft)}thead th:nth-child(1){width:140px;text-align:center}thead th:nth-child(2){width:300px;padding-left:40px}thead th:nth-child(3){padding-left:32px;text-align:left}
+tbody tr{border-bottom:1px solid rgba(0,229,255,.16);background:rgba(0,0,0,.13)}tbody tr:last-child{border-bottom:0}tbody tr:hover{background:rgba(0,229,255,.055)}td{height:76px;vertical-align:middle}
+.season-cell{width:140px;text-align:center;border-right:1px solid rgba(0,229,255,.20);position:relative;overflow:hidden}.season-cell::after{content:"";position:absolute;right:20px;top:10px;width:2px;height:58px;background:linear-gradient(180deg,transparent,var(--gold),transparent);transform:skewX(-22deg);opacity:.72}.season-cell span{display:inline-block;font-size:38px;font-weight:1000;font-style:italic;letter-spacing:-.05em;text-shadow:0 4px 10px #000}
+.location-cell{padding-left:40px;border-right:1px solid rgba(0,229,255,.16)}.location-main{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:950;line-height:1}.loc-pin{width:12px;height:12px;border-radius:50%;display:inline-block;background:var(--cyan);box-shadow:0 0 14px rgba(0,229,255,.70);flex:none}.loc-flag{font-size:28px;line-height:1}.location-sub{margin-left:54px;margin-top:6px;color:#bdd0dc;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.podium-cell{padding:0 22px 0 32px}.podium{display:grid;grid-template-columns:minmax(220px,1.18fr) 1px minmax(140px,.82fr) 1px minmax(140px,.82fr);align-items:center;gap:16px;min-height:76px}.podium.pending{display:flex;justify-content:center;color:var(--muted);font-weight:950;letter-spacing:.18em}.divider{width:1px;height:38px;background:rgba(255,255,255,.28);display:block}
+.podium-team{display:flex;align-items:center;gap:10px;min-width:0;white-space:nowrap}.podium-team.first{gap:13px}.place{font-weight:1000;font-size:15px;color:#e5edf4;opacity:.92;letter-spacing:.03em}.first .place{color:var(--gold);font-size:19px;text-shadow:0 0 12px rgba(246,196,79,.30)}.podium-team:nth-child(5) .place{color:var(--bronze)}.team-flag{font-size:29px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.50))}.first .team-flag{font-size:43px}.team-code{font-size:20px;font-weight:950;letter-spacing:.01em}.first .team-code{font-size:36px;color:var(--gold);background:linear-gradient(180deg,#fff5ae,#f2bf3e 60%,#b76f17);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(246,196,79,.22))}
+.upcoming{opacity:.74}.tbd{border:1px dashed rgba(255,255,255,.28);border-radius:999px;padding:8px 18px;color:#90a2b0}.foot{width:min(1040px,100%);margin:18px auto 0;color:#8ea0ac;font-size:11px;line-height:1.7}.foot b{color:#fff}
+@media(max-width:1120px){.site-header{height:auto;align-items:flex-start;gap:18px;flex-direction:column;padding:18px 24px}.nav{gap:18px;flex-wrap:wrap}.nav a{padding:8px 0}.nav a.active::after{bottom:-4px}.official{padding:8px 14px!important}.records{overflow-x:auto}table{min-width:980px}.page::after{font-size:260px;right:-30px;top:130px}}
+@media(max-width:620px){.logo{font-size:21px}.logo small{font-size:9px}.page{padding:26px 14px 52px}h1{font-size:44px}.subtitle{font-size:17px}.desc{font-size:14px}.hero-mark span{font-size:28px}.hero-mark::before,.hero-mark::after{width:80px}}
+</style>
 </head>
 <body>
-  <header>
-    <div class="nav">
-      <a href="index.html" aria-label="Sail Reference Home">
-        <div class="brand">SAIL<span>REFERENCE</span></div>
-        <div class="tagline">UNOFFICIAL DATA BOARD</div>
-      </a>
-      <nav class="menu" aria-label="Main navigation">
-        <a href="index.html">HOME</a>
-        <a href="fleet-summary.html">FLEET SUMMARY</a>
-        <a href="fleet-race-finishes.html">FLEET RACE FINISHES</a>
-        <a href="fleet-race-last-win.html">LAST WIN</a>
-        <a class="active" href="event-winners.html">EVENT WINNERS</a>
-        <a href="season-standings.html">SEASON STANDINGS</a>
-        <a class="official" href="https://sailgp.com" target="_blank" rel="noopener">OFFICIAL ↗</a>
-      </nav>
-    </div>
-  </header>
-  <main>
+<header class="site-header">
+  <a class="logo" href="index.html">SAIL<span>REFERENCE</span><small>UNOFFICIAL DATA BOARD</small></a>
+  <nav class="nav"><a href="index.html">HOME</a><a href="fleet-summary.html">FLEET SUMMARY</a><a href="fleet-race-finishes.html">FLEET RACE FINISHES</a><a href="last-win.html">LAST WIN</a><a class="active" href="event-winners.html">CHAMPIONSHIP RECORDS</a><a class="official" href="https://sailgp.com" target="_blank" rel="noopener noreferrer">OFFICIAL ↗</a></nav>
+</header>
+<main class="page">
+  <div class="wrap">
     <section class="hero">
-      <div class="crown">♛</div>
+      <div class="hero-mark"><span>♛</span></div>
       <h1>CHAMPIONSHIP RECORDS</h1>
       <div class="subtitle">EVENT WINNERS RECORD</div>
-      <div class="desc">
-        List of event winners by season.<br>
-        GF refers to the Season Grand Final.
-      </div>
+      <div class="desc">List of event winners by season.<br>GF refers to the Season Grand Final.</div>
     </section>
-
     <section class="records" aria-label="Championship Records">
       <table>
-        <thead>
-          <tr>
-            <th>Season</th>
-            <th>Location</th>
-            <th>Podium</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Season</th><th>Location</th><th>Podium</th></tr></thead>
         <tbody>
-          
-      <tr class="">
-        <td class="season-cell"><span>S1</span></td>
-        <td class="location-cell">
-          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇫🇷</span><span>MARSEILLE</span></div>
-          <div class="location-sub">FRANCE</div>
-        </td>
-        <td class="podium-cell"><div class="podium">
-          <div class="podium-team first">
-            <span class="place">1ST</span>
-            <span class="team-flag">🇦🇺</span>
-            <span class="team-code">AUS</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">2ND</span>
-            <span class="team-flag">🇯🇵</span>
-            <span class="team-code">JPN</span>
-          </div></div></td>
-      </tr>
-      <tr class="">
-        <td class="season-cell"><span>S2</span></td>
-        <td class="location-cell">
-          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
-          <div class="location-sub">USA</div>
-        </td>
-        <td class="podium-cell"><div class="podium">
-          <div class="podium-team first">
-            <span class="place">1ST</span>
-            <span class="team-flag">🇦🇺</span>
-            <span class="team-code">AUS</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">2ND</span>
-            <span class="team-flag">🇯🇵</span>
-            <span class="team-code">JPN</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">3RD</span>
-            <span class="team-flag">🇺🇸</span>
-            <span class="team-code">USA</span>
-          </div></div></td>
-      </tr>
-      <tr class="">
-        <td class="season-cell"><span>S3</span></td>
-        <td class="location-cell">
-          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
-          <div class="location-sub">USA</div>
-        </td>
-        <td class="podium-cell"><div class="podium">
-          <div class="podium-team first">
-            <span class="place">1ST</span>
-            <span class="team-flag">🇦🇺</span>
-            <span class="team-code">AUS</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">2ND</span>
-            <span class="team-flag">🇳🇿</span>
-            <span class="team-code">NZL</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">3RD</span>
-            <span class="team-flag">🇬🇧</span>
-            <span class="team-code">GBR</span>
-          </div></div></td>
-      </tr>
-      <tr class="">
-        <td class="season-cell"><span>S4</span></td>
-        <td class="location-cell">
-          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
-          <div class="location-sub">USA</div>
-        </td>
-        <td class="podium-cell"><div class="podium">
-          <div class="podium-team first">
-            <span class="place">1ST</span>
-            <span class="team-flag">🇪🇸</span>
-            <span class="team-code">ESP</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">2ND</span>
-            <span class="team-flag">🇦🇺</span>
-            <span class="team-code">AUS</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">3RD</span>
-            <span class="team-flag">🇳🇿</span>
-            <span class="team-code">NZL</span>
-          </div></div></td>
-      </tr>
-      <tr class="">
-        <td class="season-cell"><span>S5</span></td>
-        <td class="location-cell">
-          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇦🇪</span><span>ABU DHABI</span></div>
-          <div class="location-sub">UNITED ARAB EMIRATES</div>
-        </td>
-        <td class="podium-cell"><div class="podium">
-          <div class="podium-team first">
-            <span class="place">1ST</span>
-            <span class="team-flag">🇬🇧</span>
-            <span class="team-code">GBR</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">2ND</span>
-            <span class="team-flag">🇦🇺</span>
-            <span class="team-code">AUS</span>
-          </div><span class="divider"></span>
-          <div class="podium-team minor">
-            <span class="place">3RD</span>
-            <span class="team-flag">🇳🇿</span>
-            <span class="team-code">NZL</span>
-          </div></div></td>
-      </tr>
-      <tr class="upcoming">
-        <td class="season-cell"><span>S6</span></td>
-        <td class="location-cell">
-          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇦🇪</span><span>ABU DHABI</span></div>
-          <div class="location-sub">UNITED ARAB EMIRATES</div>
-        </td>
-        <td class="podium-cell"><div class="podium pending"><span class="tbd">TBD</span></div></td>
-      </tr>
+          <tr>
+            <td class="season-cell"><span>S1</span></td>
+            <td class="location-cell">
+              <div class="location-main"><span class="loc-pin"></span><span class="loc-flag">🇫🇷</span><span>MARSEILLE</span></div>
+              <div class="location-sub">FRANCE</div>
+            </td>
+            <td class="podium-cell"><div class="podium"><div class="podium-team first"><span class="place">1ST</span><span class="team-flag">🇦🇺</span><span class="team-code">AUS</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">2ND</span><span class="team-flag">🇯🇵</span><span class="team-code">JPN</span></div></div></td>
+          </tr>
+          <tr>
+            <td class="season-cell"><span>S2</span></td>
+            <td class="location-cell">
+              <div class="location-main"><span class="loc-pin"></span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
+              <div class="location-sub">USA</div>
+            </td>
+            <td class="podium-cell"><div class="podium"><div class="podium-team first"><span class="place">1ST</span><span class="team-flag">🇦🇺</span><span class="team-code">AUS</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">2ND</span><span class="team-flag">🇯🇵</span><span class="team-code">JPN</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">3RD</span><span class="team-flag">🇺🇸</span><span class="team-code">USA</span></div></div></td>
+          </tr>
+          <tr>
+            <td class="season-cell"><span>S3</span></td>
+            <td class="location-cell">
+              <div class="location-main"><span class="loc-pin"></span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
+              <div class="location-sub">USA</div>
+            </td>
+            <td class="podium-cell"><div class="podium"><div class="podium-team first"><span class="place">1ST</span><span class="team-flag">🇦🇺</span><span class="team-code">AUS</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">2ND</span><span class="team-flag">🇳🇿</span><span class="team-code">NZL</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">3RD</span><span class="team-flag">🇬🇧</span><span class="team-code">GBR</span></div></div></td>
+          </tr>
+          <tr>
+            <td class="season-cell"><span>S4</span></td>
+            <td class="location-cell">
+              <div class="location-main"><span class="loc-pin"></span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
+              <div class="location-sub">USA</div>
+            </td>
+            <td class="podium-cell"><div class="podium"><div class="podium-team first"><span class="place">1ST</span><span class="team-flag">🇪🇸</span><span class="team-code">ESP</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">2ND</span><span class="team-flag">🇦🇺</span><span class="team-code">AUS</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">3RD</span><span class="team-flag">🇳🇿</span><span class="team-code">NZL</span></div></div></td>
+          </tr>
+          <tr>
+            <td class="season-cell"><span>S5</span></td>
+            <td class="location-cell">
+              <div class="location-main"><span class="loc-pin"></span><span class="loc-flag">🇦🇪</span><span>ABU DHABI</span></div>
+              <div class="location-sub">UNITED ARAB EMIRATES</div>
+            </td>
+            <td class="podium-cell"><div class="podium"><div class="podium-team first"><span class="place">1ST</span><span class="team-flag">🇬🇧</span><span class="team-code">GBR</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">2ND</span><span class="team-flag">🇦🇺</span><span class="team-code">AUS</span></div><span class="divider"></span><div class="podium-team minor"><span class="place">3RD</span><span class="team-flag">🇳🇿</span><span class="team-code">NZL</span></div></div></td>
+          </tr>
+          <tr class="upcoming">
+            <td class="season-cell"><span>S6</span></td>
+            <td class="location-cell">
+              <div class="location-main"><span class="loc-pin"></span><span class="loc-flag">🇦🇪</span><span>ABU DHABI</span></div>
+              <div class="location-sub">UNITED ARAB EMIRATES</div>
+            </td>
+            <td class="podium-cell"><div class="podium pending"><span class="tbd">TBD</span></div></td>
+          </tr>
         </tbody>
       </table>
     </section>
-
-    <div class="foot">
-      <b>UNOFFICIAL DATA PAGE.</b> Team codes are used for quick identification. No official SailGP logos are used.
-      Data source: <b>WEB_EVENT WINNERS</b> sheet.
-    </div>
-  </main>
+    <div class="foot"><b>UNOFFICIAL DATA PAGE.</b> Team codes are used for quick identification. No official SailGP logos are used. Data source: <b>WEB_EVENT WINNERS</b> sheet.</div>
+  </div>
+</main>
 </body>
 </html>
