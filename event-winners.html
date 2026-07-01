@@ -1,303 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Sail Reference | Event Winners</title>
-<style>
-:root{
-  --bg:#02050a;--panel:rgba(2,12,18,.84);--panel2:rgba(5,16,22,.94);--line:rgba(255,255,255,.16);
-  --text:#f7fbff;--muted:#a9b6c6;--cyan:#00d8ff;--cyan2:#33f1ff;--gold:#ffdf3a;--silver:#d8dde3;
-  --bar1:rgba(0,106,96,.82);--bar2:rgba(5,52,56,.92);--bar3:rgba(1,18,25,.98);
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Meiryo,Arial,sans-serif}
-a{color:inherit;text-decoration:none}
-body{min-height:100vh;background:radial-gradient(circle at 14% 4%,rgba(0,216,255,.16),transparent 28%),radial-gradient(circle at 78% 9%,rgba(255,223,58,.09),transparent 25%),linear-gradient(180deg,#02050a 0%,#031017 100%);overflow-x:hidden}
-.site-header{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:rgba(0,0,0,.74);border-bottom:1px solid rgba(255,255,255,.12);position:sticky;top:0;z-index:50;backdrop-filter:blur(14px)}
-.logo{line-height:1;letter-spacing:.15em;font-weight:950;font-size:26px}
-.logo span{color:var(--cyan)}
-.logo small{display:block;margin-top:7px;font-size:12px;letter-spacing:.34em;font-weight:800;color:#f0f5fa}
-.nav{display:flex;gap:27px;align-items:center;font-size:14px;font-weight:900;letter-spacing:.055em;white-space:nowrap}
-.nav a{opacity:.88;position:relative;padding:29px 0 25px}
-.nav a:hover,.nav a.active{color:var(--cyan);opacity:1}
-.nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--cyan);box-shadow:0 0 18px rgba(0,216,255,.7)}
-.hero{position:relative;min-height:220px;background-image:linear-gradient(90deg,rgba(0,0,0,.74) 0%,rgba(0,0,0,.54) 34%,rgba(0,0,0,.18) 58%,rgba(0,0,0,.56) 100%),linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(2,7,11,.35) 70%,#02050a 100%),url('event-winners-hero.png');background-size:cover;background-position:center 43%;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 62% 30%,rgba(0,216,255,.18),transparent 18%),linear-gradient(120deg,rgba(0,216,255,.06),transparent 38%,rgba(255,223,58,.04));mix-blend-mode:screen;pointer-events:none}
-.hero-inner{position:relative;z-index:2;width:min(1660px,calc(100% - 64px));margin:0 auto;padding:44px 0 24px}
-.eyebrow{display:inline-flex;align-items:center;gap:12px;color:var(--cyan);font-weight:900;letter-spacing:.18em;font-size:14px;text-transform:uppercase;margin-bottom:14px}
-.eyebrow::before,.eyebrow::after{content:"";width:34px;height:2px;background:var(--cyan);box-shadow:0 0 14px rgba(0,216,255,.9)}
-h1{margin:0;color:#f2f6f9;font-size:clamp(46px,5.2vw,74px);line-height:.92;letter-spacing:-.04em;text-transform:uppercase;font-style:italic;text-shadow:0 2px 0 rgba(255,255,255,.16),0 0 26px rgba(0,216,255,.20),0 12px 30px rgba(0,0,0,.8)}
-.lead{margin:14px 0 0;max-width:520px;color:#e7eef4;font-size:15px;line-height:1.42;text-shadow:0 2px 12px rgba(0,0,0,.75)}
-.champions-mark{position:absolute;left:55.4%;top:32%;transform:translate(-50%,-50%);font-family:Georgia,serif;font-size:18px;letter-spacing:.14em;color:rgba(255,223,128,.32);text-transform:uppercase;text-shadow:0 0 18px rgba(255,215,110,.22);pointer-events:none}
-.content{width:min(1660px,calc(100% - 56px));margin:-10px auto 0;position:relative;z-index:4;display:grid;grid-template-columns:minmax(700px,1fr) 410px;gap:28px}
-.season-grid{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:12px}
-.season-card,.side-card,.ad-card{background:linear-gradient(180deg,rgba(5,20,26,.90),rgba(1,9,13,.94));border:1px solid rgba(0,216,255,.34);border-radius:8px;box-shadow:0 18px 60px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden}
-.season-card h2,.side-card h2{margin:0;padding:8px 14px;text-align:center;font-size:19px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;background:linear-gradient(90deg,var(--bar2) 0%,var(--bar1) 42%,var(--bar3) 100%);border-bottom:1px solid rgba(255,255,255,.12);color:#eef7fb;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-.season-rows{padding:7px 12px 2px;min-height:236px}
-.season-row{display:grid;grid-template-columns:32px minmax(0,1fr) 72px;align-items:center;min-height:22px;border-bottom:1px solid rgba(255,255,255,.065);font-size:13px;letter-spacing:.015em}
-.season-row.gf{margin-top:2px}
-.event-no{color:#e5edf3;font-weight:500;text-align:center;font-size:13px}
-.location{font-weight:520;color:#f4f8fb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.winner{display:inline-flex;align-items:center;justify-content:flex-start;gap:5px;color:#fff;font-weight:650;letter-spacing:.04em;white-space:nowrap;justify-self:start}
-.flag{font-size:18px;line-height:1;filter:saturate(1.08)}
-.code{color:#fff}
-.dash{color:#a5b0ba;font-weight:700}
-.champ-note{display:flex;align-items:center;gap:6px;margin:0 12px 10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.09);font-size:12px;color:#d8e2ea;min-height:34px}
-.champ-note b{color:var(--gold);font-weight:900;letter-spacing:.04em}
-.champ-note .trophy{font-size:18px;filter:drop-shadow(0 0 8px rgba(255,223,58,.45))}
-.muted-trophy b{color:#98a5ae}
-.side{display:flex;flex-direction:column;gap:20px}
-.side-card h2{font-size:15px;color:var(--cyan);padding:11px 12px;background:linear-gradient(90deg,var(--bar2),var(--bar1),var(--bar3))}
-.podium-table{width:100%;border-collapse:collapse}
-.podium-table th,.podium-table td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.075);text-align:center;font-size:13px;white-space:nowrap}
-.podium-table th{font-size:12px;color:#dfe9ef;font-weight:700}
-.podium-table td{font-size:16px;font-weight:500;color:#f6fbff}
-.podium-table .pteam{text-align:left;display:flex;align-items:center;gap:6px;font-weight:650}
-.podium-table .team-CHI td{color:#d0d4d8}
-.ad-card{height:235px;border-style:dashed;border-color:rgba(255,255,255,.32);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);font-weight:700;text-align:center;letter-spacing:.08em;font-size:27px}
-.ad-card small{display:block;margin-top:8px;font-size:21px;font-weight:500;letter-spacing:.02em;color:rgba(255,255,255,.28)}
-.page-footer{width:min(1660px,calc(100% - 56px));margin:14px auto 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;color:#c1ccd5;font-size:13px}
-.withdrawn{display:flex;gap:34px;flex-wrap:wrap;font-size:14px;color:#edf3f7}
-.withdrawn b{font-weight:850;color:#fff}
-.source{color:#aeb8c3}
-.view-link{display:inline-flex;align-items:center;gap:12px;color:var(--cyan);font-weight:900;letter-spacing:.08em;text-transform:uppercase;font-size:13px;white-space:nowrap}
-.view-link .arrow{font-size:24px;line-height:1;text-shadow:0 0 18px rgba(0,216,255,.7)}
-@media(max-width:1200px){.content{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.season-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:760px){.site-header{height:auto;align-items:flex-start;gap:14px;flex-direction:column;padding:16px 18px}.nav{flex-wrap:wrap;gap:16px;font-size:12px}.nav a{padding:4px 0 8px}.hero-inner,.content,.page-footer{width:calc(100% - 28px)}.season-grid,.side{grid-template-columns:1fr}.content{gap:14px}h1{font-size:48px}.season-row{grid-template-columns:30px 1fr 68px;font-size:12px}.page-footer{align-items:flex-start;flex-direction:column}}
-
-/* Interactive Event Winners highlight */
-.podium-table tbody tr{cursor:pointer;transition:background .14s ease,box-shadow .14s ease,color .14s ease}
-.podium-table tbody tr:hover{background:rgba(255,223,58,.10)}
-.podium-table tbody tr.pick-1{background:rgba(255,223,58,.18);box-shadow:inset 4px 0 0 rgba(255,223,58,.95)}
-.podium-table tbody tr.pick-2{background:rgba(255,126,188,.16);box-shadow:inset 4px 0 0 rgba(255,126,188,.92)}
-.podium-table tbody tr.pick-3{background:rgba(0,216,255,.14);box-shadow:inset 4px 0 0 rgba(0,216,255,.92)}
-.season-row.highlight-1{background:linear-gradient(90deg,rgba(255,223,58,.26),rgba(255,223,58,.10));box-shadow:inset 4px 0 0 rgba(255,223,58,.95),inset 0 1px 0 rgba(255,223,58,.35),inset 0 -1px 0 rgba(255,223,58,.25)}
-.season-row.highlight-2{background:linear-gradient(90deg,rgba(255,126,188,.22),rgba(255,126,188,.08));box-shadow:inset 4px 0 0 rgba(255,126,188,.92),inset 0 1px 0 rgba(255,126,188,.28),inset 0 -1px 0 rgba(255,126,188,.20)}
-.season-row.highlight-3{background:linear-gradient(90deg,rgba(0,216,255,.20),rgba(0,216,255,.07));box-shadow:inset 4px 0 0 rgba(0,216,255,.92),inset 0 1px 0 rgba(0,216,255,.30),inset 0 -1px 0 rgba(0,216,255,.22)}
-.season-row.highlight-1 .location,.season-row.highlight-1 .winner,
-.season-row.highlight-2 .location,.season-row.highlight-2 .winner,
-.season-row.highlight-3 .location,.season-row.highlight-3 .winner{color:#fff}
-.season-row .winner{border-radius:6px;padding:1px 2px}
-@media(hover:none){.podium-table tbody tr:hover{background:transparent}}
-
-.official{border:1px solid rgba(255,255,255,.42);border-radius:7px;padding:10px 14px!important;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Championship Records | Sail Reference</title>
+  <style>
+    :root {
+      --bg:#03070b;
+      --panel:#061219;
+      --panel2:#071b22;
+      --line:rgba(0,229,255,.34);
+      --line-soft:rgba(255,255,255,.09);
+      --text:#f4f7fb;
+      --muted:#a7b7c5;
+      --cyan:#00e5ff;
+      --cyan2:#00b9d1;
+      --gold:#f6c44f;
+      --gold2:#fff0a8;
+      --bronze:#d88742;
+    }
+    *{box-sizing:border-box}
+    body {
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Kaku Gothic ProN",Arial,sans-serif;
+      background:
+        radial-gradient(circle at 12% 22%, rgba(0,229,255,.18), transparent 26%),
+        radial-gradient(circle at 82% 22%, rgba(0,229,255,.12), transparent 30%),
+        linear-gradient(180deg,#03070b 0%,#051018 45%,#020409 100%);
+      letter-spacing:.02em;
+      overflow-x:hidden;
+    }
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size:48px 48px;
+      mask-image:linear-gradient(to bottom,rgba(0,0,0,.8),transparent 75%);
+    }
+    a{color:inherit;text-decoration:none}
+    header {
+      position:sticky;
+      top:0;
+      z-index:20;
+      background:rgba(2,5,8,.92);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(255,255,255,.11);
+    }
+    .nav {
+      max-width:1480px;
+      margin:0 auto;
+      padding:18px 26px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .brand {
+      line-height:1;
+      font-weight:950;
+      letter-spacing:.2em;
+      font-size:25px;
+      white-space:nowrap;
+    }
+    .brand span{color:var(--cyan)}
+    .tagline {
+      margin-top:8px;
+      color:#fff;
+      font-size:11px;
+      letter-spacing:.42em;
+      font-weight:850;
+      opacity:.9;
+    }
+    .menu {
+      display:flex;
+      align-items:center;
+      gap:28px;
+      font-size:13px;
+      font-weight:900;
+      letter-spacing:.05em;
+      white-space:nowrap;
+    }
+    .menu a {
+      color:#fff;
+      opacity:.92;
+      padding:18px 0;
+      border-bottom:4px solid transparent;
+    }
+    .menu a.active {
+      color:var(--cyan);
+      border-color:var(--cyan);
+      text-shadow:0 0 16px rgba(0,229,255,.65);
+    }
+    .official {
+      border:1px solid rgba(255,255,255,.35)!important;
+      border-radius:8px;
+      padding:11px 16px!important;
+      border-bottom:1px solid rgba(255,255,255,.35)!important;
+    }
+    main {
+      max-width:1320px;
+      margin:0 auto;
+      padding:34px 28px 70px;
+      position:relative;
+    }
+    .hero {
+      position:relative;
+      min-height:270px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:26px 0 22px;
+    }
+    .hero::after {
+      content:"🏆";
+      position:absolute;
+      right:-20px;
+      top:8px;
+      font-size:260px;
+      line-height:1;
+      opacity:.13;
+      filter:drop-shadow(0 0 28px rgba(0,229,255,.24));
+      transform:rotate(-8deg);
+      z-index:-1;
+    }
+    .crown {
+      color:var(--gold);
+      font-size:46px;
+      line-height:1;
+      text-shadow:0 0 18px rgba(246,196,79,.5);
+      margin-bottom:10px;
+    }
+    h1 {
+      margin:0;
+      font-size:clamp(54px,7.4vw,92px);
+      line-height:.9;
+      letter-spacing:-.045em;
+      font-style:italic;
+      text-transform:uppercase;
+      font-weight:1000;
+      color:var(--gold);
+      background:linear-gradient(180deg,#fff4ae 0%,#f7c84d 46%,#9d6315 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      filter:drop-shadow(0 8px 0 rgba(0,0,0,.24)) drop-shadow(0 0 24px rgba(246,196,79,.18));
+    }
+    .subtitle {
+      color:var(--cyan);
+      margin-top:18px;
+      font-size:24px;
+      font-weight:950;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      text-shadow:0 0 18px rgba(0,229,255,.45);
+    }
+    .desc {
+      margin-top:14px;
+      color:#fff;
+      line-height:1.55;
+      font-size:17px;
+      max-width:640px;
+    }
+    .records {
+      width:min(1060px,100%);
+      margin:12px auto 0;
+      border:1px solid var(--line);
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(180deg,rgba(0,229,255,.08),rgba(2,7,11,.9) 12%,rgba(2,7,11,.94));
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.45),
+        0 0 0 1px rgba(255,255,255,.03) inset,
+        0 0 42px rgba(0,229,255,.08);
+    }
+    table {
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+    }
+    thead th {
+      height:54px;
+      color:var(--cyan);
+      text-align:left;
+      font-size:15px;
+      font-weight:950;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      background:linear-gradient(90deg,rgba(0,229,255,.13),rgba(0,229,255,.05));
+      border-bottom:1px solid var(--line-soft);
+    }
+    thead th:nth-child(1){width:140px;text-align:center}
+    thead th:nth-child(2){width:300px;padding-left:42px}
+    thead th:nth-child(3){padding-left:36px}
+    tbody tr {
+      border-bottom:1px solid rgba(0,229,255,.16);
+      background:rgba(0,0,0,.13);
+    }
+    tbody tr:last-child{border-bottom:0}
+    tbody tr:hover{background:rgba(0,229,255,.055)}
+    td {
+      height:78px;
+      vertical-align:middle;
+    }
+    .season-cell {
+      width:140px;
+      text-align:center;
+      border-right:1px solid rgba(0,229,255,.2);
+      position:relative;
+      overflow:hidden;
+    }
+    .season-cell::after {
+      content:"";
+      position:absolute;
+      right:18px;
+      top:10px;
+      width:2px;
+      height:64px;
+      background:linear-gradient(180deg,transparent,var(--gold),transparent);
+      transform:skewX(-22deg);
+      opacity:.75;
+    }
+    .season-cell span {
+      display:inline-block;
+      font-size:38px;
+      font-weight:1000;
+      font-style:italic;
+      letter-spacing:-.05em;
+      text-shadow:0 4px 10px #000;
+    }
+    .location-cell {
+      padding-left:42px;
+      border-right:1px solid rgba(0,229,255,.16);
+    }
+    .location-main {
+      display:flex;
+      align-items:center;
+      gap:13px;
+      font-size:23px;
+      font-weight:950;
+      line-height:1;
+    }
+    .loc-pin {
+      width:13px;height:13px;border-radius:50%;
+      display:inline-block;color:transparent;
+      background:var(--cyan);
+      box-shadow:0 0 14px rgba(0,229,255,.7);
+      flex:none;
+    }
+    .loc-flag{font-size:30px;line-height:1}
+    .location-sub {
+      margin-left:56px;
+      margin-top:6px;
+      color:#bdd0dc;
+      font-size:15px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    .podium-cell {padding:0 26px 0 36px}
+    .podium {
+      display:grid;
+      grid-template-columns:minmax(220px,1.18fr) 1px minmax(150px,.82fr) 1px minmax(150px,.82fr);
+      align-items:center;
+      gap:18px;
+      min-height:78px;
+    }
+    .podium.pending {
+      display:flex;
+      justify-content:center;
+      color:var(--muted);
+      font-weight:950;
+      letter-spacing:.18em;
+    }
+    .divider {
+      width:1px;
+      height:40px;
+      background:rgba(255,255,255,.28);
+      display:block;
+    }
+    .podium-team {
+      display:flex;
+      align-items:center;
+      gap:11px;
+      min-width:0;
+      white-space:nowrap;
+    }
+    .podium-team.first {
+      gap:14px;
+    }
+    .place {
+      font-weight:1000;
+      font-size:15px;
+      color:#e5edf4;
+      opacity:.9;
+      letter-spacing:.03em;
+    }
+    .first .place {
+      color:var(--gold);
+      font-size:20px;
+      text-shadow:0 0 12px rgba(246,196,79,.3);
+    }
+    .minor:nth-of-type(3) .place, .podium-team .place:last-child{}
+    .podium-team:nth-child(5) .place{color:var(--bronze)}
+    .team-flag {
+      font-size:30px;
+      line-height:1;
+      filter:drop-shadow(0 2px 2px rgba(0,0,0,.5));
+    }
+    .first .team-flag {
+      font-size:42px;
+    }
+    .team-code {
+      font-size:21px;
+      font-weight:950;
+      letter-spacing:.01em;
+    }
+    .first .team-code {
+      font-size:36px;
+      color:var(--gold);
+      background:linear-gradient(180deg,#fff5ae,#f2bf3e 60%,#b76f17);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow:none;
+      filter:drop-shadow(0 0 10px rgba(246,196,79,.22));
+    }
+    .upcoming {
+      opacity:.72;
+    }
+    .tbd {
+      border:1px dashed rgba(255,255,255,.28);
+      border-radius:999px;
+      padding:8px 18px;
+      color:#90a2b0;
+    }
+    .foot {
+      width:min(1060px,100%);
+      margin:18px auto 0;
+      color:#8ea0ac;
+      font-size:11px;
+      line-height:1.7;
+    }
+    .foot b{color:#fff}
+    @media(max-width:980px){
+      .nav{align-items:flex-start;flex-direction:column}
+      .menu{gap:15px;flex-wrap:wrap}
+      .records{overflow-x:auto}
+      table{min-width:980px}
+      .hero::after{font-size:190px;right:-40px;top:50px}
+    }
+    @media(max-width:620px){
+      .brand{font-size:20px}
+      .tagline{font-size:9px}
+      main{padding:24px 14px 50px}
+      h1{font-size:46px}
+      .subtitle{font-size:17px}
+      .desc{font-size:14px}
+      .hero{min-height:230px}
+      .hero::after{opacity:.08}
+    }
+  </style>
 </head>
 <body>
-<header class="site-header">
-  <a class="logo" href="index.html">SAIL<span>REFERENCE</span><small>UNOFFICIAL DATA BOARD</small></a>
-  <nav class="nav"><a href="index.html">HOME</a><a href="fleet-summary.html">FLEET SUMMARY</a><a href="fleet-race-finishes.html">FLEET RACE FINISHES</a><a href="last-win.html">LAST WIN</a><a class="active" href="event-winners.html">EVENT WINNERS</a><a href="season-standings.html">SEASON STANDINGS</a><a class="official" href="https://sailgp.com" target="_blank" rel="noopener noreferrer">OFFICIAL ↗</a></nav>
-</header>
-<main>
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="eyebrow">Event Winners Record</div>
-      <h1>Event Winners</h1>
-      <p class="lead">List of event winners by season.<br/>GF refers to the Season Grand Final.</p>
-      <div class="champions-mark">Champions</div>
+  <header>
+    <div class="nav">
+      <a href="index.html" aria-label="Sail Reference Home">
+        <div class="brand">SAIL<span>REFERENCE</span></div>
+        <div class="tagline">UNOFFICIAL DATA BOARD</div>
+      </a>
+      <nav class="menu" aria-label="Main navigation">
+        <a href="index.html">HOME</a>
+        <a href="fleet-summary.html">FLEET SUMMARY</a>
+        <a href="fleet-race-finishes.html">FLEET RACE FINISHES</a>
+        <a href="fleet-race-last-win.html">LAST WIN</a>
+        <a class="active" href="event-winners.html">EVENT WINNERS</a>
+        <a href="season-standings.html">SEASON STANDINGS</a>
+        <a class="official" href="https://sailgp.com" target="_blank" rel="noopener">OFFICIAL ↗</a>
+      </nav>
     </div>
-  </section>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="crown">♛</div>
+      <h1>CHAMPIONSHIP RECORDS</h1>
+      <div class="subtitle">EVENT WINNERS RECORD</div>
+      <div class="desc">
+        List of event winners by season.<br>
+        GF refers to the Season Grand Final.
+      </div>
+    </section>
 
-  <section class="content">
-    <div class="season-grid">
-      <section class="season-card"><h2>SEASON 1</h2><div class="season-rows">
-<div class="season-row"><span class="event-no">1</span><span class="location">SYDNEY</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">2</span><span class="location">SAN FRANCISCO</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">3</span><span class="location">NEW YORK</span><span class="winner"><span class="flag">🇯🇵</span><span class="code">JPN</span></span></div>
-<div class="season-row"><span class="event-no">4</span><span class="location">COWES</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">5</span><span class="location">MARSEILLE</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row gf"><span class="event-no">GF</span><span class="location">SEASON CHAMPIONS</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-</div>
-<div class="champ-note"><span class="trophy">🏆</span><b>AUS</b><span>won the Season 1 Championship</span></div>
-</section>
-<section class="season-card"><h2>SEASON 2</h2><div class="season-rows">
-<div class="season-row"><span class="event-no">1</span><span class="location">BERMUDA</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-<div class="season-row"><span class="event-no">2</span><span class="location">TARANTO</span><span class="winner"><span class="flag">🇯🇵</span><span class="code">JPN</span></span></div>
-<div class="season-row"><span class="event-no">3</span><span class="location">PLYMOUTH</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">4</span><span class="location">AARHUS</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">5</span><span class="location">SAINT-TROPEZ</span><span class="winner"><span class="flag">🇯🇵</span><span class="code">JPN</span></span></div>
-<div class="season-row"><span class="event-no">6</span><span class="location">CÁDIZ</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">7</span><span class="location">SYDNEY</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">8</span><span class="location">SAN FRANCISCO</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row gf"><span class="event-no">GF</span><span class="location">SEASON CHAMPIONS</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-</div>
-<div class="champ-note"><span class="trophy">🏆</span><b>AUS</b><span>won the Season 2 Championship</span></div>
-</section>
-<section class="season-card"><h2>SEASON 3</h2><div class="season-rows">
-<div class="season-row"><span class="event-no">1</span><span class="location">BERMUDA</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">2</span><span class="location">CHICAGO</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">3</span><span class="location">PLYMOUTH</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">4</span><span class="location">COPENHAGEN</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">5</span><span class="location">SAINT-TROPEZ</span><span class="winner"><span class="flag">🇺🇸</span><span class="code">USA</span></span></div>
-<div class="season-row"><span class="event-no">6</span><span class="location">CÁDIZ</span><span class="winner"><span class="flag">🇫🇷</span><span class="code">FRA</span></span></div>
-<div class="season-row"><span class="event-no">7</span><span class="location">DUBAI</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">8</span><span class="location">SINGAPORE</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">9</span><span class="location">SYDNEY</span><span class="winner"><span class="flag">🇫🇷</span><span class="code">FRA</span></span></div>
-<div class="season-row"><span class="event-no">10</span><span class="location">CHRISTCHURCH</span><span class="winner"><span class="flag">🇨🇦</span><span class="code">CAN</span></span></div>
-<div class="season-row"><span class="event-no">11</span><span class="location">SAN FRANCISCO</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row gf"><span class="event-no">GF</span><span class="location">SEASON CHAMPIONS</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-</div>
-<div class="champ-note"><span class="trophy">🏆</span><b>AUS</b><span>won the Season 3 Championship</span></div>
-</section>
-<section class="season-card"><h2>SEASON 4</h2><div class="season-rows">
-<div class="season-row"><span class="event-no">1</span><span class="location">CHICAGO</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">2</span><span class="location">LOS ANGELES</span><span class="winner"><span class="flag">🇪🇸</span><span class="code">ESP</span></span></div>
-<div class="season-row"><span class="event-no">3</span><span class="location">SAINT-TROPEZ</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-<div class="season-row"><span class="event-no">4</span><span class="location">TARANTO</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-<div class="season-row"><span class="event-no">5</span><span class="location">CÁDIZ</span><span class="winner"><span class="flag">🇺🇸</span><span class="code">USA</span></span></div>
-<div class="season-row"><span class="event-no">6</span><span class="location">DUBAI</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">7</span><span class="location">ABU DHABI</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">8</span><span class="location">SYDNEY</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">9</span><span class="location">CHRISTCHURCH</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">10</span><span class="location">BERMUDA</span><span class="winner"><span class="flag">🇪🇸</span><span class="code">ESP</span></span></div>
-<div class="season-row"><span class="event-no">11</span><span class="location">HALIFAX</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-<div class="season-row"><span class="event-no">12</span><span class="location">NEW YORK</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">13</span><span class="location">SAN FRANCISCO</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row gf"><span class="event-no">GF</span><span class="location">SEASON CHAMPIONS</span><span class="winner"><span class="flag">🇪🇸</span><span class="code">ESP</span></span></div>
-</div>
-<div class="champ-note"><span class="trophy">🏆</span><b>ESP</b><span>won the Season 4 Championship</span></div>
-</section>
-<section class="season-card"><h2>SEASON 5</h2><div class="season-rows">
-<div class="season-row"><span class="event-no">1</span><span class="location">DUBAI</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">2</span><span class="location">AUCKLAND</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">3</span><span class="location">SYDNEY</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-<div class="season-row"><span class="event-no">4</span><span class="location">LOS ANGELES</span><span class="winner"><span class="flag">🇨🇦</span><span class="code">CAN</span></span></div>
-<div class="season-row"><span class="event-no">5</span><span class="location">SAN FRANCISCO</span><span class="winner"><span class="flag">🇪🇸</span><span class="code">ESP</span></span></div>
-<div class="season-row"><span class="event-no">6</span><span class="location">NEW YORK</span><span class="winner"><span class="flag">🇪🇸</span><span class="code">ESP</span></span></div>
-<div class="season-row"><span class="event-no">7</span><span class="location">PORTSMOUTH</span><span class="winner"><span class="flag">🇳🇿</span><span class="code">NZL</span></span></div>
-<div class="season-row"><span class="event-no">8</span><span class="location">SASSNITZ</span><span class="winner"><span class="flag">🇫🇷</span><span class="code">FRA</span></span></div>
-<div class="season-row"><span class="event-no">9</span><span class="location">SAINT-TROPEZ</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-<div class="season-row"><span class="event-no">10</span><span class="location">GENEVA</span><span class="winner"><span class="flag">🇩🇪</span><span class="code">GER</span></span></div>
-<div class="season-row"><span class="event-no">11</span><span class="location">CÁDIZ</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-<div class="season-row"><span class="event-no">12</span><span class="location">ABU DHABI</span><span class="winner"><span class="flag">🇩🇰</span><span class="code">DEN</span></span></div>
-<div class="season-row gf"><span class="event-no">GF</span><span class="location">SEASON CHAMPIONS</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-</div>
-<div class="champ-note"><span class="trophy">🏆</span><b>GBR</b><span>won the Season 5 Championship</span></div>
-</section>
-<section class="season-card"><h2>SEASON 6</h2><div class="season-rows">
-<div class="season-row"><span class="event-no">1</span><span class="location">PERTH</span><span class="winner"><span class="flag">🇬🇧</span><span class="code">GBR</span></span></div>
-<div class="season-row"><span class="event-no">2</span><span class="location">AUCKLAND</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">3</span><span class="location">SYDNEY</span><span class="winner"><span class="flag">🇺🇸</span><span class="code">USA</span></span></div>
-<div class="season-row"><span class="event-no">4</span><span class="location">RIO DE JANEIRO</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">5</span><span class="location">BERMUDA</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">6</span><span class="location">NEW YORK</span><span class="winner"><span class="flag">🇦🇺</span><span class="code">AUS</span></span></div>
-<div class="season-row"><span class="event-no">7</span><span class="location">HALIFAX</span><span class="winner"><span class="flag">🇪🇸</span><span class="code">ESP</span></span></div>
-<div class="season-row"><span class="event-no">8</span><span class="location">PORTSMOUTH</span><span class="winner"><span class="dash">–</span></span></div>
-<div class="season-row"><span class="event-no">9</span><span class="location">SASSNITZ</span><span class="winner"><span class="dash">–</span></span></div>
-<div class="season-row"><span class="event-no">10</span><span class="location">VALENCIA</span><span class="winner"><span class="dash">–</span></span></div>
-<div class="season-row"><span class="event-no">11</span><span class="location">GENEVA</span><span class="winner"><span class="dash">–</span></span></div>
-<div class="season-row"><span class="event-no">12</span><span class="location">DUBAI</span><span class="winner"><span class="dash">–</span></span></div>
-<div class="season-row"><span class="event-no">13</span><span class="location">ABU DHABI</span><span class="winner"><span class="dash">–</span></span></div>
-<div class="season-row gf"><span class="event-no">GF</span><span class="location">SEASON CHAMPIONS</span><span class="winner"><span class="dash">–</span></span></div>
-</div>
-<div class="champ-note muted-trophy"><span class="trophy">◒</span><b>TBD</b></div>
-</section>
+    <section class="records" aria-label="Championship Records">
+      <table>
+        <thead>
+          <tr>
+            <th>Season</th>
+            <th>Location</th>
+            <th>Podium</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+      <tr class="">
+        <td class="season-cell"><span>S1</span></td>
+        <td class="location-cell">
+          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇫🇷</span><span>MARSEILLE</span></div>
+          <div class="location-sub">FRANCE</div>
+        </td>
+        <td class="podium-cell"><div class="podium">
+          <div class="podium-team first">
+            <span class="place">1ST</span>
+            <span class="team-flag">🇦🇺</span>
+            <span class="team-code">AUS</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">2ND</span>
+            <span class="team-flag">🇯🇵</span>
+            <span class="team-code">JPN</span>
+          </div></div></td>
+      </tr>
+      <tr class="">
+        <td class="season-cell"><span>S2</span></td>
+        <td class="location-cell">
+          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
+          <div class="location-sub">USA</div>
+        </td>
+        <td class="podium-cell"><div class="podium">
+          <div class="podium-team first">
+            <span class="place">1ST</span>
+            <span class="team-flag">🇦🇺</span>
+            <span class="team-code">AUS</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">2ND</span>
+            <span class="team-flag">🇯🇵</span>
+            <span class="team-code">JPN</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">3RD</span>
+            <span class="team-flag">🇺🇸</span>
+            <span class="team-code">USA</span>
+          </div></div></td>
+      </tr>
+      <tr class="">
+        <td class="season-cell"><span>S3</span></td>
+        <td class="location-cell">
+          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
+          <div class="location-sub">USA</div>
+        </td>
+        <td class="podium-cell"><div class="podium">
+          <div class="podium-team first">
+            <span class="place">1ST</span>
+            <span class="team-flag">🇦🇺</span>
+            <span class="team-code">AUS</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">2ND</span>
+            <span class="team-flag">🇳🇿</span>
+            <span class="team-code">NZL</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">3RD</span>
+            <span class="team-flag">🇬🇧</span>
+            <span class="team-code">GBR</span>
+          </div></div></td>
+      </tr>
+      <tr class="">
+        <td class="season-cell"><span>S4</span></td>
+        <td class="location-cell">
+          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇺🇸</span><span>SAN FRANCISCO</span></div>
+          <div class="location-sub">USA</div>
+        </td>
+        <td class="podium-cell"><div class="podium">
+          <div class="podium-team first">
+            <span class="place">1ST</span>
+            <span class="team-flag">🇪🇸</span>
+            <span class="team-code">ESP</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">2ND</span>
+            <span class="team-flag">🇦🇺</span>
+            <span class="team-code">AUS</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">3RD</span>
+            <span class="team-flag">🇳🇿</span>
+            <span class="team-code">NZL</span>
+          </div></div></td>
+      </tr>
+      <tr class="">
+        <td class="season-cell"><span>S5</span></td>
+        <td class="location-cell">
+          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇦🇪</span><span>ABU DHABI</span></div>
+          <div class="location-sub">UNITED ARAB EMIRATES</div>
+        </td>
+        <td class="podium-cell"><div class="podium">
+          <div class="podium-team first">
+            <span class="place">1ST</span>
+            <span class="team-flag">🇬🇧</span>
+            <span class="team-code">GBR</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">2ND</span>
+            <span class="team-flag">🇦🇺</span>
+            <span class="team-code">AUS</span>
+          </div><span class="divider"></span>
+          <div class="podium-team minor">
+            <span class="place">3RD</span>
+            <span class="team-flag">🇳🇿</span>
+            <span class="team-code">NZL</span>
+          </div></div></td>
+      </tr>
+      <tr class="upcoming">
+        <td class="season-cell"><span>S6</span></td>
+        <td class="location-cell">
+          <div class="location-main"><span class="loc-pin">●</span><span class="loc-flag">🇦🇪</span><span>ABU DHABI</span></div>
+          <div class="location-sub">UNITED ARAB EMIRATES</div>
+        </td>
+        <td class="podium-cell"><div class="podium pending"><span class="tbd">TBD</span></div></td>
+      </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="foot">
+      <b>UNOFFICIAL DATA PAGE.</b> Team codes are used for quick identification. No official SailGP logos are used.
+      Data source: <b>WEB_EVENT WINNERS</b> sheet.
     </div>
-    <aside class="side">
-      <section class="side-card">
-        <h2>Final Podiums Summary</h2>
-        <table class="podium-table">
-          <thead><tr><th>TEAM</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>APP/OPP</th></tr></thead>
-          <tbody>
-            <tr class="team-AUS"><td class="pteam"><span class="flag">🇦🇺</span><span class="code">AUS</span></td><td>20</td><td>10</td><td>9</td><td>1</td><td>40/55</td></tr>
-<tr class="team-NZL"><td class="pteam"><span class="flag">🇳🇿</span><span class="code">NZL</span></td><td>10</td><td>7</td><td>1</td><td>0</td><td>18/50</td></tr>
-<tr class="team-GBR"><td class="pteam"><span class="flag">🇬🇧</span><span class="code">GBR</span></td><td>8</td><td>8</td><td>9</td><td>0</td><td>25/55</td></tr>
-<tr class="team-ESP"><td class="pteam"><span class="flag">🇪🇸</span><span class="code">ESP</span></td><td>5</td><td>4</td><td>7</td><td>0</td><td>16/50</td></tr>
-<tr class="team-USA"><td class="pteam"><span class="flag">🇺🇸</span><span class="code">USA</span></td><td>3</td><td>5</td><td>5</td><td>0</td><td>13/55</td></tr>
-<tr class="team-FRA"><td class="pteam"><span class="flag">🇫🇷</span><span class="code">FRA</span></td><td>3</td><td>5</td><td>5</td><td>0</td><td>13/55</td></tr>
-<tr class="team-JPN"><td class="pteam"><span class="flag">🇯🇵</span><span class="code">JPN</span></td><td>3</td><td>5</td><td>1</td><td>0</td><td>9/13</td></tr>
-<tr class="team-CAN"><td class="pteam"><span class="flag">🇨🇦</span><span class="code">CAN</span></td><td>2</td><td>4</td><td>6</td><td>0</td><td>12/42</td></tr>
-<tr class="team-DEN"><td class="pteam"><span class="flag">🇩🇰</span><span class="code">DEN</span></td><td>1</td><td>5</td><td>3</td><td>0</td><td>9/50</td></tr>
-<tr class="team-GER"><td class="pteam"><span class="flag">🇩🇪</span><span class="code">GER</span></td><td>1</td><td>0</td><td>2</td><td>0</td><td>3/31</td></tr>
-<tr class="team-SUI"><td class="pteam"><span class="flag">🇨🇭</span><span class="code">SUI</span></td><td>0</td><td>1</td><td>2</td><td>0</td><td>3/42</td></tr>
-<tr class="team-ITA"><td class="pteam"><span class="flag">🇮🇹</span><span class="code">ITA</span></td><td>0</td><td>1</td><td>0</td><td>0</td><td>1/18</td></tr>
-<tr class="team-BRA"><td class="pteam"><span class="flag">🇧🇷</span><span class="code">BRA</span></td><td>0</td><td>0</td><td>0</td><td>0</td><td>0/18</td></tr>
-<tr class="team-SWE"><td class="pteam"><span class="flag">🇸🇪</span><span class="code">SWE</span></td><td>0</td><td>1</td><td>1</td><td>0</td><td>2/6</td></tr>
-<tr class="team-CHI"><td class="pteam"><span class="flag">🇨🇳</span><span class="code">CHI</span></td><td>0</td><td>0</td><td>2</td><td>0</td><td>2/5</td></tr>
-          </tbody>
-        </table>
-      </section>
-      <section class="ad-card"><div>YOUR AD HERE<small>970 x 250</small></div></section>
-    </aside>
-  </section>
-</main>
-<footer class="page-footer">
-  <div class="withdrawn"><span><b>JPN</b> (Japan) withdrew during Season 2.</span><span><b>CHI</b> (China) withdrew during Season 1.</span></div>
-  <div class="source">Source: EVENT WINNERS sheet / Updated through Halifax 2026.</div>
-  <a class="view-link" href="event-winners.html">View Event Results <span class="arrow">→</span></a>
-</footer>
-
-<script>
-(() => {
-  const maxSelections = 3;
-  const selected = [];
-  const rows = Array.from(document.querySelectorAll('.season-row'));
-  const podiumRows = Array.from(document.querySelectorAll('.podium-table tbody tr'));
-
-  rows.forEach(row => {
-    const code = row.querySelector('.winner .code');
-    if (code) row.dataset.winner = code.textContent.trim();
-  });
-
-  podiumRows.forEach(row => {
-    const code = row.querySelector('.pteam .code');
-    if (!code) return;
-    row.dataset.team = code.textContent.trim();
-    row.setAttribute('tabindex','0');
-    row.setAttribute('role','button');
-    row.setAttribute('aria-label', `${row.dataset.team} event wins highlight`);
-  });
-
-  function renderHighlights(){
-    rows.forEach(row => {
-      row.classList.remove('highlight-1','highlight-2','highlight-3');
-      const idx = selected.indexOf(row.dataset.winner);
-      if (idx >= 0) row.classList.add(`highlight-${idx + 1}`);
-    });
-    podiumRows.forEach(row => {
-      row.classList.remove('pick-1','pick-2','pick-3');
-      const idx = selected.indexOf(row.dataset.team);
-      if (idx >= 0) row.classList.add(`pick-${idx + 1}`);
-    });
-  }
-
-  function toggleTeam(team){
-    const existing = selected.indexOf(team);
-    if (existing >= 0) {
-      selected.splice(existing, 1);
-    } else {
-      if (selected.length >= maxSelections) selected.shift();
-      selected.push(team);
-    }
-    renderHighlights();
-  }
-
-  function clearHighlights(){
-    if (!selected.length) return;
-    selected.splice(0, selected.length);
-    renderHighlights();
-  }
-
-  podiumRows.forEach(row => {
-    row.addEventListener('click', event => {
-      event.stopPropagation();
-      if (row.dataset.team) toggleTeam(row.dataset.team);
-    });
-    row.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        event.stopPropagation();
-        if (row.dataset.team) toggleTeam(row.dataset.team);
-      }
-    });
-  });
-
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.podium-table')) clearHighlights();
-  });
-})();
-</script>
-
+  </main>
 </body>
 </html>
